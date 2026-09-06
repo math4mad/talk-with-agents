@@ -1,0 +1,55 @@
+[
+  {
+    "listing": "/coding/index.html",
+    "items": [
+      "/coding/snippets/function-space-search.html",
+      "/coding/repos/sarcos-ml-with-agents.html",
+      "/coding/repos/sarcos-space-search.html"
+    ]
+  },
+  {
+    "listing": "/coding/repos/index.html",
+    "items": [
+      "/coding/repos/sarcos-ml-with-agents.html",
+      "/coding/repos/sarcos-space-search.html"
+    ]
+  },
+  {
+    "listing": "/coding/snippets/index.html",
+    "items": [
+      "/coding/snippets/function-space-search.html"
+    ]
+  },
+  {
+    "listing": "/talking/learning-theory/index.html",
+    "items": [
+      "/talking/learning-theory/low-to-high-dimension-learning.html"
+    ]
+  },
+  {
+    "listing": "/talking/index.html",
+    "items": [
+      "/talking/mathematics/functional-spaces-to-singular-values.html",
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/talking/learning-theory/low-to-high-dimension-learning.html"
+    ]
+  },
+  {
+    "listing": "/talking/mathematics/index.html",
+    "items": [
+      "/talking/mathematics/functional-spaces-to-singular-values.html",
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/talking/learning-theory/low-to-high-dimension-learning.html",
+      "/talking/mathematics/functional-spaces-to-singular-values.html",
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/coding/repos/sarcos-ml-with-agents.html",
+      "/coding/repos/sarcos-space-search.html",
+      "/coding/snippets/function-space-search.html"
+    ]
+  }
+]

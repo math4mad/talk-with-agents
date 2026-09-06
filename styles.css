@@ -1,0 +1,332 @@
+/* ==========================================================================
+   Talk With Agents — house style
+   Layout: comfortable CJK/Latin mixed measure, dialogue-first callouts,
+   publication figures, and tables that read like journal tables.
+   ========================================================================== */
+
+:root {
+  --brand: #0b5fff;
+  --brand-dark: #0a2540;
+  --ink: #1c2530;
+  --ink-soft: #52606d;
+  --paper: #ffffff;
+  --paper-alt: #f6f8fb;
+  --rule: #e3e8ef;
+  --ask-bg: #eef4ff;
+  --ask-bar: #0b5fff;
+  --code-bg: #0f1720;
+  --max-measure: 74ch;
+}
+
+body {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------- layout */
+main {
+  font-size: 1.02rem;
+  line-height: 1.85;
+  color: var(--ink);
+}
+
+/* keep a readable measure even in the "full" page layout */
+main > *:not(.page-columns):not(.column-page):not(.page-layout-custom) {
+  max-width: 920px;
+}
+
+p,
+li {
+  max-width: var(--max-measure);
+}
+
+h1,
+h2,
+h3,
+h4,
+caption,
+figcaption {
+  font-family: "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia,
+    "Times New Roman", serif;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  margin-top: 2.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+h3 {
+  margin-top: 1.9rem;
+  color: var(--brand-dark);
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ------------------------------------------------------------- front page */
+.hero {
+  background: linear-gradient(135deg, #0a2540 0%, #123a63 55%, #0b5fff 130%);
+  color: #fff;
+  border-radius: 14px;
+  padding: 2.4rem 2.2rem;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  color: #fff;
+  font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+  margin-bottom: 0.2rem;
+  border: 0;
+}
+.hero p.lede {
+  color: #cfe0f5;
+  font-size: 1.06rem;
+  max-width: 62ch;
+  margin-bottom: 0;
+}
+.hero .badge-row {
+  margin-top: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.hero .badge {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #eaf2ff;
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem;
+  font-size: 0.82rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0 2rem;
+}
+.card {
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  background: var(--paper);
+  transition: box-shadow 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+  height: 100%;
+}
+.card:hover {
+  transform: translateY(-2px);
+  border-color: #c8d6ea;
+  box-shadow: 0 8px 24px rgba(16, 42, 67, 0.08);
+}
+.card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.06rem;
+}
+.card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+.card .kicker {
+  display: inline-block;
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 0.5rem;
+}
+
+/* ------------------------------------------------------- dialogue callouts */
+/* the "Ask" block: what the human actually typed */
+div.callout-note {
+  border-left: 4px solid var(--ask-bar);
+  background: var(--ask-bg);
+  border-radius: 8px;
+  margin: 1.1rem 0 1.4rem;
+}
+div.callout-note .callout-body blockquote {
+  margin: 0;
+  padding: 0.2rem 0;
+  border-left: 0;
+  color: var(--brand-dark);
+  font-size: 0.97rem;
+}
+div.callout-note .callout-body blockquote::before {
+  content: "“";
+  font-size: 1.6rem;
+  line-height: 0;
+  vertical-align: -0.35rem;
+  margin-right: 0.15rem;
+  color: var(--ask-bar);
+}
+.callout-style-default > .callout-body {
+  font-size: 0.98rem;
+}
+
+/* --------------------------------------------------------------- figures */
+figure {
+  margin: 1.8rem 0 2.2rem;
+}
+figure img {
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fff;
+  padding: 0.45rem;
+  margin: 0 auto;
+  display: block;
+}
+figcaption,
+.figure-caption {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  max-width: 78ch;
+  margin-top: 0.55rem;
+}
+figcaption span,
+.figure-caption span {
+  color: var(--brand-dark);
+}
+
+/* ---------------------------------------------------------------- tables */
+/* great_tables / quarto tables: journal rules, no zebra noise */
+table {
+  width: 100%;
+  margin: 1.4rem 0 1.8rem;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+thead {
+  border-top: 2px solid var(--brand-dark);
+  border-bottom: 1px solid var(--brand-dark);
+}
+th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--brand-dark);
+  padding: 0.5rem 0.7rem;
+}
+td {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+tbody tr:last-child td {
+  border-bottom: 2px solid var(--brand-dark);
+}
+caption,
+caption.table-caption,
+caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  padding-bottom: 0.4rem;
+}
+
+/* --------------------------------------------------------------- code */
+pre {
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+code {
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+:not(pre) > code {
+  background: #eef1f5;
+  color: #b3306b;
+  padding: 0.08em 0.36em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* ---------------------------------------------------------- misc helpers */
+.meta-line {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: -0.4rem 0 1.4rem;
+}
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0;
+}
+.tag-list li {
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.1rem 0.65rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  background: var(--paper-alt);
+}
+.quarto-listing {
+  gap: 1rem;
+}
+.sidebar-item-text {
+  font-size: 0.9rem;
+}
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+blockquote {
+  border-left: 3px solid var(--rule);
+  padding-left: 1rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 1.6rem 1.2rem;
+  }
+  main {
+    line-height: 1.75;
+  }
+}
+
+/* ------------------------------------------- listing cards (thumbnails are
+   1.91:1 with a title strip: cover-cropping would cut the strip off)        */
+.quarto-listing .card-img-top,
+.quarto-listing .listing-item-img-placeholder {
+  background: #0e1626 !important;
+  overflow: hidden;
+}
+.quarto-listing img.listing-image,
+.quarto-listing .card-img-top img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+.quarto-listing .card {
+  border: 1px solid var(--rule);
+  box-shadow: none;
+}
+.quarto-listing .card:hover {
+  border-color: #c8d6ea;
+  box-shadow: 0 8px 24px rgba(16, 42, 67, 0.08);
+}
+
+.quarto-listing img.thumbnail-image,
+.quarto-listing img.card-img,
+.quarto-listing .card-img-top img {
+  object-fit: contain !important;
+  object-position: center;
+  width: 100% !important;
+  height: 190px !important;
+  background: #0e1626;
+  display: block;
+}

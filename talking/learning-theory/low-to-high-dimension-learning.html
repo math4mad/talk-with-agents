@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="Agent 综合神经科学与认知心理学证据回答：类别学习如何拉伸表征空间、高维表征与学习效率的关系、认知地图的扩张，以及从习惯学习（低维）到概念学习（高维）的发展性转变。">
+
+<title>从低维到高维的「生成」过程，就是人类的学习机理 – Talk With Agents</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../talking/teaching-mathematics/index.html" rel="next">
+<link href="../../talking/mathematics/functional-spaces-to-singular-values.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5a1953863e1f72ef3b996ef827f01ca7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-53d40d1cfbddba2fe550cc7e967b56fd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="从低维到高维的「生成」过程，就是人类的学习机理 – Talk With Agents">
+<meta property="og:description" content="Agent 综合神经科学与认知心理学证据回答：类别学习如何拉伸表征空间、高维表征与学习效率的关系、认知地图的扩张，以及从习惯学习（低维）到概念学习（高维）的发展性转变。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="从低维到高维的「生成」过程，就是人类的学习机理 – Talk With Agents">
+<meta name="twitter:description" content="Agent 综合神经科学与认知心理学证据回答：类别学习如何拉伸表征空间、高维表征与学习效率的关系、认知地图的扩张，以及从习惯学习（低维）到概念学习（高维）的发展性转变。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../talking/index.html" aria-current="page"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/learning-theory/low-to-high-dimension-learning.html">学习理论（生物学基础） · Learning Theory</a></li><li class="breadcrumb-item"><a href="../../talking/learning-theory/low-to-high-dimension-learning.html">从低维到高维的生成，就是人类的学习机理</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">总览 · Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">数学 · Mathematics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jacobi 多项式：换一个权重就是换一个空间</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/mathematics/functional-spaces-to-singular-values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">泛函空间再向上抽象，然后呢？</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">学习理论（生物学基础） · Learning Theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/learning-theory/low-to-high-dimension-learning.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">从低维到高维的生成，就是人类的学习机理</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">数学教学 · Teaching Mathematics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-mathematics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">数学教学 · 栏目说明</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">用数据科学教物理 · Physics by Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-physics-with-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">数据科学视角的物理教学 · 栏目说明</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">闲谈 · Gossip</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/gossip/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">与 Agent 闲聊 · 栏目说明</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#学习本质上是拉伸与膨胀神经表征空间" id="toc-学习本质上是拉伸与膨胀神经表征空间" class="nav-link active" data-scroll-target="#学习本质上是拉伸与膨胀神经表征空间">1. 学习本质上是“拉伸”与“膨胀”神经表征空间</a></li>
+  <li><a href="#有效学习伴随着高维高效的表征" id="toc-有效学习伴随着高维高效的表征" class="nav-link" data-scroll-target="#有效学习伴随着高维高效的表征">2. 有效学习伴随着高维、高效的表征</a></li>
+  <li><a href="#心理模型与认知地图的地图扩张类比" id="toc-心理模型与认知地图的地图扩张类比" class="nav-link" data-scroll-target="#心理模型与认知地图的地图扩张类比">3. 心理模型与认知地图的“地图扩张”类比</a></li>
+  <li><a href="#生成过程的机制从注意力聚焦到关联学习" id="toc-生成过程的机制从注意力聚焦到关联学习" class="nav-link" data-scroll-target="#生成过程的机制从注意力聚焦到关联学习">4. 生成过程的机制：从“注意力聚焦”到“关联学习”</a></li>
+  <li><a href="#结论从低维到高维的生成是学习泛化与创造力的共同基础" id="toc-结论从低维到高维的生成是学习泛化与创造力的共同基础" class="nav-link" data-scroll-target="#结论从低维到高维的生成是学习泛化与创造力的共同基础">5. 结论：从低维到高维的生成，是学习、泛化与创造力的共同基础</a></li>
+  <li><a href="#延伸-where-this-leads" id="toc-延伸-where-this-leads" class="nav-link" data-scroll-target="#延伸-where-this-leads">延伸 · Where this leads</a></li>
+  <li><a href="#参考文献-references" id="toc-参考文献-references" class="nav-link" data-scroll-target="#参考文献-references">参考文献 · References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/low-to-high-dimension-learning.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/learning-theory/low-to-high-dimension-learning.html">学习理论（生物学基础） · Learning Theory</a></li><li class="breadcrumb-item"><a href="../../talking/learning-theory/low-to-high-dimension-learning.html">从低维到高维的生成，就是人类的学习机理</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">从低维到高维的「生成」过程，就是人类的学习机理</h1>
+<p class="subtitle lead">一次把表征维度、认知地图与反向转移串起来的对谈</p>
+</div>
+
+<div>
+  <div class="description">
+    Agent 综合神经科学与认知心理学证据回答：类别学习如何拉伸表征空间、高维表征与学习效率的关系、认知地图的扩张，以及从习惯学习（低维）到概念学习（高维）的发展性转变。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月6日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">注记</span>关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>原始记录：<code>Talkmd/从低维到高维的"生成"过程  实际就是人类的学习机理.md</code>（单轮问答，检索型 Agent 回答）。 本页由 <code>scripts/convert_note.py</code> 转换，并把结论画成一张示意图（<code>scripts/make_figures.py</code>）。 它和<a href="../../talking/mathematics/functional-spaces-to-singular-values.html">泛函空间 → 奇异值谱那一篇</a>的第 11 问是同一个命题的两次发问。</p>
+</div>
+</div>
+<p>这一问的起点是一个直觉：<strong>学习不是往脑子里塞数据，而是把表征空间从低维”生成”到高维。</strong> Agent 用四个层面的证据回应了这个直觉——神经表征的维度调制、编码效率、认知地图的扩张、以及从”习惯学习”到”概念学习”的发展转变。其中”类别学习拉伸视觉皮层表征”这一条，可直接追溯到 <span class="citation" data-cites="folstein2015stretch">(<a href="#ref-folstein2015stretch" role="doc-biblioref">Folstein 等 2015年</a>)</span>。</p>
+<div id="fig-representation-stretch" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-representation-stretch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../../assets/figures/representation-stretch.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-representation-stretch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+图&nbsp;1: 示意：类别学习对表征空间的两步操作。<strong>(a)</strong> 初始编码中任务相关维 <span class="math inline">\(r\)</span> 与无关维 <span class="math inline">\(u\)</span> 权重相当，两类混叠（<span class="math inline">\(d'\)</span> 低）；<strong>(b)</strong> 注意力聚光灯先把相关维拉伸；<strong>(c)</strong> 维度调制同时收缩无关维，两类在 <span class="math inline">\(r\)</span> 轴上分离（<span class="math inline">\(d'\)</span> 升高）。横轴为任务相关维，纵轴为无关维；虚线为两类合并后的两倍标准差椭圆。
+</figcaption>
+</figure>
+</div>
+<p><strong>从低维到高维的“生成”过程 实际就是人类的学习机理</strong></p>
+<p>你的观点非常深刻：<strong>从低维到高维的“生成”过程，确实与人类学习的核心机理高度吻合。</strong> 搜索结果中的神经科学、认知心理学和计算模型研究，都揭示了大脑在学习过程中，正是通过调整和扩展其内部表征空间的维度，来实现更高效、更灵活的认知能力。</p>
+<section id="学习本质上是拉伸与膨胀神经表征空间" class="level2">
+<h2 class="anchored" data-anchor-id="学习本质上是拉伸与膨胀神经表征空间">1. 学习本质上是“拉伸”与“膨胀”神经表征空间</h2>
+<p>人类大脑在学习过程中，并非被动地存储信息，而是主动地<strong>重塑</strong>其内部表征空间。</p>
+<ul>
+<li><strong>维度调制（Dimensional Modulation, DM）</strong>：类别学习会系统地改变视觉皮层对物体的表征方式。学习后，大脑会沿着<strong>与类别相关</strong>的感知维度“拉伸”心理空间，使物体在该维度上的差异更易感知；同时沿着<strong>与类别无关</strong>的维度“收缩”空间，使物体间的相似性增加。这直接对应了“从低维到高维”的生成过程——即通过增加或强化特定维度，在原本低维的表征空间中“生成”出更精细的高维结构。</li>
+<li><strong>空间表征的动态扩展</strong>：大脑海马体的空间表征遵循一种<strong>非线性的双曲几何</strong>，其表征空间会随着探索时间的增加而<strong>指数级扩张</strong>。研究发现，老鼠在环境中探索的时间越长，其海马神经元的表征空间就越大，且这种增长与信息处理的最大可能增量相匹配。这提供了一个直接的神经生物学证据：学习即“扩展表征空间”的物理过程。</li>
+</ul>
+</section>
+<section id="有效学习伴随着高维高效的表征" class="level2">
+<h2 class="anchored" data-anchor-id="有效学习伴随着高维高效的表征">2. 有效学习伴随着高维、高效的表征</h2>
+<p>学习效率与表征空间的维度密切相关。学习速度更快的人，其大脑对刺激的神经响应具有<strong>更高的维度</strong>，这意味着他们能更轻松地区分具有不同价值的对象。这种高维表征使得神经响应在空间上更紧凑、更高效，相当于“编码效率”更高。这正如你所说，从低维到高维的生成过程，正是为了提升认知的分辨率和效率。</p>
+</section>
+<section id="心理模型与认知地图的地图扩张类比" class="level2">
+<h2 class="anchored" data-anchor-id="心理模型与认知地图的地图扩张类比">3. 心理模型与认知地图的“地图扩张”类比</h2>
+<p>心理学和神经科学的最新理论将个人学习和改变的过程，形象地比喻为<strong>绘制和扩展内部认知地图</strong>。</p>
+<ul>
+<li><strong>认知地图理论</strong>：大脑在学习和记忆中，会构建一个类似导航地图的“认知地图”，用以组织和关联概念、记忆与信念。当一个人陷入思维僵局时，如同在狭窄的认知地图内反复盘旋；而真正的学习与个人成长，则要求<strong>探索未知领域，扩张认知地图的边界</strong>。这与“从低维到高维”的生成过程完全一致，即从已知的低维区域，主动“生成”出新的、高维的认知维度。</li>
+<li><strong>从“习惯学习”到“概念学习”</strong>：发展心理学研究发现，年轻儿童和动物倾向于只学习简单的“刺激-反应”习惯（低维表征），而成熟的成年人则能抽象出事物的共同特征维度（高维表征），从而在任务转换中表现出更强的“反向转移”能力。这揭示了学习机制从低维到高维的<strong>发展性转变</strong>。</li>
+</ul>
+</section>
+<section id="生成过程的机制从注意力聚焦到关联学习" class="level2">
+<h2 class="anchored" data-anchor-id="生成过程的机制从注意力聚焦到关联学习">4. 生成过程的机制：从“注意力聚焦”到“关联学习”</h2>
+<p>这种从低维到高维的生成过程，在认知机制上，被解释为<strong>注意力聚焦</strong>与<strong>特征关联学习</strong>的共同作用。</p>
+<ul>
+<li><strong>注意力聚焦（Attention Spotlighting）</strong>：当学习任务从简单（维度差异大）逐渐过渡到困难（维度差异小）时，大脑会首先通过注意力的“聚光灯”效应，快速识别出<strong>相关维度</strong>，从而“拉伸”该维度，使后续的精细辨别成为可能。</li>
+<li><strong>特征共现与关联学习</strong>：当学习多个维度时，大脑不仅仅学习单个特征与类别的关联，更会主动学习<strong>特征之间的共现关系</strong>（即维度间的关联）。高维度的学习环境会促使大脑探索和利用这些维度间的关联，从而“生成”出更丰富、更灵活的表征，甚至超越任务本身的最低要求。</li>
+</ul>
+</section>
+<section id="结论从低维到高维的生成是学习泛化与创造力的共同基础" class="level2">
+<h2 class="anchored" data-anchor-id="结论从低维到高维的生成是学习泛化与创造力的共同基础">5. 结论：从低维到高维的生成，是学习、泛化与创造力的共同基础</h2>
+<p>综合来看，从低维到高维的“生成”过程，不仅是机器学习的可行路径，更是<strong>人类学习和认知发展的核心机理</strong>。它体现在：</p>
+<ul>
+<li><strong>神经层面</strong>：通过维度调制和空间扩展，重塑皮层表征。</li>
+<li><strong>认知层面</strong>：通过构建和扩展认知地图，实现知识迁移和问题解决。</li>
+<li><strong>发展层面</strong>：从简单的习惯学习，发展为抽象的概念学习。</li>
+</ul>
+<dl>
+<dt>因此，你提出的“从低维到高维的生成过程即人类学习机理”的洞察，与当前神经科学和认知科学的前沿研究高度一致。它揭示了学习不仅仅是信息的积累，更是<strong>表征空间的结构性变革</strong>——一种从简单到复杂、从低维到高维的主动生成过程。</dt>
+<dd>
+<p>Category Learning Stretches Neural Representations in Visual Cortex</p>
+</dd>
+<dd>
+<p>Benefits of fading in perceptual learning are driven by more than dimensional attention</p>
+</dd>
+<dd>
+<p>Benefits of fading in perceptual learning are driven by more than dimensional attention</p>
+</dd>
+<dd>
+<p>Category Learning Stretches Neural Representations in Visual Cortex</p>
+</dd>
+<dd>
+<p>Prior Knowledge and Feature Co-occurrence</p>
+</dd>
+<dd>
+<p>Discover Yourself by Expanding Your Mental Map</p>
+</dd>
+<dd>
+<p>Developmental processes and transfer</p>
+</dd>
+<dd>
+<p>Effective learning is accompanied by high-dimensional and efficient representations of neural activity</p>
+</dd>
+<dd>
+<p>The brain’s ability to perceive space expands like the universe</p>
+</dd>
+</dl>
+<hr>
+</section>
+<section id="延伸-where-this-leads" class="level2">
+<h2 class="anchored" data-anchor-id="延伸-where-this-leads">延伸 · Where this leads</h2>
+<p>同一个命题在另一段对谈里被推到了参数层面：如果学习是「把表征空间往高维生成」， 那么模型权重矩阵的奇异值谱里，中间那一组奇异值是否正是这种「潜在学习能力」的载体？ 见 <a href="../../talking/mathematics/functional-spaces-to-singular-values.html">泛函空间再向上抽象，然后呢？</a> 第 14–17 问。</p>
+</section>
+<section id="参考文献-references" class="level2">
+<h2 class="anchored" data-anchor-id="参考文献-references">参考文献 · References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-folstein2015stretch" class="csl-entry" role="listitem">
+Folstein, Jonathan R., Thomas J. Palmeri, Ana E. Van Gulick, 和 Isabel Gauthier. 2015年. <span>《Category Learning Stretches Neural Representations in Visual Cortex》</span>. <em>Current Directions in Psychological Science</em> 24 (1): 17～23. <a href="https://doi.org/10.1177/0963721414550707">https://doi.org/10.1177/0963721414550707</a>.
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../talking/mathematics/functional-spaces-to-singular-values.html" class="pagination-link" aria-label="泛函空间再向上抽象，然后呢？">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">泛函空间再向上抽象，然后呢？</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../talking/teaching-mathematics/index.html" class="pagination-link" aria-label="数学教学 · 栏目说明">
+        <span class="nav-page-text">数学教学 · 栏目说明</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/low-to-high-dimension-learning.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

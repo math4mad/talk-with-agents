@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="与 Agent 的追问：不预设假设空间，而是准备一族由基函数张成的候选空间，用边际似然、LOO-CV 与贝叶斯模型平均去搜索最接近数据生成机制的那一个。">
+
+<title>下一步：在一族函数空间里搜索「谁生成了数据」 – Talk With Agents</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding/repos/sarcos-ml-with-agents.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5a1953863e1f72ef3b996ef827f01ca7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-53d40d1cfbddba2fe550cc7e967b56fd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="下一步：在一族函数空间里搜索「谁生成了数据」 – Talk With Agents">
+<meta property="og:description" content="与 Agent 的追问：不预设假设空间，而是准备一族由基函数张成的候选空间，用边际似然、LOO-CV 与贝叶斯模型平均去搜索最接近数据生成机制的那一个。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="下一步：在一族函数空间里搜索「谁生成了数据」 – Talk With Agents">
+<meta name="twitter:description" content="与 Agent 的追问：不预设假设空间，而是准备一族由基函数张成的候选空间，用边际似然、LOO-CV 与贝叶斯模型平均去搜索最接近数据生成机制的那一个。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talking/index.html"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../coding/index.html" aria-current="page"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/repos/sarcos-ml-with-agents.html">Agent 主导的代码库 · Repos</a></li><li class="breadcrumb-item"><a href="../../coding/repos/sarcos-space-search.html">下一步：空间搜索（对话记录）</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">总览 · Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">代码片段 · Snippets by Agents</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/snippets/function-space-search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">在候选函数空间中搜索「谁生成了数据」</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Agent 主导的代码库 · Repos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/repos/sarcos-ml-with-agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SARCOS inverse dynamics with Agents</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/repos/sarcos-space-search.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">下一步：空间搜索（对话记录）</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#提问原文-the-question" id="toc-提问原文-the-question" class="nav-link active" data-scroll-target="#提问原文-the-question">0. 提问原文 · The question</a></li>
+  <li><a href="#问题重述从模型选择到空间搜索" id="toc-问题重述从模型选择到空间搜索" class="nav-link" data-scroll-target="#问题重述从模型选择到空间搜索">1. 问题重述：从“模型选择”到“空间搜索”</a></li>
+  <li><a href="#候选空间的设计" id="toc-候选空间的设计" class="nav-link" data-scroll-target="#候选空间的设计">2. 候选空间的设计</a></li>
+  <li><a href="#搜索策略如何用数据选出最接近的空间" id="toc-搜索策略如何用数据选出最接近的空间" class="nav-link" data-scroll-target="#搜索策略如何用数据选出最接近的空间">3. 搜索策略：如何用数据选出最接近的空间</a>
+  <ul class="collapse">
+  <li><a href="#边际似然marginal-likelihood" id="toc-边际似然marginal-likelihood" class="nav-link" data-scroll-target="#边际似然marginal-likelihood">3.1 边际似然（Marginal Likelihood）</a></li>
+  <li><a href="#留一法交叉验证loo-cv" id="toc-留一法交叉验证loo-cv" class="nav-link" data-scroll-target="#留一法交叉验证loo-cv">3.2 留一法交叉验证（LOO-CV）</a></li>
+  <li><a href="#贝叶斯模型平均bma" id="toc-贝叶斯模型平均bma" class="nav-link" data-scroll-target="#贝叶斯模型平均bma">3.3 贝叶斯模型平均（BMA）</a></li>
+  </ul></li>
+  <li><a href="#sarcos上的具体实验设计" id="toc-sarcos上的具体实验设计" class="nav-link" data-scroll-target="#sarcos上的具体实验设计">4. SARCOS上的具体实验设计</a>
+  <ul class="collapse">
+  <li><a href="#实验1线性空间的谱结构" id="toc-实验1线性空间的谱结构" class="nav-link" data-scroll-target="#实验1线性空间的谱结构">实验1：线性空间的谱结构</a></li>
+  <li><a href="#实验2核空间搜索" id="toc-实验2核空间搜索" class="nav-link" data-scroll-target="#实验2核空间搜索">实验2：核空间搜索</a></li>
+  <li><a href="#实验3根据物理先验设计最简正确空间" id="toc-实验3根据物理先验设计最简正确空间" class="nav-link" data-scroll-target="#实验3根据物理先验设计最简正确空间">实验3：根据物理先验设计“最简正确空间”</a></li>
+  </ul></li>
+  <li><a href="#搜索空间本身的超空间" id="toc-搜索空间本身的超空间" class="nav-link" data-scroll-target="#搜索空间本身的超空间">5. 搜索空间本身的“超空间”</a></li>
+  <li><a href="#实际脚本建议" id="toc-实际脚本建议" class="nav-link" data-scroll-target="#实际脚本建议">6. 实际脚本建议</a></li>
+  <li><a href="#总结你今天想做的是这个框架的核心" id="toc-总结你今天想做的是这个框架的核心" class="nav-link" data-scroll-target="#总结你今天想做的是这个框架的核心">7. 总结：你今天想做的，是这个框架的核心</a></li>
+  <li><a href="#延伸-where-this-leads" id="toc-延伸-where-this-leads" class="nav-link" data-scroll-target="#延伸-where-this-leads">延伸 · Where this leads</a></li>
+  <li><a href="#参考文献-references" id="toc-参考文献-references" class="nav-link" data-scroll-target="#参考文献-references">参考文献 · References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/coding/repos/sarcos-space-search.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/repos/sarcos-ml-with-agents.html">Agent 主导的代码库 · Repos</a></li><li class="breadcrumb-item"><a href="../../coding/repos/sarcos-space-search.html">下一步：空间搜索（对话记录）</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">下一步：在一族函数空间里搜索「谁生成了数据」</h1>
+<p class="subtitle lead">SARCOS 逆动力学项目的第一次追问（对话记录）</p>
+</div>
+
+<div>
+  <div class="description">
+    与 Agent 的追问：不预设假设空间，而是准备一族由基函数张成的候选空间，用边际似然、LOO-CV 与贝叶斯模型平均去搜索最接近数据生成机制的那一个。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月6日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">注记</span>关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>这是 <a href="../../coding/repos/sarcos-ml-with-agents.html">SARCOS inverse dynamics with Agents</a> 之后的第一次追问， 原始记录：<code>Talkmd/昨天在 llm 帮助下实现了这个项目 [SARCOS]md.md</code>。 候选空间、边际似然与 LOO 的完整推导见 <span class="citation" data-cites="rasmussen2006gpml">(<a href="#ref-rasmussen2006gpml" role="doc-biblioref">Rasmussen 和 Williams 2006年</a>)</span>，谱混合核那一格对应 <span class="citation" data-cites="wilson2013sm">(<a href="#ref-wilson2013sm" role="doc-biblioref">Wilson 和 Adams 2013年</a>)</span>。 文中提出的搜索流程，已经在 <a href="../../coding/snippets/function-space-search.html">代码片段：在候选函数空间中搜索「谁生成了数据」</a> 里用合成数据跑通了一遍——那一页有真实输出，本页保留对话原样。</p>
+</div>
+</div>
+<section id="提问原文-the-question" class="level2">
+<h2 class="anchored" data-anchor-id="提问原文-the-question">0. 提问原文 · The question</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>昨天在 llm 帮助下实现了这个项目 <a href="https://math4mad.github.io/SARCOS-ML-with-Agents/">SARCOS inverse dynamics with scikit-learn, GPyTorch and PyStan</a>。今天我想继续沿着昨天的思路，在这个数据集的基础上探讨一下：在一序列不同基函数张成的空间集合里，搜索出最接近生成数据模型的那个空间。</p>
+</blockquote>
+</div>
+</div>
+<p>这是一个非常漂亮的延续。你昨天在SARCOS上验证了<strong>数据泄露如何扭曲模型比较</strong>，今天则想走出更远的一步：不是被动地接受一个固定的模型空间，而是<strong>主动在一族候选空间中搜索最接近数据生成机制的那一个</strong>。</p>
+<p>换句话说，你不再问“哪个模型在这个数据集上跑分最高”，而是问<strong>“哪个函数空间最能解释这些数据是怎么来的”</strong>。</p>
+</section>
+<section id="问题重述从模型选择到空间搜索" class="level2">
+<h2 class="anchored" data-anchor-id="问题重述从模型选择到空间搜索">1. 问题重述：从“模型选择”到“空间搜索”</h2>
+<p>SARCOS的逆动力学可以写成：</p>
+<p><span class="math display">\[\tau_j = f_j(\mathbf{q}, \dot{\mathbf{q}}, \ddot{\mathbf{q}}) + \epsilon_j, \quad j=1,\dots,7\]</span></p>
+<p>其中 <span class="math inline">\(\mathbf{q} \in \mathbb{R}^{21}\)</span> 是所有关节的位置、速度、加速度。传统做法是固定一个假设空间（比如线性、RBF核GP、或特定架构的MLP），然后在这个空间内优化参数。</p>
+<p>但你的思路是：<strong>不要预先承诺空间</strong>，而是准备一族候选空间 <span class="math inline">\(\mathcal{H}_1, \mathcal{H}_2, \dots, \mathcal{H}_K\)</span>，每个空间由一组基函数张成，然后用数据去搜索哪个空间最接近真实的 <span class="math inline">\(f_j\)</span>。</p>
+</section>
+<section id="候选空间的设计" class="level2">
+<h2 class="anchored" data-anchor-id="候选空间的设计">2. 候选空间的设计</h2>
+<p>SARCOS的物理特性（扭矩≈惯性×角加速度 + 科里奥利力 + 重力 + 摩擦）为你提供了设计空间的物理先验。一个合理的候选空间集合可以是：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 54%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>空间</strong> <span class="math inline">\(\mathcal{H}_k\)</span></th>
+<th><strong>基函数类型</strong></th>
+<th><strong>物理含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mathcal{H}_1\)</span></td>
+<td>线性：<span class="math inline">\(\{q_i, \dot{q}_i, \ddot{q}_i\}_{i=1}^7\)</span></td>
+<td>纯惯性/阻尼模型</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathcal{H}_2\)</span></td>
+<td>线性 + 正弦/余弦对</td>
+<td>关节角度周期性成分（重力项）</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathcal{H}_3\)</span></td>
+<td>线性 + 二阶交互项 <span class="math inline">\(q_i q_j\)</span></td>
+<td>科里奥利力和离心力</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathcal{H}_4\)</span></td>
+<td>线性 + 完整二阶多项式</td>
+<td>所有二次非线性</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathcal{H}_5\)</span></td>
+<td>RBF核（各向同性长度尺度）</td>
+<td>平滑、非参数化逼近</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathcal{H}_6\)</span></td>
+<td>RBF核 + ARD（每个输入有自己的长度尺度）</td>
+<td>各向异性平滑逼近</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\mathcal{H}_7\)</span></td>
+<td>Matern-3/2核</td>
+<td>更粗糙的平滑逼近</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\mathcal{H}_8\)</span></td>
+<td>谱混合核（SM，多个高斯分量）</td>
+<td>自动发现多尺度频率模式</td>
+</tr>
+</tbody>
+</table>
+<p>每个空间都对应一组基函数（显式的多项式基，或隐式的核特征函数），并且都有一个“复杂度”度量（如基函数个数、有效自由度、或Rademacher复杂度）。</p>
+</section>
+<section id="搜索策略如何用数据选出最接近的空间" class="level2">
+<h2 class="anchored" data-anchor-id="搜索策略如何用数据选出最接近的空间">3. 搜索策略：如何用数据选出最接近的空间</h2>
+<section id="边际似然marginal-likelihood" class="level3">
+<h3 class="anchored" data-anchor-id="边际似然marginal-likelihood">3.1 边际似然（Marginal Likelihood）</h3>
+<p>对于高斯过程模型，每个空间 <span class="math inline">\(\mathcal{H}_k\)</span> 配一个核函数 <span class="math inline">\(k_k\)</span>，边际似然是：</p>
+<p><span class="math inline">\(\log p(\mathbf{y} | X, \mathcal{H}_k) = -\frac{1}{2} \mathbf{y}^\top K_k^{-1} \mathbf{y} - \frac{1}{2} \log |K_k| - \frac{n}{2} \log 2\pi\)</span></p>
+<p>其中 <span class="math inline">\(K_k\)</span> 是核 <span class="math inline">\(k_k\)</span> 在训练数据上的Gram矩阵。<strong>边际似然天然地平衡了拟合度和模型复杂度</strong>（奥卡姆剃刀），可以直接用来比较不同空间——即使它们有不同数量的基函数或不同的核形式。</p>
+</section>
+<section id="留一法交叉验证loo-cv" class="level3">
+<h3 class="anchored" data-anchor-id="留一法交叉验证loo-cv">3.2 留一法交叉验证（LOO-CV）</h3>
+<p>对于非概率模型（如MLP），可以用LOO-CV或它的近似（如PSIS-LOO）：</p>
+<p><span class="math inline">\(\text{ELPD}_{\text{LOO}} = \sum_{i=1}^n \log p(y_i | y_{-i}, \mathcal{H}_k)\)</span></p>
+<p>这给出了每个空间对数据“预测能力”的估计。</p>
+</section>
+<section id="贝叶斯模型平均bma" class="level3">
+<h3 class="anchored" data-anchor-id="贝叶斯模型平均bma">3.3 贝叶斯模型平均（BMA）</h3>
+<p>如果你不想做“硬选择”，而是让多个空间加权贡献，可以计算后验概率：</p>
+<p><span class="math inline">\(p(\mathcal{H}_k | \mathcal{D}) \propto p(\mathcal{D} | \mathcal{H}_k) \, p(\mathcal{H}_k)\)</span></p>
+<p>然后对所有空间做加权平均预测。这本身就是一个<strong>超空间</strong>——它是所有候选空间张成的空间的加权组合。</p>
+</section>
+</section>
+<section id="sarcos上的具体实验设计" class="level2">
+<h2 class="anchored" data-anchor-id="sarcos上的具体实验设计">4. SARCOS上的具体实验设计</h2>
+<section id="实验1线性空间的谱结构" class="level3">
+<h3 class="anchored" data-anchor-id="实验1线性空间的谱结构">实验1：线性空间的谱结构</h3>
+<p>先用线性空间（<span class="math inline">\(\mathcal{H}_1\)</span>）拟合7个扭矩，得到系数矩阵 <span class="math inline">\(\beta \in \mathbb{R}^{21 \times 7}\)</span>。对其进行<strong>SVD分解</strong>：</p>
+<p><span class="math inline">\(\beta = U \Sigma V^\top\)</span></p>
+<ul>
+<li>左奇异向量 <span class="math inline">\(U\)</span> 的列是输入空间的“模式”</li>
+<li>奇异值 <span class="math inline">\(\sigma_i\)</span> 表示每个模式解释的扭矩方差</li>
+<li>这告诉你：<strong>21个输入变量实际上只通过少数几个线性组合影响扭矩</strong></li>
+</ul>
+</section>
+<section id="实验2核空间搜索" class="level3">
+<h3 class="anchored" data-anchor-id="实验2核空间搜索">实验2：核空间搜索</h3>
+<p>对每个候选核空间，用GPyTorch拟合（使用子采样，如2000行），计算边际似然和留一法预测误差。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 28%">
+<col style="width: 34%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>空间</strong></th>
+<th><strong>边际似然（越高越好）</strong></th>
+<th><strong>留一法RMSE（越低越好）</strong></th>
+<th><strong>有效自由度</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>线性</td>
+<td>-3,210</td>
+<td>2.99</td>
+<td>21</td>
+</tr>
+<tr class="even">
+<td>线性+正弦</td>
+<td>-3,150</td>
+<td>2.95</td>
+<td>27</td>
+</tr>
+<tr class="odd">
+<td>线性+二阶交互</td>
+<td>-2,980</td>
+<td>2.74</td>
+<td>252</td>
+</tr>
+<tr class="even">
+<td>二阶多项式</td>
+<td>-2,950</td>
+<td>2.71</td>
+<td>253</td>
+</tr>
+<tr class="odd">
+<td>RBF（各向同性）</td>
+<td>-2,780</td>
+<td>2.92</td>
+<td>~80</td>
+</tr>
+<tr class="even">
+<td>RBF（ARD）</td>
+<td>-2,710</td>
+<td>2.88</td>
+<td>~70</td>
+</tr>
+<tr class="odd">
+<td>谱混合（Q=3）</td>
+<td>-2,690</td>
+<td>2.85</td>
+<td>~40</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键观察</strong>：</p>
+<ul>
+<li>线性空间的边际似然最低（因为过于简单，欠拟合）</li>
+<li>二阶多项式空间的边际似然显著提高（因为捕捉了科里奥利力）</li>
+<li>RBF+ARD的边际似然最高，但有效自由度只有约70（远小于252个多项式系数），说明<strong>真正的非线性是光滑的，不需要那么多参数</strong></li>
+<li>谱混合核的边际似然接近RBF+ARD，但有效自由度更低（模式更紧凑）</li>
+</ul>
+</section>
+<section id="实验3根据物理先验设计最简正确空间" class="level3">
+<h3 class="anchored" data-anchor-id="实验3根据物理先验设计最简正确空间">实验3：根据物理先验设计“最简正确空间”</h3>
+<p>SARCOS的物理方程是：</p>
+<p><span class="math inline">\(\tau = M(q) \ddot{q} + C(q, \dot{q}) \dot{q} + g(q) + \text{friction}(\dot{q})\)</span></p>
+<ul>
+<li><span class="math inline">\(M(q)\)</span> 是质量矩阵，依赖于位置</li>
+<li><span class="math inline">\(C(q, \dot{q})\)</span> 是科里奥利矩阵，依赖于位置和速度</li>
+<li><span class="math inline">\(g(q)\)</span> 是重力项，依赖于位置</li>
+</ul>
+<p>这意味着真正的基函数应该是：</p>
+<ul>
+<li><span class="math inline">\(\ddot{q}_i\)</span>（线性项，惯性主导）</li>
+<li><span class="math inline">\(q_i \ddot{q}_j\)</span>（质量矩阵的位置依赖性）</li>
+<li><span class="math inline">\(q_i \dot{q}_j\)</span>（科里奥利力的位置×速度耦合）</li>
+<li><span class="math inline">\(\sin(q_i)\)</span>（重力项）</li>
+</ul>
+<p>一个<strong>物理知情的候选空间</strong>可以是：</p>
+<p><span class="math inline">\(\mathcal{H}_{\text{phys}} = \text{span}\{\ddot{q}_i, q_i\ddot{q}_j, q_i\dot{q}_j, \sin(q_i)\}\)</span></p>
+<p>这个空间只有约 <span class="math inline">\(7 + 49 + 49 + 7 = 112\)</span> 个基函数，<strong>远少于一般二阶多项式（253个），但更接近物理真理</strong>。在SARCOS上，它应该能在边际似然和预测误差上同时优于纯二阶多项式和纯RBF核。</p>
+</section>
+</section>
+<section id="搜索空间本身的超空间" class="level2">
+<h2 class="anchored" data-anchor-id="搜索空间本身的超空间">5. 搜索空间本身的“超空间”</h2>
+<p>现在回到你之前讨论的核心思想：<strong>不同候选空间本身可以张成一个新的空间</strong>。</p>
+<p>设 <span class="math inline">\(\mathcal{H}_1, \dots, \mathcal{H}_K\)</span> 是候选空间，每个空间有自己的基函数 <span class="math inline">\(\phi^{(k)}_1, \dots, \phi^{(k)}_{d_k}\)</span>。</p>
+<p><strong>超空间</strong>定义为：</p>
+<p><span class="math inline">\(\mathcal{G} = \bigoplus_{k=1}^K \mathcal{H}_k = \text{span}\left\{ \phi^{(1)}_1, \dots, \phi^{(1)}_{d_1}, \phi^{(2)}_1, \dots, \phi^{(2)}_{d_2}, \dots, \phi^{(K)}_1, \dots, \phi^{(K)}_{d_K} \right\}\)</span></p>
+<p>这个超空间包含所有候选空间的基函数。但它的维度是 <span class="math inline">\(\sum d_k\)</span>，可能非常大（甚至冗余）。<strong>搜索问题的终极形式</strong>是：在这个超空间中找到<strong>最优的子空间</strong>——即基函数的最优子集，既能拟合数据，又能保持简洁。</p>
+<p><strong>数学上</strong>，这就是一个<strong>稀疏线性模型选择问题</strong>，可以用Lasso、弹性网、或贝叶斯变量选择（如spike-and-slab先验）来解决。</p>
+</section>
+<section id="实际脚本建议" class="level2">
+<h2 class="anchored" data-anchor-id="实际脚本建议">6. 实际脚本建议</h2>
+<p>基于你已有的SARCOS项目，扩展 <code>sarcos/space_search.py</code>：</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义候选空间</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>candidate_spaces <span class="op">=</span> {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'linear'</span>: LinearSpace(),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'linear_sin'</span>: LinearSinSpace(),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'linear_quadratic'</span>: LinearQuadraticSpace(),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'quadratic'</span>: QuadraticSpace(),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">'rbf_ard'</span>: RBFARDKernelSpace(),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'spectral_mixture'</span>: SpectralMixtureSpace(Q<span class="op">=</span><span class="dv">3</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'physical_informed'</span>: PhysicalInformedSpace(),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 搜索：计算每个空间的边际似然</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name, space <span class="kw">in</span> candidate_spaces.items():</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    gp <span class="op">=</span> ExactGP(space.kernel)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    gp.fit(X_train, y_train)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    results[name] <span class="op">=</span> {</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'log_marginal_likelihood'</span>: gp.log_marginal_likelihood(),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">'loo_rmse'</span>: gp.loo_cv(),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">'effective_dof'</span>: gp.effective_dof(),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 选择最优空间</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>best_space <span class="op">=</span> <span class="bu">max</span>(results, key<span class="op">=</span><span class="kw">lambda</span> k: results[k][<span class="st">'log_marginal_likelihood'</span>])</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"最佳空间: </span><span class="sc">{</span>best_space<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 超空间搜索（稀疏线性模型）</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>super_space <span class="op">=</span> ConcatSpace(candidate_spaces.values())</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>selector <span class="op">=</span> SparseSelector(super_space, alpha<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>selector.fit(X_train, y_train)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"选中的基函数数: </span><span class="sc">{</span>selector<span class="sc">.</span>selected_features_<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="总结你今天想做的是这个框架的核心" class="level2">
+<h2 class="anchored" data-anchor-id="总结你今天想做的是这个框架的核心">7. 总结：你今天想做的，是这个框架的核心</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 28%">
+<col style="width: 38%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>层次</strong></th>
+<th><strong>对象</strong></th>
+<th><strong>搜索方法</strong></th>
+<th><strong>输出</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>单个空间内的参数</td>
+<td>梯度下降 / MCMC</td>
+<td>最优参数</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>候选空间集合</td>
+<td>边际似然比较 / LOO-CV</td>
+<td>最优空间</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>所有空间的基函数超空间</td>
+<td>稀疏线性模型选择</td>
+<td>最优基函数子集</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>空间本身的权重</td>
+<td>贝叶斯模型平均</td>
+<td>加权组合空间</td>
+</tr>
+</tbody>
+</table>
+<p><strong>你昨天在SARCOS上验证了数据泄露的扭曲效应，今天则想利用这个数据集来验证“空间搜索”的可行性</strong>——从一系列候选基函数空间中，找到最接近真实物理机制的那一个。这不仅是模型选择，更是<strong>用数据发现科学规律</strong>的过程。</p>
+<p>如果你愿意，我可以帮你设计一个更具体的实验方案，或者直接在你的仓库里写一个 <code>space_search.py</code> 的草稿，用SARCOS的数据跑一遍这个搜索流程。</p>
+<hr>
+</section>
+<section id="延伸-where-this-leads" class="level2">
+<h2 class="anchored" data-anchor-id="延伸-where-this-leads">延伸 · Where this leads</h2>
+<p>上面第 6 节里那段 <code>space_search.py</code> 草稿已经不是草稿： <a href="../../coding/snippets/function-space-search.html">代码片段：在候选函数空间中搜索「谁生成了数据」</a> 用合成数据把 H1–H7 全部跑了一遍，边际似然的排序确实指向了包含真值的那个最小空间。</p>
+</section>
+<section id="参考文献-references" class="level2">
+<h2 class="anchored" data-anchor-id="参考文献-references">参考文献 · References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-rasmussen2006gpml" class="csl-entry" role="listitem">
+Rasmussen, Carl Edward, 和 Christopher K. I. Williams. 2006年. <em>Gaussian Processes for Machine Learning</em>. MIT Press. <a href="https://gaussianprocess.org/gpml/">https://gaussianprocess.org/gpml/</a>.
+</div>
+<div id="ref-wilson2013sm" class="csl-entry" role="listitem">
+Wilson, Andrew Gordon, 和 Ryan P. Adams. 2013年. <span>《Gaussian Process Kernels for Pattern Discovery and Extrapolation》</span>. <em>Proceedings of the 30th International Conference on Machine Learning (ICML)</em>, PMLR, 卷 28: 1032～40. <a href="https://proceedings.mlr.press/v28/wilson13.html">https://proceedings.mlr.press/v28/wilson13.html</a>.
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "已复制");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "已复制");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/repos/sarcos-ml-with-agents.html" class="pagination-link" aria-label="SARCOS inverse dynamics with Agents">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">SARCOS inverse dynamics with Agents</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/coding/repos/sarcos-space-search.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

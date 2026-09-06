@@ -1,0 +1,22 @@
+# Quarto
+_output/
+.quarto/
+listing/
+docs/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS / editor
+.DS_Store
+*.swp
+
+/.quarto/
+**/*.quarto_ipynb
+.draft/
+
+# third-party full text pasted for reference only — cite the arXiv version instead
+Talkmd/talk-20260905-1100.md

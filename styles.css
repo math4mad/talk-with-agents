@@ -330,3 +330,25 @@ blockquote {
   background: #0e1626;
   display: block;
 }
+
+/* ---------------------------------------------------- repository list tables */
+/* Long hyphenated repo names must not be chopped mid-token, and the intent column
+   should get the width.  Fixed layout + explicit column shares do that.          */
+.repo-list table,
+.repo-list-extra table {
+  table-layout: fixed;
+  width: 100%;
+}
+.repo-list td, .repo-list th {
+  word-break: normal;
+  overflow-wrap: anywhere;
+  vertical-align: top;
+}
+.repo-list th:nth-child(1), .repo-list td:nth-child(1) { width: 19%; }
+.repo-list th:nth-child(2), .repo-list td:nth-child(2) { width: 42%; }
+.repo-list th:nth-child(3), .repo-list td:nth-child(3) { width: 13%; }
+.repo-list th:nth-child(4), .repo-list td:nth-child(4) { width: 12%; white-space: nowrap; }
+.repo-list th:nth-child(5), .repo-list td:nth-child(5) { width: 14%; }
+.repo-list-extra th:nth-child(1), .repo-list-extra td:nth-child(1) { width: 55%; }
+.repo-list-extra th:nth-child(2), .repo-list-extra td:nth-child(2) { width: 25%; }
+.repo-list-extra th:nth-child(3), .repo-list-extra td:nth-child(3) { width: 20%; white-space: nowrap; }

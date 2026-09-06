@@ -1,0 +1,76 @@
+---
+title: "仓库清单 · Repository list"
+subtitle: "由 Agent 参与、或以 Agent 为主题的 Python / Julia 仓库"
+description: "站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。"
+author:
+  - name: Math4Mad
+    url: "https://github.com/math4mad"
+date: "2026-09-06"
+sidebar: coding
+format:
+  html:
+    toc-depth: 2
+categories:
+  - 与 Agent 共码
+  - Agent 主导的仓库
+---
+
+:::{.callout-note appearance="minimal"}
+## 这份清单怎么来的 · Provenance
+
+源文件是 `Talkmd/repo-20260906-1510.md`：一份编号的仓库列表（意图各一行，部分链接当时没贴全）。
+`python3 scripts/repo_list.py` 把它和 GitHub API 的元数据对账：占位链接按仓库名解析回真实地址，
+语言与"最近推送"取仓库实际值，**意图一栏保留原话**（只修掉会破坏渲染的拼写）。
+所以表里"最近推送"是事实，"意图"是作者的说法，两者不必一致。
+:::
+
+## 清单 · The list
+
+:::{.repo-list}
+
+| 仓库 | 意图（原话整理） | 语言 | 最近推送 | 本站 |
+| --- | --- | --- | --- | --- |
+| [10-regression-algorithms](https://github.com/math4mad/10-regression-algorithms) | this repo refactor from Julia to python ｜ GitHub 描述：Practical introduction to 10 regression algorithms — Julia (MLJ) refactored to Python (scikit-learn), published with Quarto | Julia | 2026-09-05 | — |
+| [Learning-GaussianProcess](https://github.com/math4mad/Learning-GaussianProcess) | — | CSS | 2026-09-04 | — |
+| [ML-Algo-Symbolic](https://github.com/math4mad/ML-Algo-Symbolic) | mainly focus on formula derivations for machine learning algo using symbolic package | Python | 2026-09-04 | — |
+| [pi-agents-annotation](https://github.com/math4mad/pi-agents-annotation) | create a extension by conversation with agents ｜ GitHub 描述：add notation inline notify agents what's your focus | TypeScript | 2026-09-02 | — |
+| [3kernel-gp](https://github.com/math4mad/3kernel-gp) | create by agents based on talk . we add later main idea: introduce three kernel function : offensive-kernel, defensive-kernel,cross-kernel to represent 10 player interaction at basket ball match | Python | 2026-09-02 | — |
+| [calculus-note](https://github.com/math4mad/calculus-note) | refactor from julia Pluto note to python marimo note | Julia | 2026-09-01 | — |
+| [DataViz-With-Agents](https://github.com/math4mad/DataViz-With-Agents) | for exploration of using agents programming | HTML | 2026-08-30 | — |
+| [olivetti-faces-project](https://github.com/math4mad/olivetti-faces-project) | refactor from Julia code to python by agents ｜ GitHub 描述：use for face reconstruction | Julia | 2026-08-29 | — |
+| [Stat2-With-Py](https://github.com/math4mad/Stat2-With-Py) | refactor from Julia code to python by agents ｜ GitHub 描述：migrate from  Stat2-julia | — | 2026-08-29 | — |
+| [lock5-stat](https://github.com/math4mad/lock5-stat) | refactor from Julia code to python by agents ｜ GitHub 描述：use for Statistics_ Unlocking the Power of Data with Julia | Julia | 2026-08-28 | — |
+| [html-snake-agents](https://github.com/math4mad/html-snake-agents) | by github copilot agents | HTML | 2026-09-01 | — |
+| [nba_tactical_analysis](https://github.com/math4mad/nba_tactical_analysis) | — | 私有 · private | — | — |
+
+:::
+
+## 清单之外近期还在动的 · Active but not on the list
+
+这些不在源清单里（也不在本页已收录的仓库中），但 2026-08 之后有推送，通常意味着「还没写进笔记」：
+
+:::{.repo-list-extra}
+
+| 仓库 | 语言 | 最近推送 |
+| --- | --- | --- |
+| [mangus-experiment](https://github.com/math4mad/mangus-experiment) | Python | 2026-08-28 |
+| [context-eng-demo](https://github.com/math4mad/context-eng-demo) | — | 2026-08-27 |
+| [awesome-list](https://github.com/math4mad/awesome-list) | Python | 2026-08-25 |
+| [machine-learning-julia](https://github.com/math4mad/machine-learning-julia) | HTML | 2026-08-24 |
+| [prml-book](https://github.com/math4mad/prml-book) | HTML | 2026-08-23 |
+| [Stat2-julia](https://github.com/math4mad/Stat2-julia) | Julia | 2026-08-29 |
+
+:::
+
+
+## 怎么维护 · Maintenance
+
+```bash
+python3 scripts/repo_list.py            # 读最新的 Talkmd/repo-*.md + 刷新 GitHub 元数据
+python3 scripts/repo_list.py --offline  # 只用 output/repos.json 缓存（CI 断网时）
+```
+
+新增仓库：往 `Talkmd/` 放一份新的 `repo-<日期>-<时间>-<序号>.md`，说一声 update 即可。
+给某个仓库写正文：在 `coding/repos/` 新建一页（参考
+[SARCOS inverse dynamics with Agents](sarcos-ml-with-agents.qmd) 的写法：只写能被脚本复现的结论），
+然后把仓库名加进 `scripts/repo_list.py` 的 `DOCUMENTED`，本站一栏就会自动出现链接。

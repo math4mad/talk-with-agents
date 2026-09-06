@@ -1,0 +1,662 @@
+{
+  "fetched": "2026-09-06T16:43:31",
+  "repos": [
+    {
+      "description": "Working notes on talking with, and coding with, LLM agents \u2014 a Quarto website (mathematics dialogues, runnable snippets, agent-built repos).",
+      "fork": false,
+      "homepage": "https://math4mad.github.io/talk-with-agents/",
+      "html_url": "https://github.com/math4mad/talk-with-agents",
+      "language": "Python",
+      "name": "talk-with-agents",
+      "pushed_at": "2026-09-06T07:22:04Z"
+    },
+    {
+      "description": "SARCOS 7-joint inverse dynamics (GPML data): sklearn baselines, GPyTorch exact GP, PyStan Bayesian ridge - with a data-integrity audit showing the published test split is 99.9% inside the training file",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/SARCOS-ML-with-Agents",
+      "language": "Python",
+      "name": "SARCOS-ML-with-Agents",
+      "pushed_at": "2026-09-05T13:23:10Z"
+    },
+    {
+      "description": "Practical introduction to 10 regression algorithms \u2014 Julia (MLJ) refactored to Python (scikit-learn), published with Quarto",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/10-regression-algorithms",
+      "language": "Julia",
+      "name": "10-regression-algorithms",
+      "pushed_at": "2026-09-05T09:14:26Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Learning-GaussianProcess",
+      "language": "CSS",
+      "name": "Learning-GaussianProcess",
+      "pushed_at": "2026-09-04T08:49:05Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/ML-Algo-Symbolic",
+      "language": "Python",
+      "name": "ML-Algo-Symbolic",
+      "pushed_at": "2026-09-04T02:37:50Z"
+    },
+    {
+      "description": "add notation inline notify agents what's your focus",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/pi-agents-annotation",
+      "language": "TypeScript",
+      "name": "pi-agents-annotation",
+      "pushed_at": "2026-09-02T10:41:25Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/3kernel-gp",
+      "language": "Python",
+      "name": "3kernel-gp",
+      "pushed_at": "2026-09-02T09:33:02Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/calculus-note",
+      "language": "Julia",
+      "name": "calculus-note",
+      "pushed_at": "2026-09-01T10:37:51Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/html-snake-agents",
+      "language": "HTML",
+      "name": "html-snake-agents",
+      "pushed_at": "2026-09-01T01:45:33Z"
+    },
+    {
+      "description": "for exploration of using agents programming",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/DataViz-With-Agents",
+      "language": "HTML",
+      "name": "DataViz-With-Agents",
+      "pushed_at": "2026-08-30T10:42:35Z"
+    },
+    {
+      "description": "use for face reconstruction",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/olivetti-faces-project",
+      "language": "Julia",
+      "name": "olivetti-faces-project",
+      "pushed_at": "2026-08-29T15:26:14Z"
+    },
+    {
+      "description": "migrate from  Stat2-julia",
+      "fork": false,
+      "homepage": "",
+      "html_url": "https://github.com/math4mad/Stat2-With-Py",
+      "language": null,
+      "name": "Stat2-With-Py",
+      "pushed_at": "2026-08-29T07:17:08Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/mangus-experiment",
+      "language": "Python",
+      "name": "mangus-experiment",
+      "pushed_at": "2026-08-28T03:09:21Z"
+    },
+    {
+      "description": "A starter repository for context engineering concepts, examples, and workflows.",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/context-eng-demo",
+      "language": null,
+      "name": "context-eng-demo",
+      "pushed_at": "2026-08-27T23:32:47Z"
+    },
+    {
+      "description": "use for Statistics_ Unlocking the Power of Data with Julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/lock5-stat",
+      "language": "Julia",
+      "name": "lock5-stat",
+      "pushed_at": "2026-08-28T07:57:00Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/awesome-list",
+      "language": "Python",
+      "name": "awesome-list",
+      "pushed_at": "2026-08-25T03:11:01Z"
+    },
+    {
+      "description": "new version of Julia machine learning  in MLJ",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/machine-learning-julia",
+      "language": "HTML",
+      "name": "machine-learning-julia",
+      "pushed_at": "2026-08-24T02:55:22Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/prml-book",
+      "language": "HTML",
+      "name": "prml-book",
+      "pushed_at": "2026-08-23T04:39:31Z"
+    },
+    {
+      "description": "Data visualizations produced for  #TidyTuesdayChallenge, a challenge hosted by R for Data Science.",
+      "fork": true,
+      "homepage": "",
+      "html_url": "https://github.com/math4mad/TidyTuesday",
+      "language": null,
+      "name": "TidyTuesday",
+      "pushed_at": "2024-05-20T15:47:26Z"
+    },
+    {
+      "description": "collection of quarto note of  Probabilistic Machine Learning  using Julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/ProbML-Julia-Quarto",
+      "language": "JavaScript",
+      "name": "ProbML-Julia-Quarto",
+      "pushed_at": "2024-02-01T01:44:53Z"
+    },
+    {
+      "description": "clone  60-datacamp-project   in  julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/60-datacamp-project",
+      "language": "HTML",
+      "name": "60-datacamp-project",
+      "pushed_at": "2024-01-22T07:31:28Z"
+    },
+    {
+      "description": "for collection of  repository  readme files ",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Readme",
+      "language": null,
+      "name": "Readme",
+      "pushed_at": "2024-01-24T13:34:28Z"
+    },
+    {
+      "description": "use for   statistics  meta package",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/StatMeta.jl",
+      "language": "Julia",
+      "name": "StatMeta.jl",
+      "pushed_at": "2024-05-06T06:03:31Z"
+    },
+    {
+      "description": "for stat2 statistics note",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/stat2-notes",
+      "language": "Julia",
+      "name": "stat2-notes",
+      "pushed_at": "2024-01-15T08:48:53Z"
+    },
+    {
+      "description": "Country polygons as GeoJSON in a datapackage",
+      "fork": true,
+      "homepage": "https://datahub.io/core/geo-countries",
+      "html_url": "https://github.com/math4mad/geo-countries",
+      "language": null,
+      "name": "geo-countries",
+      "pushed_at": "2019-08-02T14:47:18Z"
+    },
+    {
+      "description": "use for mml book  pluto",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/mml-book",
+      "language": "Julia",
+      "name": "mml-book",
+      "pushed_at": "2023-12-20T16:08:29Z"
+    },
+    {
+      "description": "used for tidier.jl  doc ",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Tidier-Tutorial",
+      "language": "Julia",
+      "name": "Tidier-Tutorial",
+      "pushed_at": "2023-12-12T08:52:07Z"
+    },
+    {
+      "description": "use for clone of 60-python-project of datacamp",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/datacamp-project",
+      "language": "HTML",
+      "name": "datacamp-project",
+      "pushed_at": "2023-12-12T06:32:15Z"
+    },
+    {
+      "description": "Julia  Probability and Distribution collection",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Prob-Dist-Project-julia",
+      "language": "JavaScript",
+      "name": "Prob-Dist-Project-julia",
+      "pushed_at": "2023-11-27T12:36:22Z"
+    },
+    {
+      "description": "for  Julia  probabilistic programming language",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-PPL",
+      "language": null,
+      "name": "Julia-PPL",
+      "pushed_at": "2023-10-25T22:51:33Z"
+    },
+    {
+      "description": "use for MLJ.jl  gallery",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-MLJ",
+      "language": "Julia",
+      "name": "Julia-MLJ",
+      "pushed_at": "2023-11-03T08:23:31Z"
+    },
+    {
+      "description": "for   DataFrame  methods list",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Dataframe-CookBook",
+      "language": "Julia",
+      "name": "Dataframe-CookBook",
+      "pushed_at": "2023-12-15T15:03:54Z"
+    },
+    {
+      "description": "for lock5  Julia code  every chapter",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/lock5stat-notes",
+      "language": "JavaScript",
+      "name": "lock5stat-notes",
+      "pushed_at": "2023-11-02T03:29:17Z"
+    },
+    {
+      "description": "for kernelmethod Julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-kernelmethod",
+      "language": "HTML",
+      "name": "Julia-kernelmethod",
+      "pushed_at": "2023-09-30T23:16:06Z"
+    },
+    {
+      "description": "for texas hold'em  probability  problem",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-texas-holdem",
+      "language": "Julia",
+      "name": "Julia-texas-holdem",
+      "pushed_at": "2023-10-06T01:18:13Z"
+    },
+    {
+      "description": "use for  gaussian process machine learning  in Julia ",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/GPML-Julia",
+      "language": "JavaScript",
+      "name": "GPML-Julia",
+      "pushed_at": "2023-09-30T14:07:35Z"
+    },
+    {
+      "description": "plots methods  list",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/plots-gallery",
+      "language": "Jupyter Notebook",
+      "name": "plots-gallery",
+      "pushed_at": "2024-02-03T09:14:05Z"
+    },
+    {
+      "description": "user afcp exercise",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/conditional-prob-exercise",
+      "language": "Julia",
+      "name": "conditional-prob-exercise",
+      "pushed_at": "2023-10-20T09:11:26Z"
+    },
+    {
+      "description": "for  Julia time series code repo",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/julia-timeseries",
+      "language": "Julia",
+      "name": "julia-timeseries",
+      "pushed_at": "2023-10-01T15:26:56Z"
+    },
+    {
+      "description": "Template repository for creating a book powered by Quarto and Rendered by GitHub Actions onto GitHub Pages",
+      "fork": true,
+      "homepage": "https://tutorials.thecoatlessprofessor.com/quarto-book-template/",
+      "html_url": "https://github.com/math4mad/quarto-book-template",
+      "language": null,
+      "name": "quarto-book-template",
+      "pushed_at": "2023-08-02T17:25:35Z"
+    },
+    {
+      "description": "A template for course websites developed with Quarto and hosted on GitHub",
+      "fork": true,
+      "homepage": "https://pakillo.github.io/quarto-course-website-template",
+      "html_url": "https://github.com/math4mad/quarto-course-website-template",
+      "language": null,
+      "name": "quarto-course-website-template",
+      "pushed_at": "2023-01-29T15:38:17Z"
+    },
+    {
+      "description": "use for plain math explanation",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Plain-Math",
+      "language": "CSS",
+      "name": "Plain-Math",
+      "pushed_at": "2023-09-08T21:34:13Z"
+    },
+    {
+      "description": "use for plain math explain",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Math-Talk",
+      "language": "CSS",
+      "name": "Math-Talk",
+      "pushed_at": "2023-09-08T21:00:40Z"
+    },
+    {
+      "description": "plain explain of math",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/AboutMath",
+      "language": null,
+      "name": "AboutMath",
+      "pushed_at": "2023-09-08T03:13:01Z"
+    },
+    {
+      "description": "MachineLeanring  in julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-MachineLeanring",
+      "language": null,
+      "name": "Julia-MachineLeanring",
+      "pushed_at": "2023-09-07T22:11:40Z"
+    },
+    {
+      "description": "Bayesian Statistics for julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-Bayes",
+      "language": null,
+      "name": "Julia-Bayes",
+      "pushed_at": "2023-09-07T22:10:28Z"
+    },
+    {
+      "description": "companion  with GaussianProcess.jl",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/GP-Project",
+      "language": "Julia",
+      "name": "GP-Project",
+      "pushed_at": "2023-09-06T20:02:04Z"
+    },
+    {
+      "description": "used for  STAT505  code ",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/STAT505",
+      "language": "Julia",
+      "name": "STAT505",
+      "pushed_at": "2023-09-06T18:50:46Z"
+    },
+    {
+      "description": "Julia code for STAT2_ Modelling with Regression and ANOVA",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Stat2-julia",
+      "language": "Julia",
+      "name": "Stat2-julia",
+      "pushed_at": "2026-08-29T04:46:47Z"
+    },
+    {
+      "description": "Probabilistic Machine Learning _with_julia",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/ProbML-Julia",
+      "language": "Julia",
+      "name": "ProbML-Julia",
+      "pushed_at": "2023-09-09T02:45:54Z"
+    },
+    {
+      "description": "use for Julia image  PCA",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/lw-face-pca",
+      "language": "Julia",
+      "name": "lw-face-pca",
+      "pushed_at": "2023-06-10T08:56:03Z"
+    },
+    {
+      "description": "for Julia machine learning project",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-ML",
+      "language": "Julia",
+      "name": "Julia-ML",
+      "pushed_at": "2023-11-01T00:01:40Z"
+    },
+    {
+      "description": "Solutions to the problems in the book: Linear Algebra and Learning from Data by Gilbert Strang, MIT",
+      "fork": true,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Linear-Algebra-and-Learning-from-Data",
+      "language": null,
+      "name": "Linear-Algebra-and-Learning-from-Data",
+      "pushed_at": "2022-09-28T23:52:08Z"
+    },
+    {
+      "description": "A visual introduction to probability and statistics.",
+      "fork": true,
+      "homepage": "http://seeingtheory.io",
+      "html_url": "https://github.com/math4mad/Seeing-Theory",
+      "language": null,
+      "name": "Seeing-Theory",
+      "pushed_at": "2022-10-06T20:13:37Z"
+    },
+    {
+      "description": "Functions useful when using Pluto in teaching.",
+      "fork": true,
+      "homepage": "",
+      "html_url": "https://github.com/math4mad/PlutoTeachingTools.jl",
+      "language": null,
+      "name": "PlutoTeachingTools.jl",
+      "pushed_at": "2022-09-08T17:57:41Z"
+    },
+    {
+      "description": "Julia-Vis-Gallery",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-Vis-Gallery",
+      "language": "Julia",
+      "name": "Julia-Vis-Gallery",
+      "pushed_at": "2022-10-18T15:53:52Z"
+    },
+    {
+      "description": "JuliaBayesianStat",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/JuliaBayesianStatistics",
+      "language": "Julia",
+      "name": "JuliaBayesianStatistics",
+      "pushed_at": "2022-10-18T15:52:22Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/JuliaStatistics",
+      "language": "Julia",
+      "name": "JuliaStatistics",
+      "pushed_at": "2022-10-18T15:51:29Z"
+    },
+    {
+      "description": "LA-DifferentialEquations",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/LA-DifferentialEquations",
+      "language": "Julia",
+      "name": "LA-DifferentialEquations",
+      "pushed_at": "2022-10-18T15:44:20Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/JuliaStat",
+      "language": "CSS",
+      "name": "JuliaStat",
+      "pushed_at": "2022-10-18T08:32:42Z"
+    },
+    {
+      "description": "BayesianStat",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/BayesianStat",
+      "language": "JavaScript",
+      "name": "BayesianStat",
+      "pushed_at": "2023-06-25T06:46:50Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/TuringBayesProject",
+      "language": null,
+      "name": "TuringBayesProject",
+      "pushed_at": "2022-10-15T00:20:55Z"
+    },
+    {
+      "description": "use for machine learning ",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/julia-machinelearning",
+      "language": null,
+      "name": "julia-machinelearning",
+      "pushed_at": "2022-10-12T14:34:37Z"
+    },
+    {
+      "description": "Julia-bayesian",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/Julia-bayesian",
+      "language": "CSS",
+      "name": "Julia-bayesian",
+      "pushed_at": "2022-10-12T09:34:03Z"
+    },
+    {
+      "description": "[NeurIPS 2020] MCUNet: Tiny Deep Learning on IoT Devices; [NeurIPS 2021] MCUNetV2: Memory-Efficient Patch-based Inference for Tiny Deep Learning; MCUNetV3: On-Device Training Under 256KB Memory",
+      "fork": true,
+      "homepage": "https://mcunet.mit.edu",
+      "html_url": "https://github.com/math4mad/tinyengine",
+      "language": null,
+      "name": "tinyengine",
+      "pushed_at": "2022-09-16T15:28:15Z"
+    },
+    {
+      "description": "\ud83d\ude0e Awesome things related to Tailwind CSS",
+      "fork": true,
+      "homepage": "https://tailwindcss.com",
+      "html_url": "https://github.com/math4mad/awesome-tailwindcss",
+      "language": null,
+      "name": "awesome-tailwindcss",
+      "pushed_at": "2021-01-01T03:06:01Z"
+    },
+    {
+      "description": "use for tools  of Pluto note",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/PlutoTools.jl",
+      "language": "Julia",
+      "name": "PlutoTools.jl",
+      "pushed_at": "2022-09-21T05:14:58Z"
+    },
+    {
+      "description": "tool code",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/PlutoTools",
+      "language": null,
+      "name": "PlutoTools",
+      "pushed_at": "2022-09-20T07:40:37Z"
+    },
+    {
+      "description": "visualization  gallery",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/vis-gallery",
+      "language": "Julia",
+      "name": "vis-gallery",
+      "pushed_at": "2022-09-20T03:57:15Z"
+    },
+    {
+      "description": "pluto note",
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/plutonote",
+      "language": "Julia",
+      "name": "plutonote",
+      "pushed_at": "2022-09-21T08:21:47Z"
+    },
+    {
+      "description": null,
+      "fork": false,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/PlutoText.jl",
+      "language": "Julia",
+      "name": "PlutoText.jl",
+      "pushed_at": "2022-09-20T02:28:42Z"
+    },
+    {
+      "description": "Datasets and models included in the book \"An Introduction to Bayesian Data Analysis for Cognitive Science\".",
+      "fork": true,
+      "homepage": "",
+      "html_url": "https://github.com/math4mad/bcogsci",
+      "language": null,
+      "name": "bcogsci",
+      "pushed_at": "2022-09-15T12:11:13Z"
+    },
+    {
+      "description": null,
+      "fork": true,
+      "homepage": null,
+      "html_url": "https://github.com/math4mad/tlienart2.github.io",
+      "language": null,
+      "name": "tlienart2.github.io",
+      "pushed_at": "2022-01-23T14:58:16Z"
+    }
+  ]
+}

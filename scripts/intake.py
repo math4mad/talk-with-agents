@@ -29,6 +29,7 @@ DRAFTS = ROOT / ".draft"
 STATE = ROOT / "output" / "intake.json"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import repo_list  # noqa: E402
 from convert_ima_note import MARKER as IMA_MARKER  # noqa: E402
 from convert_ima_note import convert as convert_ima  # noqa: E402
 from convert_note import convert as convert_note     # noqa: E402
@@ -135,6 +136,13 @@ def main(argv: list[str] | None = None) -> int:
 
     DRAFTS.mkdir(exist_ok=True)
     for path, kind, stamp, text, digest in todo:
+        if kind == "repo" and not detect_kind(text) == "note" and text.lower().count("github.com") >= 2:
+            print(f"  + {path.name}  [repo list drop]  -> regenerating coding/repos/repo-list.qmd")
+            repo_list.main(["--drop", str(path)])
+            state[path.name] = {"sha256": digest, "format": "repolist", "kind": kind,
+                                "page": "coding/repos/repo-list.qmd",
+                                "converted": dt.datetime.now().isoformat(timespec="seconds")}
+            continue
         fmt = detect_kind(text)
         if fmt == "unknown":
             print(f"  ! {path.name}: not a chat export (no Ask/answer markers) — "

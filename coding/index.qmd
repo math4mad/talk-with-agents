@@ -24,6 +24,7 @@ listing:
 [**Agent 主导的仓库 · Repos**](repos/index.qmd)
 
 主要由 Agent 写成的项目：数据管道、模型、测试、CI 与说明页。摘要页只写**能被脚本复现**的结论。
+总表见 [仓库清单](repos/repo-list.qmd)。
 :::
 :::
 

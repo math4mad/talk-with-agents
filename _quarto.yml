@@ -85,6 +85,8 @@ website:
               href: coding/snippets/function-space-search.qmd
         - section: "Agent 主导的代码库 · Repos"
           contents:
+            - text: "仓库清单 · Repository list"
+              href: coding/repos/repo-list.qmd
             - text: "SARCOS inverse dynamics with Agents"
               href: coding/repos/sarcos-ml-with-agents.qmd
             - text: "下一步：空间搜索（对话记录）"

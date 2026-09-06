@@ -76,7 +76,7 @@ def heading_from(question: str, limit: int = 58) -> str:
     end), then truncate.
     """
     q = re.sub(r"^>+", "", question.strip()).strip()
-    q = re.sub(r"[#|`*]", "", q)
+    q = re.sub(r"[#|`*\[\]]", "", q)
     q = re.sub(r"\]\([^)]*\)", "", q)                       # (url) half of a link
     q = re.sub(r"\[([^\]]*)\]", r"\1", q)                    # [text] -> text
     q = re.sub(r"\S*://\S+", "", q)                           # bare URLs
@@ -98,6 +98,26 @@ def demote(body: str, by: int = 1) -> str:
         return "#" * min(6, len(m.group(1)) + by) + " "
 
     return re.sub(r"(?m)^(#{2,6}) ", shift, body)
+
+
+def fold_pasted_document(body: str, limit: int = 500) -> str:
+    """A question that really says "read this document" arrives with the document glued
+    to the front of the answer.  Keep it, but collapsed, so the page opens on the answer
+    instead of on three thousand characters of someone else's abstract."""
+    lines = body.split("\n")
+    cut, chars = 0, 0
+    for i, line in enumerate(lines):
+        if CJK.search(line):
+            break
+        chars += len(line)
+        cut = i + 1
+    if cut and chars >= limit:
+        head = "\n".join(lines[:cut]).strip()
+        rest = "\n".join(lines[cut:]).strip()
+        return (':::{.callout-note collapse="true"}\n'
+                "## 提问里粘贴的原文 · pasted into the question\n\n"
+                + head + "\n:::\n\n" + rest)
+    return body
 
 
 def tab_tables(body: str) -> str:
@@ -321,6 +341,11 @@ def convert(source: Path, drop: tuple[int, ...] = (), img_prefix: str = "",
             n += 1
             if n in drop:
                 continue
+            # a "question" that is really a pasted document: quote the head, drop the rest
+            if len(question) > 600:
+                shown = re.sub(r"\s+", " ", question[:280]).strip()
+                question = (f"{shown} …（提问里粘贴了约 {len(question):,} 字符的文档，"
+                            f"此处从略；原文见 `Talkmd/`）")
             blocks.append(
                 f"## {n}. {heading_from(question)}\n\n"
                 "::: {.callout-note}\n"
@@ -329,6 +354,7 @@ def convert(source: Path, drop: tuple[int, ...] = (), img_prefix: str = "",
                 ":::"
             )
         body = images(body, prefix=img_prefix, copy_to=img_store)
+        body = fold_pasted_document(body)
         body = tab_tables(body)
         body = fence_code(body)
         body = stray_headings(body)

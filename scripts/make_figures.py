@@ -21,7 +21,7 @@ import matplotlib.pyplot as plt
 from scipy.special import eval_jacobi, roots_jacobi
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from figstyle import (CJK_FONT, PAL, WIDTH_1COL, WIDTH_2COL, new_fig, panel_label, save)  # noqa: E402
+from figstyle import (PAL, WIDTH_1COL, WIDTH_2COL, ascii_only, new_fig, panel_label, save)  # noqa: E402
 
 X = np.linspace(-1, 1, 801)
 XS = np.linspace(-1 + 1e-6, 1 - 1e-6, 801)   # endpoints excluded: w can blow up there
@@ -358,9 +358,10 @@ def _thumb(stem: str, title: str, subtitle: str, draw):
     ax.xaxis.label.set_color("#33414f")
     ax.yaxis.label.set_color("#33414f")
     ax.title.set_color("#33414f")
-    fig.text(0.055, 0.905, title, color="white", fontsize=21, fontweight="bold",
-             va="top", family=CJK_FONT)
-    fig.text(0.055, 0.848, subtitle, color="#9fb4d0", fontsize=12.5, va="top", family=CJK_FONT)
+    fig.text(0.055, 0.905, ascii_only(title, "card title"), color="white",
+             fontsize=20, fontweight="bold", va="top")
+    fig.text(0.055, 0.848, ascii_only(subtitle, "card subtitle"), color="#9fb4d0",
+             fontsize=12.5, va="top")
     from figstyle import FIG_DIR
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     out = FIG_DIR / f"{stem}.png"
@@ -381,7 +382,7 @@ def fig_thumbs():
         ax.set_xlabel("$x$")
         ax.set_ylabel("$P_4^{(\\alpha,\\beta)}(x)$")
 
-    _thumb("thumb-jacobi", "Jacobi 多项式：换一组权重，就是换一个空间",
+    _thumb("thumb-jacobi", "Jacobi polynomials: change the weight, change the space",
            "weight -> inner product -> basis -> space", jacobi)
 
     def spectrum(ax):
@@ -396,7 +397,7 @@ def fig_thumbs():
         ax.set_ylabel("$\\sigma_i$")
         ax.set_xlim(1, s.size)
 
-    _thumb("thumb-fanshu", "泛函空间再向上抽象，然后呢？",
+    _thumb("thumb-fanshu", "Above function spaces: what next?",
            "17 turns: topological vector spaces -> the singular-value spectrum", spectrum)
 
     def bands(ax):
@@ -410,7 +411,7 @@ def fig_thumbs():
         ax.set_ylabel("relative change (%)")
         ax.legend(fontsize=9, frameon=False)
 
-    _thumb("thumb-svd", "编者注：中间那一组奇异值是什么？",
+    _thumb("thumb-svd", "Editor's note: what is the middle band of singular values?",
            "energy says the tail is free; function says otherwise", bands)
 
     def spaces(ax):
@@ -422,7 +423,7 @@ def fig_thumbs():
         ax.set_ylabel("$\\log p(y\\mid X,\\mathcal{H}_k)$")
         ax.set_xlabel("candidate space")
 
-    _thumb("thumb-space-search", "在候选函数空间里搜索「谁生成了数据」",
+    _thumb("thumb-space-search", "Searching candidate spaces for the one that generated data",
            "marginal likelihood ranks the spaces - run it in 60 s", spaces)
 
     def protocol(ax):
@@ -453,7 +454,7 @@ def fig_thumbs():
         ax.set_xlabel("$r$ (task-relevant)")
         ax.set_ylabel("$u$ (nuisance)")
 
-    _thumb("thumb-learning", "从低维到高维的「生成」，就是学习机理",
+    _thumb("thumb-learning", "Generating higher dimensions is what learning is",
            "dimensional modulation: stretch the relevant axis, shrink the nuisance", stretch)
 
 
@@ -477,7 +478,7 @@ def fig_thumbs():
         ax.set_ylim(0, 1)
         ax.axis("off")
 
-    _thumb("thumb-spaceladder", "下一步：在一族函数空间里搜索",
+    _thumb("thumb-spaceladder", "Next step: search over a family of spaces",
            "from model selection to space selection (dialogue)", ladder)
 
     def rule_family(ax):
@@ -488,31 +489,30 @@ def fig_thumbs():
         ax.set_ylabel("goods received")
         ax.legend(fontsize=10, frameon=False)
 
-    _thumb("thumb-teaching", "从一头牛到泛函：一堂课的抽象阶梯",
+    _thumb("thumb-teaching", "From one cow to a functional: an abstraction ladder",
            "one rule -> a family of rules -> a space of rules", rule_family)
 
     def definition_ladder(ax):
         import matplotlib.patches as mpatches
-        from figstyle import CJK_FONT
         ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
-        for i, (y, lab) in enumerate(((2.0, "现实原型"), (5.0, "符号"), (8.0, "一般模式"))):
+        for i, (y, lab) in enumerate(((2.0, "prototype"), (5.0, "symbol"), (8.0, "general pattern"))):
             ax.add_patch(mpatches.FancyBboxPatch((0.5, y - 1.05), 4.3, 2.1,
                          boxstyle="round,pad=0.14", fc="#f6f8fb", ec="#8fa3b8", lw=1.7))
             ax.text(2.65, y, lab, ha="center", va="center", fontsize=13,
-                    fontweight="bold", family=CJK_FONT, color="#0a2540")
+                    fontweight="bold", color="#0a2540")
             if i:
                 ax.annotate("", xy=(2.65, y - 1.3), xytext=(2.65, y - 2.7),
                             arrowprops=dict(arrowstyle="->", color="#667a8c", lw=2.0))
-        for y, lab, col in ((1.4, "弱抽象", PAL[0]), (3.9, "构象化抽象", PAL[2]),
-                            (6.4, "强抽象", PAL[1]), (8.9, "公理化抽象", PAL[4])):
-            ax.text(5.5, y, lab, ha="left", va="center", fontsize=12.5, family=CJK_FONT,
+        for y, lab, col in ((1.4, "weak", PAL[0]), (3.9, "configurational", PAL[2]),
+                            (6.4, "strong", PAL[1]), (8.9, "axiomatic", PAL[4])):
+            ax.text(5.5, y, lab, ha="left", va="center", fontsize=12.5,
                     color="white", fontweight="bold",
                     bbox=dict(boxstyle="round,pad=0.34", fc=col, ec="none"))
         ax.text(5.5, 0.25, "an explicit definition is what makes the ladder speakable",
                 ha="left", va="center", fontsize=9.5, color="#9fb4d0", style="italic")
 
-    _thumb("thumb-definition", "给一个概念下显式定义，买到了什么",
-           "以「数学抽象」的课程标准定义为例", definition_ladder)
+    _thumb("thumb-definition", "What an explicit definition buys",
+           "the curriculum definition of mathematical abstraction", definition_ladder)
 
 
 
@@ -620,14 +620,8 @@ def fig_pendulum_gp():
 # 9. Concept map for the "what is an explicit definition for" note
 # --------------------------------------------------------------------------- #
 def fig_definition_map():
-    """A map of the note's own argument — not measured data.
-
-    (a) the four things an explicit definition buys;
-    (b) the three cognitive stages of mathematical abstraction, with the four
-        abstraction types placed by how far up the ladder they take you.
-    """
+    """A map of the note's own argument — not measured data.  English-only labels."""
     import matplotlib.patches as mpatches
-    from figstyle import CJK_FONT
 
     fig, ax = new_fig(1, 2, width=WIDTH_2COL, ratio=0.50)
     a, b = ax[0]
@@ -636,55 +630,121 @@ def fig_definition_map():
         panel.set_ylim(0, 10)
         panel.axis("off")
 
-    def box(panel, x, y, w, h, head, sub, ec, fc="white", headcol=None):
+    def box(panel, x, y, w, h, head, sub, ec, fc="white", headcol=None, hs=8.4, ss=6.6):
         panel.add_patch(mpatches.FancyBboxPatch((x - w / 2, y - h / 2), w, h,
-                        boxstyle="round,pad=0.14", fc=fc, ec=ec, lw=1.25))
+                        boxstyle="round,pad=0.13", fc=fc, ec=ec, lw=1.25))
         panel.text(x, y + (h / 4 if sub else 0), head, ha="center", va="center",
-                   fontsize=7.9, fontweight="bold", family=CJK_FONT,
-                   color=headcol or ec)
+                   fontsize=hs, fontweight="bold", color=headcol or ec)
         if sub:
-            panel.text(x, y - h / 4.6, sub, ha="center", va="center", fontsize=6.9,
-                       family=CJK_FONT, color="#3a4a5a")
+            panel.text(x, y - h / 4.4, sub, ha="center", va="center", fontsize=ss,
+                       color="#3a4a5a")
 
     # ---- (a) one definition, four jobs -------------------------------------
-    box(a, 5.0, 7.6, 5.2, 1.7, "明确、显式的定义", None, PAL[0], fc="#eef4ff",
-        headcol="#0a2540")
-    jobs = [("划定认知边界", "内涵与外延清楚", PAL[0]),
-            ("提供推理起点", "演绎有所依据", PAL[1]),
-            ("知识可传递", "可交流、可检验", PAL[2]),
-            ("支撑理论体系", "概念得以分层", PAL[4])]
-    for x, (head, sub, col) in zip((1.42, 3.81, 6.19, 8.58), jobs):
-        box(a, x, 2.75, 2.1, 1.95, head, sub, col)
-        a.annotate("", xy=(x, 3.85), xytext=(5.0 + (x - 5.0) * 0.28, 6.68),
+    box(a, 5.0, 8.0, 6.0, 1.6, "an explicit definition", None, PAL[0], fc="#eef4ff",
+        headcol="#0a2540", hs=10.5)
+    jobs = [("bounds", "intension and\nextension fixed", PAL[0]),
+            ("premise", "deduction has\na footing", PAL[1]),
+            ("portable", "shareable,\ntestable", PAL[2]),
+            ("system", "concepts\nget layered", PAL[4])]
+    for x, (head, sub, col) in zip((1.55, 3.85, 6.15, 8.45), jobs):
+        box(a, x, 2.6, 2.1, 2.5, head, sub, col, hs=9.0)
+        a.annotate("", xy=(x, 3.95), xytext=(5.0 + (x - 5.0) * 0.55, 7.15),
                    arrowprops=dict(arrowstyle="-", color=col, lw=1.0))
-    a.text(5.0, 5.15, "一条定义同时兑现四件事", ha="center", fontsize=7.4,
-           family=CJK_FONT, color="#52606d")
-    a.set_title("(a) 定义买到了什么", fontsize=9.5, family=CJK_FONT, pad=4)
+    a.text(5.0, 5.4, "one definition, four cashed promises", ha="center",
+           va="center", fontsize=7.6, color="#52606d")
+    a.set_title("(a) What a definition buys", fontsize=9.5, pad=4)
 
     # ---- (b) the ladder ----------------------------------------------------
-    stages = [(2.0, "现实原型", "具体事物与背景"),
-              (5.0, "符号", "用数学语言表征"),
-              (8.0, "一般模式与结构", "规律本身成为对象")]
+    stages = [(1.8, "real prototype", "concrete things"),
+              (5.0, "symbol", "mathematical language"),
+              (8.2, "pattern & structure", "regularity as object")]
     for y, head, sub in stages:
-        box(b, 3.4, y, 4.6, 1.9, head, sub, "#8fa3b8", fc="#f6f8fb", headcol="#0a2540")
-    for y0, y1 in ((3.0, 4.0), (6.0, 7.0)):
-        b.annotate("", xy=(3.4, y1), xytext=(3.4, y0),
+        box(b, 3.6, y, 5.4, 2.0, head, sub, "#8fa3b8", fc="#f6f8fb",
+            headcol="#0a2540", hs=8.6)
+    for y0, y1 in ((2.9, 3.9), (6.1, 7.1)):
+        b.annotate("", xy=(3.6, y1), xytext=(3.6, y0),
                    arrowprops=dict(arrowstyle="->", color="#667a8c", lw=1.5))
-    b.text(0.55, 5.0, "抽\n象\n结\n构\n越\n来\n越\n少", rotation=0, ha="center", va="center",
-           fontsize=7.2, family=CJK_FONT, color="#52606d", linespacing=1.35)
-    types = [(1.45, "弱抽象", "舍去细节，保留共性", PAL[0]),
-             (3.95, "构象化抽象", "构造新对象承载性质", PAL[2]),
-             (6.45, "强抽象", "加入新关系与新公理", PAL[1]),
-             (8.55, "公理化抽象", "整个体系重新奠基", PAL[4])]
+    b.text(0.22, 5.0, "less concrete  ->", rotation=90, ha="center", va="center",
+           fontsize=7.2, color="#52606d")
+    types = [(1.35, "weak abstraction", "drop detail, keep the property", PAL[0]),
+             (3.95, "configurational", "build a carrier object", PAL[2]),
+             (6.55, "strong abstraction", "add relations and axioms", PAL[1]),
+             (8.85, "axiomatic", "the system is re-founded", PAL[4])]
     for y, head, sub, col in types:
-        b.text(6.25, y + 0.28, head, ha="left", va="center", fontsize=8.0, family=CJK_FONT,
+        b.text(6.6, y + 0.30, head, ha="left", va="center", fontsize=8.2,
                color="white", fontweight="bold",
-               bbox=dict(boxstyle="round,pad=0.28", fc=col, ec="none"))
-        b.text(6.25, y - 0.52, sub, ha="left", va="center", fontsize=6.5,
-               family=CJK_FONT, color=col)
-        b.plot([5.85, 6.12], [y + 0.28, y + 0.28], color=col, lw=1.0)
-    b.set_title("(b) 数学抽象的层次与四种抽象", fontsize=9.5, family=CJK_FONT, pad=4)
+               bbox=dict(boxstyle="round,pad=0.26", fc=col, ec="none"))
+        b.text(6.6, y - 0.52, sub, ha="left", va="center", fontsize=6.4, color=col)
+        b.plot([6.32, 6.55], [y + 0.30, y + 0.30], color=col, lw=1.0)
+    b.set_title("(b) Levels and four kinds of abstraction", fontsize=9.5, pad=4)
     save(fig, "definition-map")
+
+
+# --------------------------------------------------------------------------- #
+# 10. "How close?" - epsilon balls and topological closure
+# --------------------------------------------------------------------------- #
+def fig_how_close():
+    """Left: "this close" means $|x-y| < \\varepsilon$, and the question is *which*
+    metric. Right: a set and its closure - an operation is "closed" when it never
+    takes you outside the dashed hull."""
+    import matplotlib.patches as mpatches
+
+    fig, ax = new_fig(1, 2, width=WIDTH_2COL, ratio=0.42)
+    a, b = ax[0]
+
+    # (a) two points and an epsilon window
+    a.axvspan(3.0 - 0.75, 3.0 + 0.75, color=PAL[5], alpha=0.20, label="$|x-y|<\\varepsilon$")
+    a.plot([1.4], [0], "o", ms=9, color=PAL[0], mec="white", mew=0.8)
+    a.plot([3.0], [0], "o", ms=9, color=PAL[1], mec="white", mew=0.8)
+    a.annotate("", xy=(3.0, 0.42), xytext=(1.4, 0.42),
+               arrowprops=dict(arrowstyle="<->", color="#33414f", lw=1.2))
+    a.text(2.2, 0.52, "$d(x,y)$", ha="center", fontsize=9)
+    a.text(3.75, -0.02, "$\\varepsilon$", ha="left", va="center", fontsize=8.5, color=PAL[5])
+    a.text(2.2, -0.62, '"how close?" = name the metric, then give a number',
+           ha="center", fontsize=7.8, color="#3a4a5a")
+    a.set_xlim(0.4, 5.2)
+    a.set_ylim(-0.9, 0.9)
+    a.set_yticks([])
+    a.set_xlabel("the line you chose to measure on")
+    a.set_title("(a) close in which metric?")
+
+    # (b) a set, its limit points, and the closure
+    rng = np.random.default_rng(5)
+    pts = rng.uniform(-1, 1, (70, 2))
+    b.scatter(pts[:, 0], pts[:, 1], s=12, c=PAL[0], alpha=0.75, edgecolors="white",
+              linewidths=0.3, label="$S$")
+    ring = np.linspace(0, 2 * np.pi, 90)
+    b.scatter(1.35 * np.cos(ring), 1.05 * np.sin(ring), s=10, c=PAL[1], alpha=0.9,
+              edgecolors="white", linewidths=0.3, label="$\\partial S$ (limit points)")
+    b.add_patch(mpatches.Ellipse((0, 0.12), 3.3, 2.45, fill=False, ls="--", ec="#33414f", lw=1.2,
+                                 label="$\\overline{S}=S\\cup\\partial S$"))
+    b.annotate("an operation is closed if\nit never leaves the hull",
+               xy=(1.5, -0.62), xytext=(-2.3, -1.62), fontsize=7.2, color="#3a4a5a",
+               arrowprops=dict(arrowstyle="->", color="#667a8c", lw=1.0))
+    b.set_xlim(-2.5, 2.5)
+    b.set_ylim(-1.95, 1.62)
+    b.set_xticks([])
+    b.set_yticks([])
+    b.set_title("(b) closure: staying inside")
+    b.legend(fontsize=6.6, loc="upper left", bbox_to_anchor=(1.01, 1.0), frameon=False)
+    save(fig, "how-close")
+
+
+    def close_thumb(ax):
+        import matplotlib.patches as mpatches
+        ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
+        ax.axvspan(3.1, 6.9, color=PAL[5], alpha=0.25)
+        ax.plot([2.0], [5.0], "o", ms=18, color=PAL[0], mec="white", mew=1.0)
+        ax.plot([5.0], [5.0], "o", ms=18, color=PAL[1], mec="white", mew=1.0)
+        ax.annotate("", xy=(5.0, 6.6), xytext=(2.0, 6.6),
+                    arrowprops=dict(arrowstyle="<->", color="#33414f", lw=1.8))
+        ax.text(3.5, 7.1, "$d(x,y)$", ha="center", fontsize=14)
+        ax.text(7.05, 5.0, "$\\varepsilon$", ha="left", va="center", fontsize=14, color=PAL[5])
+        ax.text(2.0, 2.4, "how close?", ha="left", fontsize=15, style="italic", color="#33414f")
+
+    _thumb("thumb-close", "How close? A line, a metric, a closure",
+           "from a sitcom quote to d(x,y) and \\overline{S}", close_thumb)
+
 
 def main(select: str = "") -> None:
     figures = {
@@ -696,6 +756,7 @@ def main(select: str = "") -> None:
         "abstraction-ladder": fig_abstraction_ladder,
         "pendulum-gp": fig_pendulum_gp,
         "definition-map": fig_definition_map,
+        "how-close": fig_how_close,
         "thumbs": fig_thumbs,
         "site-cover": fig_cover,
     }

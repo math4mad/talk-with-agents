@@ -1,0 +1,364 @@
+---
+title: "核函数也是函数：给核造一个空间"
+subtitle: "从 FKL 论文到 GPyTorch 实现，再回到 Jacobi 正交基"
+description: "4 轮对谈：把 Function-Space Distributions over Kernels 读成一次提问；要一份 GPyTorch 伪代码；照伪代码实例化一个精确 GP 回归；最后回到那个直觉——核本身是函数，核与它的邻居张成的空间，基可以用昨天讨论的 Jacobi 正交多项式（RKHS）。"
+author:
+  - name: Math4Mad
+    url: "https://github.com/math4mad"
+date: "2026-09-06"
+image: "../../assets/figures/thumb-fanshu.png"
+bibliography: ../../references.bib
+format:
+  html:
+    toc-depth: 3
+categories:
+  - 与 Agent 对谈
+  - 数学
+  - 高斯过程
+---
+
+:::{.callout-note appearance="minimal"}
+## 关于这一篇 · About this note
+
+原始记录：`Talkmd/talk-20260905-1100.md`。这份导出比较特殊：**第一篇的提问就是把论文正文粘进来**，
+所以第 1 问的 `Ask` 框里只留了指向论文的链接与一句话；第 3 问在原导出里丢了提问标记
+（`m4mad:` 没有出现在那一行），转换时被并进了第 2 轮，本页把它拆回独立一轮。
+代码块是 Agent 给的 GPyTorch 写法，缩进已修复；**未在本机运行**（站点没有装 torch），
+所以它们按"可参考的伪代码/模板"对待，不当作已验证的产物。
+:::
+
+这条线正好把站点里两篇对谈接上：
+[Jacobi 多项式：换一组权重，就是换一个空间](jacobi-orthogonal-polynomials.qmd) 说清了
+「基决定空间」；[泛函空间再向上抽象，然后呢？](functional-spaces-to-singular-values.qmd) 说清了
+「空间之上还有空间」。这一篇问的是第三种移动：**把"选哪个空间"本身也变成一个函数空间上的推断问题**
+——即 functional kernel learning [@benton2019fkl; @wilson2013sm]。
+
+## 1. 把论文读成一次提问：Function-Space Distributions over Kernels
+
+::: {.callout-note}
+**🗣️ Ask**
+
+> （提问里直接把论文正文粘了进来，末尾一句 "review this paper"。）
+>
+> *Function-Space Distributions over Kernels* — Gregory W. Benton, Wesley J. Maddox, Jayson P. Salkey, Júlio Albinati, Andrew Gordon Wilson.
+> "Gaussian processes are flexible function approximators, with inductive biases controlled by a covariance kernel. Learning the kernel is the key to representation learning and strong predictive performance. In this paper, we develop functional kernel learning (FKL) to directly infer functional posteriors over kernels."
+> 全文：<https://arxiv.org/abs/1910.13565>
+:::
+
+当然。这篇论文《Function-Space Distributions over Kernels》提出了一种名为 功能核学习 (Functional Kernel Learning, FKL) 的新方法，旨在从根本上改进高斯过程 (GP) 中的核函数学习方式。
+
+传统上，高斯过程的性能高度依赖于核函数的选择，而这个核函数通常是从一个有限的、参数化的函数族中选取的（例如 RBF 或 Matérn 核）。论文的核心思想是：不要将核函数局限在一个简单的参数化形式里，而是将核函数本身看作一个未知的函数，并在函数空间 (function space) 中直接对核函数进行推理。这正如 GP 在函数空间中对数据进行建模一样，FKL 在函数空间中对核函数进行建模。
+
+🎯 核心动机与目标
+传统方法的局限：实践中，核函数通常是参数化的（如 RBF, Matérn）。这使得我们不得不假设真实的数据生成过程遵循某个特定参数族，而这种假设可能并不成立。
+FKL 的目标：直接推断出核函数的后验分布，以表达对核函数本身的不确定性，并反映“核函数没有简单参数化形式”的信念。这使得模型能够学习到更丰富的表示，而无需复杂的初始化或手动干预。
+⚙️ 核心方法：FKL 如何工作？
+FKL 的核心涉及一个层次化的贝叶斯模型：
+
+建模谱密度：根据博赫纳定理 (Bochner's Theorem)，一个平稳核函数完全由其谱密度 (Spectral Density) 决定。因此，学习核函数等价于学习其谱密度。
+使用高斯过程 (GP) 作为先验：FKL 将一个变换后的高斯过程放置在谱密度上。具体来说，它用一个隐 GP 来建模对数谱密度 log S(ω)。这个隐 GP 的均值函数可以被设置为负二次型（引导核函数趋向 RBF 核），协方差函数使用 Matérn 核（捕捉谱密度的尖峰特性）。
+推断与预测：整个模型通过一个交替采样器 (Alternating Sampler) 进行训练。它交替地：
+优化超参数 (φ)。
+使用椭圆切片采样 (Elliptical Slice Sampling, ESS) 从隐 GP 的后验中采样。
+最终的预测通过蒙特卡洛 (Monte Carlo) 积分得到，即对多个后验核采样得到的预测结果进行平均，从而自然地得到不确定性估计。
+✨ 关键优势与特性
+高度灵活：可以表达任何平稳协方差函数，而不是受限于特定参数族。
+不确定性量化：不仅能给出预测值，还能提供置信区间，量化预测的不确定性，这一点在搜索结果中关于 Deep GP 的讨论中也多次被强调。
+可解释的先验：可以直观地设定对核函数的先验期望（例如，通过设定隐 GP 的均值函数来鼓励平滑性）。
+鲁棒性：对初始化不敏感，无需像 Spectral Mixture (SM) 核那样进行复杂的初始化调优。
+扩展性：论文展示了 FKL 可以扩展到处理多维输入、不规则采样数据以及多任务学习场景。
+🔬 实验验证与结果
+论文通过一系列实验证明了 FKL 的有效性，结果与您提供的搜索结果中关于 Deep GP 和高级核学习方法的描述高度一致：
+
+核函数恢复：FKL 能够从数据中准确恢复出已知的真实核函数（如谱混合核），而标准核（RBF, Matérn）则失败。
+插值与外推：在具有挑战性的数据集上（如航空公司乘客数据、Sinc 函数），FKL 表现出色，特别是在外推任务上，性能与需要精细调优的 SM 核相当，但鲁棒性更强。
+多维数据：在处理 UCI 等标准数据集时，FKL（尤其是共享隐 GP 的版本）在多个数据集上取得了更优或可比的均方根误差 (RMSE)。
+多任务学习：在降水预测等多任务场景中，FKL 通过在不同任务间共享一个隐 GP 来学习核结构，表现优于传统的多任务 GP 方法。
+可扩展性：在纹理外推任务中，FKL 能够利用 Kronecker 结构高效地处理大规模数据（如 10,000 像素的图片），并成功外推出复杂的图像模式。
+💡 总结与展望
+功能核学习 (FKL) 是一种新颖且强大的方法，它通过将核学习提升到函数空间，成功地解决了传统高斯过程核函数选择受限的问题。它让模型能够更灵活、更鲁棒地学习数据中的复杂模式，同时提供了可解释的不确定性估计。
+
+论文提出的未来工作方向包括：
+
+解释跨多个异构任务学习到的协方差结构。
+开发适用于非平稳核函数的函数空间分布。
+构建更深层的层次化功能核学习模型。
+
+## 2. 有没有基于 GPyTorch 的伪代码实现？
+
+::: {.callout-note}
+**🗣️ Ask**
+
+> 有没有基于 gpytorch 的伪代码实现?
+:::
+
+有没有基于 gpytorch 的伪代码实现?
+
+::: {.callout-note}
+**🗣️ Ask**
+
+> 有没有基于 gpytorch 的伪代码实现?
+:::
+
+基于你提供的搜索结果，以下是使用 GPyTorch 实现高斯过程回归的伪代码/核心流程，整合了多个信源中的通用模式。
+
+1. 导入库 & 定义模型类
+首先，需要继承 gpytorch.models.ExactGP 来定义具体的 GP 模型。这是 GPyTorch 的标准做法 。
+
+```python
+import torch
+import gpytorch
+
+# 1. 定义模型类，继承 ExactGP
+class ExactGPModel(gpytorch.models.ExactGP):
+    def __init__(self, train_x, train_y, likelihood):
+        super(ExactGPModel, self).__init__(train_x, train_y, likelihood)
+        # 定义均值函数 (例如 ConstantMean)
+        self.mean_module = gpytorch.means.ConstantMean()
+        # 定义核函数 (例如 ScaleKernel + RBFKernel)
+        self.covar_module = gpytorch.kernels.ScaleKernel(
+            gpytorch.kernels.RBFKernel()
+        )
+
+    def forward(self, x):
+        mean_x = self.mean_module(x)
+        covar_x = self.covar_module(x)
+        # 返回多元正态分布
+        return gpytorch.distributions.MultivariateNormal(mean_x, covar_x)
+```
+2. 初始化模型、似然函数和优化器
+创建模型实例，并将其移动到 GPU（如果可用）。同时设置优化器和损失函数 。
+
+```python
+# 初始化似然函数 (例如 GaussianLikelihood) 和模型
+likelihood = gpytorch.likelihoods.GaussianLikelihood()
+model = ExactGPModel(train_x, train_y, likelihood)
+
+# 如果可用，将模型和数据移到 GPU
+if torch.cuda.is_available():
+    model = model.cuda()
+    likelihood = likelihood.cuda()
+    train_x = train_x.cuda()
+    train_y = train_y.cuda()
+
+# 设置为训练模式
+model.train()
+likelihood.train()
+
+# 使用 Adam 优化器
+optimizer = torch.optim.Adam(model.parameters(), lr=0.1)
+# 定义损失函数：边际对数似然 (Marginal Log Likelihood, MLL)
+mll = gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)
+```
+3. 训练循环
+通过最大化边际对数似然来学习模型超参数（如核的 lengthscale、noise 等）。
+
+```python
+training_iterations = 50
+for i in range(training_iterations):
+    optimizer.zero_grad()
+    # 前向传播，得到模型输出
+    output = model(train_x)
+    # 计算损失（负的边际对数似然）
+    loss = -mll(output, train_y)
+    loss.backward()
+    # 打印训练信息
+    print('Iter %d/%d - Loss: %.3f lengthscale: %.3f noise: %.3f' % (
+        i + 1, training_iterations, loss.item(),
+        model.covar_module.base_kernel.lengthscale.item(),
+        model.likelihood.noise.item()
+    ))
+    optimizer.step()
+```
+4. 预测与评估
+训练完成后，切换到评估模式进行预测，并获取预测均值、方差和置信区间 。
+
+```python
+# 设置为评估模式
+model.eval()
+likelihood.eval()
+
+# 进行预测
+with torch.no_grad(), gpytorch.settings.fast_pred_var():
+    # 获取测试集上的预测分布
+    f_preds = model(test_x)
+    # 或者包含噪声的预测分布
+    y_preds = likelihood(model(test_x))
+
+# 获取预测均值和方差
+f_mean = f_preds.mean
+f_var = f_preds.variance
+
+# 计算测试指标 (例如 MAE, NLL)
+test_mae = torch.mean(torch.abs(f_mean - test_y))
+# test_nll = -y_preds.log_prob(test_y).mean().item()
+```
+核心要点总结
+继承 ExactGP：所有精确 GP 模型都需要继承 gpytorch.models.ExactGP，并在 __init__ 中定义均值函数 (mean_module) 和核函数 (covar_module)，在 forward 中返回 MultivariateNormal 分布 。
+训练：通过优化器（如 Adam）最小化负的 ExactMarginalLogLikelihood 来学习超参数 。
+GPU 加速：只需将模型、似然函数和训练数据移动到 GPU 上（.cuda()），即可自动利用 GPU 加速 。
+可扩展性：对于更大规模的数据，GPyTorch 提供了稀疏 GP（如 SGPR） 和结构化核插值（SKI） 等方法，以降低计算复杂度。
+
+## 3. 照着伪代码，实例化一个简单回归模型
+
+::: {.callout-note}
+**🗣️ Ask**
+
+> 根据伪代码实现一个简单的回归模型的实例化
+:::
+
+以下是基于GPyTorch实现的简单高斯过程回归模型完整实例化代码，包含数据准备、模型定义、训练和预测的全流程。
+
+1. 导入库与数据准备
+```python
+import math
+import torch
+import gpytorch
+from matplotlib import pyplot as plt
+
+# 生成训练数据：100个点，y = sin(2πx) + 噪声
+train_x = torch.linspace(0, 1, 100)  #
+train_y = torch.sin(train_x * (2 * math.pi)) + torch.randn(train_x.size()) * math.sqrt(0.04)  #
+```
+2. 定义GP模型
+继承ExactGP类，定义均值函数和核函数：
+
+```python
+class ExactGPModel(gpytorch.models.ExactGP):
+    def __init__(self, train_x, train_y, likelihood):
+        super(ExactGPModel, self).__init__(train_x, train_y, likelihood)
+        self.mean_module = gpytorch.means.ConstantMean()  # 均值函数
+        self.covar_module = gpytorch.kernels.ScaleKernel(
+            gpytorch.kernels.RBFKernel()  # RBF核函数
+        )  #
+
+    def forward(self, x):
+        mean_x = self.mean_module(x)
+        covar_x = self.covar_module(x)
+        return gpytorch.distributions.MultivariateNormal(mean_x, covar_x)  #
+```
+3. 初始化模型、似然函数与优化器
+```python
+# 初始化似然函数和模型
+likelihood = gpytorch.likelihoods.GaussianLikelihood()  #
+model = ExactGPModel(train_x, train_y, likelihood)
+
+# 设置为训练模式
+model.train()
+likelihood.train()  #
+
+# 使用Adam优化器，学习率0.1
+optimizer = torch.optim.Adam(model.parameters(), lr=0.1)  #
+
+# 边际对数似然作为损失函数
+mll = gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)  #
+```
+4. 训练循环
+```python
+training_iter = 50
+for i in range(training_iter):
+    optimizer.zero_grad()
+    output = model(train_x)
+    loss = -mll(output, train_y)  # 负的边际对数似然
+    loss.backward()
+
+    # 打印训练信息
+    print('Iter %d/%d - Loss: %.3f lengthscale: %.3f noise: %.3f' % (
+        i + 1, training_iter, loss.item(),
+        model.covar_module.base_kernel.lengthscale.item(),
+        model.likelihood.noise.item()
+    ))  #
+    optimizer.step()
+```
+5. 预测与可视化
+```python
+# 设置为评估模式
+model.eval()
+likelihood.eval()  #
+
+# 生成测试数据
+test_x = torch.linspace(0, 1, 51)  #
+
+# 预测
+with torch.no_grad(), gpytorch.settings.fast_pred_var():
+    observed_pred = likelihood(model(test_x))  #
+    mean = observed_pred.mean
+    lower, upper = observed_pred.confidence_region()  # 95%置信区间
+
+# 可视化
+plt.figure(figsize=(10, 6))
+plt.plot(train_x.numpy(), train_y.numpy(), 'k*', label='Training Data')
+plt.plot(test_x.numpy(), mean.numpy(), 'b', label='Mean Prediction')
+plt.fill_between(test_x.numpy(), lower.numpy(), upper.numpy(),
+                 alpha=0.5, label='Confidence Interval')
+plt.legend()
+plt.title('GPyTorch Exact GP Regression')
+plt.show()  #
+```
+核心要点
+模型定义：继承ExactGP，在__init__中定义均值函数和核函数，在forward中返回MultivariateNormal分布
+训练：使用Adam优化器优化负的ExactMarginalLogLikelihood
+预测：切换至评估模式，使用likelihood(model(test_x))获取预测分布，通过confidence_region()获取置信区间
+GPU加速：只需将数据、模型和似然函数移至GPU（.cuda()）即可自动利用GPU加速
+
+## 4. 核函数也是函数：给「核和它的邻居」造一个空间，基就用 Jacobi 正交基
+
+::: {.callout-note}
+**🗣️ Ask**
+
+> 就是说由于核函数本身也是函数, 也可以为核函数和他的邻居么构建一个生活的空间. 这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynomial orthogonal basis, 诸如此类的基
+:::
+
+这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynoimal orthgoanal basi…
+
+::: {.callout-note}
+**🗣️ Ask**
+
+> 就是说由于核函数本身也是函数, 也可以为核函数和他的邻居么构建一个生活的空间.   这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi   polynoimal   orthgoanal  basis , 诸如此类的基
+:::
+
+是的，你的理解非常准确。这正是再生核希尔伯特空间（RKHS）理论的核心思想：将核函数及其"邻居"（即由该核生成的函数空间中的元素）赋予一个完整的空间结构，使其成为一个可以进行几何运算的希尔伯特空间。而雅可比（Jacobi）多项式等正交多项式，正是构建这个空间时最自然、最强大的基函数之一。
+
+核函数与它的"函数空间"
+核函数定义空间：一个正定核函数 $K(x, y)$ 可以唯一地生成一个希尔伯特空间 $\mathcal{H}_K$。这个空间包含了所有形如 $f(x) = \sum_m \alpha_m K(x, y_m)$ 的函数及其极限 。这些函数可以被视为核函数 $K(\cdot, y)$ 的线性组合，因此可以看作是核函数及其"邻居"。
+
+再生核希尔伯特空间（RKHS）：这个空间 $\mathcal{H}_K$ 拥有一个关键性质——再生性质：对于空间中的任意函数 $f$ 和任意点 $x$，有 $\langle f, K(\cdot, x) \rangle_{\mathcal{H}_K} = f(x)$ 。这意味着，核函数 $K(\cdot, x)$ 充当了"评估泛函的代表"的角色，它本身是空间中的一个元素，并且可以通过内积来"再生"出任何函数在该点的值。
+
+正交多项式（如雅可比多项式）作为基函数
+RKHS 可以通过其核函数的特征分解来显式地构建。根据 Mercer 定理，核函数可以展开为 ：
+
+$$K(x, y) = \sum_{i=1}^{\infty} \gamma_i \phi_i(x) \phi_i(y)$$
+其中 $\gamma_i \ge 0$ 是特征值，$\phi_i(x)$ 是正交的特征函数。那么，RKHS 中的任意函数 $f$ 可以表示为这些特征函数的线性组合：
+
+$$f(x) = \sum_{i=1}^{\infty} c_i \phi_i(x)$$
+其空间范数（即"能量"）由 $\|f\|^2_{\mathcal{H}_K} = \sum_{i=1}^{\infty} c_i^2 / \gamma_i$ 定义 。
+
+雅可比多项式的作用：当核函数或问题的对称性对应特定的权重函数时，雅可比多项式 $P_n^{(\alpha, \beta)}(x)$ 正是这些正交特征函数 $\phi_i(x)$ 的完美候选者。它们本身是在区间 $[-1, 1]$ 上关于权重函数 $(1-x)^\alpha (1+x)^\beta$ 正交的完备基 。因此，你可以将雅可比多项式作为构建这个核函数空间的"坐标轴"或"基础构件"。
+
+实际应用：正则化与贝叶斯视角
+认识到核函数可以生成一个以正交多项式为基的希尔伯特空间，在机器学习中具有重要意义：
+
+正则化：在 RKHS 中求解一个回归或分类问题，等价于求解一个带惩罚的优化问题 ：
+
+$$\min_{f \in \mathcal{H}_K} \sum_{i=1}^N L(y_i, f(x_i)) + \lambda \|f\|^2_{\mathcal{H}_K}$$
+这里的 $\|f\|^2_{\mathcal{H}_K}$ 惩罚项，在雅可比多项式基下展开，就变成了对系数 $c_i$ 的加权惩罚（权重由特征值 $\gamma_i$ 决定，与雅可比多项式的正交性紧密相关）。这为控制模型复杂度提供了理论基础。
+
+贝叶斯解释：从贝叶斯角度看，$f$ 可以被视为一个零均值高斯过程的实现，其协方差函数就是核函数 $K$ 。雅可比多项式作为特征函数，其对应的特征值 $\gamma_i$ 就是该函数（基）的先验方差。光滑的特征函数（低频成分）对应较大的先验方差，而粗糙的函数（高频成分）对应较小的方差 。这为核方法提供了一个优雅的概率解释，而雅可比多项式正是连接谱分析与贝叶斯推断的桥梁。
+
+总结
+你的直觉非常正确：核函数本身可以生成一个函数空间（RKHS），而雅可比（Jacobi）多项式这类经典正交多项式，正是描述这个空间结构的理想基函数。它们不仅提供了构建空间的数学工具，还在正则化理论和贝叶斯推断中扮演着核心角色，将核函数的几何结构、谱分析和概率模型紧密地联系在一起。
+---
+
+## 延伸 · Where this leads
+
+* 「用数据在候选空间里挑一个」的可运行版本：
+  [在候选函数空间中搜索「谁生成了数据」](../../coding/snippets/function-space-search.qmd)。
+* 精确 GP 在真实数据上的规模问题（44 484 行、只能吃子样本）：
+  [SARCOS inverse dynamics with Agents](../../coding/repos/sarcos-ml-with-agents.qmd)。
+* 上面那些 GPyTorch 片段若要跑起来，需要 `torch` + `gpytorch`（站点的图与实验刻意只用
+  `numpy`/`scipy`，见 [开发环境](../../coding/index.qmd)）。
+
+## 参考文献 · References
+
+:::{#refs}
+:::

@@ -23,7 +23,8 @@ scripts/
   space_search_demo.py the experiment behind coding/snippets/function-space-search.qmd
   convert_note.py      chat export -> Quarto body (turns, tables, pseudo-code)
   convert_ima_note.py  retrieval-app export (no rules, dumps glued to answers) -> Quarto body
-assets/figures/        generated at 300 dpi + vector PDF
+assets/figures/        generated at 300 dpi + vector PDF (English-only labels — enforced)
+img/                   screenshots pasted into the dialogues (raw copies stay in Talkmd/img/)
 output/                CSV artefacts that the numbers on the pages come from
 ```
 

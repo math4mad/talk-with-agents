@@ -31,8 +31,11 @@ Usage::
 from __future__ import annotations
 
 import re
+import shutil
 import sys
 from pathlib import Path
+
+TALKMD_DIR = Path(__file__).resolve().parent.parent / "Talkmd"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from normalize_math import convert as normalize_math  # noqa: E402
@@ -42,6 +45,7 @@ from normalize_math import convert as normalize_math  # noqa: E402
 ASK_HANDLES = ("Math4Mad", "m4mad")
 ASK_ALT = "|".join(ASK_HANDLES)
 ANSWER_HANDLES = ("Ima.Copilot", "Copilot", "ChatGPT", "Claude", "Gemini")
+stray_images: list[str] = []   # <img> tags lifted out of a question line
 CJK = re.compile(r"[\u3400-\u9fff\u3040-\u30ff]")
 
 # --------------------------------------------------------------------------- #
@@ -236,6 +240,8 @@ def stray_headings(body: str) -> str:
 
 def split_question(text: str) -> tuple[str | None, str]:
     """Return ``(question, remaining_body)`` for one chat turn."""
+    global stray_images
+    stray_images = []
     first = text.split("\n", 1)
     head = first[0].strip()
 
@@ -258,15 +264,50 @@ def split_question(text: str) -> tuple[str | None, str]:
                 continue
             if st.startswith(ANSWER_HANDLES):
                 break
+            # images pasted with a question belong to the page, not to the Ask box
+            img_lines = re.findall(r'(?i)<img[^>]*>', line)
+            if img_lines:
+                stray_images.extend(img_lines)
+                line = re.sub(r'(?i)<img[^>]*>', '', line)
+                st = line.strip()
+                if not st:
+                    consumed += 1
+                    continue
             q_lines.append(re.sub(r"^>+\s*", "", st))
             consumed += 1
         return (" ".join(q_lines) or None), "\n".join(rest_lines[consumed:]).strip()
     return None, text
 
 
-def convert(source: Path, drop: tuple[int, ...] = ()) -> str:
+def images(text: str, prefix: str = "", copy_to: Path | None = None) -> str:
+    """``<img src="./img/1.jpg">`` in an export -> a captioned Quarto figure.
+
+    ``prefix`` is the page-relative path to the project root (e.g. ``../../``);
+    ``copy_to`` is the image store (``img/``) the referenced files are copied into.
+    """
+    def repl(m: re.Match) -> str:
+        src = m.group(1).strip()
+        name = Path(src).name
+        if copy_to is not None:
+            src_file = (TALKMD_DIR / src.lstrip("./"))
+            if src_file.exists():
+                copy_to.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src_file, copy_to / name)
+        n = re.sub(r"\D", "", name) or "?"
+        return ("\n\n" + f"![截图 {n} · chat artefact {n}"
+                f"（`Talkmd/img/{name}`，原样保留，未重绘）]"
+                f"({prefix}img/{name}){{#fig-img-{n} width=58%}}" + "\n\n")
+
+    IMG = re.compile(r'<img[^>]*?src=["\']([^"\']+)["\'][^>]*?/?>', re.I)
+    text = re.sub(r'(?mi)^\s*' + IMG.pattern + r'\s*$', repl, text)
+    return re.sub(IMG.pattern, repl, text)
+
+
+def convert(source: Path, drop: tuple[int, ...] = (), img_prefix: str = "",
+            img_store: Path | None = None) -> str:
     raw = clean(source.read_text(encoding="utf-8"))
-    raw = re.sub(r"(?m)^\s*<img[^>]*>\s*$", "", raw)          # chat screenshots
+    if img_store is None and not img_prefix:
+        raw = re.sub(r"(?m)^\s*<img[^>]*>\s*$", "", raw)      # drop chat screenshots
     turns = [t.strip().strip("-").strip()
              for t in re.split(r"\n\s*(?:-{3,}|\*{3,})\s*\n", raw)]
     turns = [t for t in turns if t]
@@ -287,9 +328,13 @@ def convert(source: Path, drop: tuple[int, ...] = ()) -> str:
                 f"> {re.sub(chr(10), ' ', question)}\n"
                 ":::"
             )
+        body = images(body, prefix=img_prefix, copy_to=img_store)
         body = tab_tables(body)
         body = fence_code(body)
         body = stray_headings(body)
+        if stray_images:
+            body = "\n\n".join(stray_images) + "\n\n" + body
+        body = images(body, prefix=img_prefix, copy_to=img_store)
         if multi and question:
             body = demote(body)
         if body.strip():

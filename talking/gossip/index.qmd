@@ -1,16 +1,28 @@
 ---
 title: "闲谈 · Gossip"
 description: "不成体系但有意思的对话：和 Agent 聊的那些「没什么用但很想问」的问题。"
+listing:
+  - contents:
+      - "*.qmd"
+      - "!index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
 ---
 
-:::{.callout-warning}
-## 虚位以待 · Nothing here yet
-
-有些问题不属于任何栏目，但它们往往是最好的一篇：
-「最小奇异值对应的噪音，会不会和宇宙背景辐射有关系？」就是这种问题——
-它最后被写进了
-[泛函空间再向上抽象，然后呢？](../mathematics/functional-spaces-to-singular-values.qmd) 的最后一问。
-
 这一栏留给**纯粹的瞎猜**：不要求引用，不要求可复现，只要求诚实标注哪些是猜的。
+好的瞎猜的标准是——它最后会逼出一个定义（见第一篇：从 "how close?" 到度量与闭包）。
+
+:::{.callout-note}
+## 现在在读什么 · Currently
+
+* [How close? 一句台词里的度量与闭包](how-close-is-close.qmd) ——
+  《老友记》里 "We were very close." / "How close?" 的一次追问，
+  走到 $d(x,y)<\varepsilon$、走到线性代数的 closure、再走到 JavaScript 的词法闭包。
 :::
 
+## 全部对谈 · All notes
+
+:::{.listing}
+:::

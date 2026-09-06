@@ -6,19 +6,19 @@
     "page": "talking/mathematics/jacobi-orthogonal-polynomials.qmd",
     "sha256": "fc76cc50e1c2794b"
   },
-  "talk-20260905-1100.md": {
-    "converted": "2026-09-06T14:05:18",
-    "format": "unknown",
-    "kind": "talk",
-    "page": null,
-    "sha256": "64a7bcf69f79ec44"
-  },
   "talk-20260906-1300.md": {
     "converted": "2026-09-06T13:54:08",
     "format": "note",
     "kind": "talk",
     "page": "talking/mathematics/pdf.qmd",
     "sha256": "d8703ae3cb9b0174"
+  },
+  "talk-20260906-1402.md": {
+    "converted": "2026-09-06T14:08:00",
+    "format": "ima",
+    "kind": "talk",
+    "page": "talking/mathematics/untitled.qmd",
+    "sha256": "00a749590fe32032"
   },
   "从低维到高维的“生成”过程  实际就是人类的学习机理.md": {
     "converted": "2026-09-06T12:28:03",
@@ -41,11 +41,18 @@
     "page": "talking/mathematics/functional-spaces-to-singular-values.qmd",
     "sha256": "dc81d395269ae9e2"
   },
-  "talk-20260906-1402.md": {
-    "sha256": "00a749590fe32032",
-    "format": "ima",
+  "talk-20260905-1100.md": {
+    "sha256": "64a7bcf69f79ec44",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/mathematics/exactgp.qmd",
+    "converted": "2026-09-06T15:01:47"
+  },
+  "talk-20260906-1430.md": {
+    "sha256": "5c7e27e038ab4556",
+    "format": "note",
     "kind": "talk",
     "page": "talking/mathematics/untitled.qmd",
-    "converted": "2026-09-06T14:08:00"
+    "converted": "2026-09-06T15:01:47"
   }
 }

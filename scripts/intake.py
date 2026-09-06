@@ -103,6 +103,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--publish", action="store_true",
                     help="also write the page skeleton into its category folder")
+    ap.add_argument("--folder", default=None,
+                    help="override the destination folder, e.g. talking/gossip")
     args = ap.parse_args(argv)
 
     if not TALKMD.is_dir():
@@ -141,12 +143,15 @@ def main(argv: list[str] | None = None) -> int:
                                 "page": None,
                                 "converted": dt.datetime.now().isoformat(timespec="seconds")}
             continue
-        body = convert_ima(path) if fmt == "ima" else convert_note(path, drop=())
+        if fmt == "ima":
+            body = convert_ima(path)
+        else:
+            body = convert_note(path, drop=(), img_prefix="../../", img_store=ROOT / "img")
         stem = slug_from_title(text)
         draft = DRAFTS / f"intake-{path.name}.md"
         draft.write_text(body, encoding="utf-8")
 
-        folder = "coding/repos" if kind == "repo" else "talking/mathematics"
+        folder = args.folder or ("coding/repos" if kind == "repo" else "talking/mathematics")
         prefix = "../../"
         page = ROOT / folder / f"{stem}.qmd"
         head = HEAD.format(title="TODO 标题", subtitle="TODO 副标题", description="TODO 摘要",

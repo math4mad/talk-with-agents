@@ -18,6 +18,7 @@ from pathlib import Path
 import matplotlib
 
 matplotlib.use("Agg")
+import matplotlib.text
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import rcParams  # noqa: E402
 
@@ -79,7 +80,13 @@ def panel_label(ax: plt.Axes, text: str) -> None:
 
 
 def save(fig, stem: str) -> Path:
-    """Write ``stem.pdf`` + ``stem.png`` at print quality into ``assets/figures``."""
+    """Write ``stem.pdf`` + ``stem.png`` at print quality into ``assets/figures``.
+
+    Every text artist in the figure is checked for non-ASCII first, so a Chinese
+    label cannot sneak into a chart (house rule: figures stay English-only).
+    """
+    ascii_only(" ".join(t.get_text() for t in fig.findobj(matplotlib.text.Text)),
+               f"labels of {stem}")
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     png = FIG_DIR / f"{stem}.png"
     pdf = FIG_DIR / f"{stem}.pdf"
@@ -90,21 +97,20 @@ def save(fig, stem: str) -> Path:
     return png
 
 
-_CJK_CANDIDATES = ("PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC",
-                   "Source Han Sans SC", "Songti SC", "STHeiti", "Microsoft YaHei")
+# --------------------------------------------------------------------------- #
+# House rule (AGENTS.MD): **no CJK characters in charts and plots.**
+# They render as tofu boxes in exported figures, so every string that reaches a
+# matplotlib text object must be ASCII. ``ascii_only`` enforces it, and ``save``
+# checks every text artist in the figure before writing. Chinese belongs in the
+# page prose and in figure *captions* (markdown), never in the pixels.
+# --------------------------------------------------------------------------- #
 
-
-CJK_FONT = None  # filled in by cjk_font() at import time
-
-
-def cjk_font() -> str:
-    """First CJK-capable family on this machine (card art only; panels stay serif)."""
-    from matplotlib import font_manager
-
-    available = {f.name for f in font_manager.fontManager.ttflist}
-    for name in _CJK_CANDIDATES:
-        if name in available:
-            return name
-    return rcParams["font.family"]
-
-CJK_FONT = cjk_font()
+def ascii_only(text: str, where: str = "figure text") -> str:
+    """Return ``text`` unchanged, or raise if it contains a non-ASCII character."""
+    bad = sorted({c for c in str(text) if ord(c) > 127})
+    if bad:
+        raise ValueError(
+            f"{where} must stay ASCII (CJK renders as tofu in exported figures); "
+            f"offending characters: {' '.join(bad)}\n  text: {text!r}"
+        )
+    return str(text)

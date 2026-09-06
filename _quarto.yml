@@ -52,6 +52,8 @@ website:
               href: talking/mathematics/jacobi-orthogonal-polynomials.qmd
             - text: "泛函空间再向上抽象，然后呢？"
               href: talking/mathematics/functional-spaces-to-singular-values.qmd
+            - text: "核函数也是函数：给核造一个空间"
+              href: talking/mathematics/kernels-are-functions-too.qmd
         - section: "学习理论（生物学基础） · Learning Theory"
           contents:
             - text: "从低维到高维的生成，就是人类的学习机理"
@@ -69,8 +71,9 @@ website:
               href: talking/teaching-physics-with-data/index.qmd
         - section: "闲谈 · Gossip"
           contents:
-            - text: "与 Agent 闲聊 · 栏目说明"
-              href: talking/gossip/index.qmd
+            - talking/gossip/index.qmd
+            - text: "How close? 一句台词里的度量与闭包"
+              href: talking/gossip/how-close-is-close.qmd
     - id: coding
       style: floating
       contents:

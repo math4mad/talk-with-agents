@@ -1,13 +1,5 @@
 [
   {
-    "listing": "/coding/index.html",
-    "items": [
-      "/coding/snippets/function-space-search.html",
-      "/coding/repos/sarcos-ml-with-agents.html",
-      "/coding/repos/sarcos-space-search.html"
-    ]
-  },
-  {
     "listing": "/coding/repos/index.html",
     "items": [
       "/coding/repos/sarcos-ml-with-agents.html",
@@ -27,6 +19,17 @@
     ]
   },
   {
+    "listing": "/index.html",
+    "items": [
+      "/talking/learning-theory/low-to-high-dimension-learning.html",
+      "/talking/mathematics/functional-spaces-to-singular-values.html",
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/coding/repos/sarcos-ml-with-agents.html",
+      "/coding/repos/sarcos-space-search.html",
+      "/coding/snippets/function-space-search.html"
+    ]
+  },
+  {
     "listing": "/talking/index.html",
     "items": [
       "/talking/mathematics/functional-spaces-to-singular-values.html",
@@ -42,14 +45,11 @@
     ]
   },
   {
-    "listing": "/index.html",
+    "listing": "/coding/index.html",
     "items": [
-      "/talking/learning-theory/low-to-high-dimension-learning.html",
-      "/talking/mathematics/functional-spaces-to-singular-values.html",
-      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/coding/snippets/function-space-search.html",
       "/coding/repos/sarcos-ml-with-agents.html",
-      "/coding/repos/sarcos-space-search.html",
-      "/coding/snippets/function-space-search.html"
+      "/coding/repos/sarcos-space-search.html"
     ]
   }
 ]

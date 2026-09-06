@@ -1,0 +1,17 @@
+---
+title: "学习理论（生物学基础） · Learning Theory"
+description: "与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。"
+listing:
+  - contents:
+      - "*.qmd"
+      - "!index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+---
+
+一句话立场：**学习不是信息的堆积，而是表征空间的结构性变化**——从低维到高维的「生成」。
+
+:::{.listing}
+:::

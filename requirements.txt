@@ -1,0 +1,11 @@
+# Figures + snippets on this site need only these three:
+numpy
+scipy
+matplotlib
+# Dev environment for the agent-written repos (see coding/index.qmd)
+scikit-learn
+torch
+sympy
+polars
+great_tables
+pandas

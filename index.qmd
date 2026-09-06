@@ -1,0 +1,76 @@
+---
+title: "Talk With Agents"
+subtitle: "与 Agent 对谈 · 与 Agent 共码"
+description: >
+  工作笔记：把 LLM Agent 当成讨论对象（数学、学习理论、教学）与协作对象（代码片段、
+  以 Agent 为主的 Python 仓库），并把过程按可发布的标准记录下来。
+sidebar: false
+search: false
+listing:
+  - contents:
+      - talking/**/*.qmd
+      - coding/**/*.qmd
+      - "!**/index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+format:
+  html:
+    toc: false
+    title-block-style: none
+---
+
+::: {.hero}
+**Talk With Agents · 与 Agent 对谈 · 与 Agent 共码**
+
+把与 LLM Agent 的往来当成一份可复查的工作记录：提问原文、回答正文、被删掉的检索摘录，
+以及真正跑出来的数字——各归其位，按可发布标准排版。
+
+:::{.badge-row}
+Quarto · 中文/English · 300 dpi + 矢量图 · 原始对话保留在 `Talkmd/`
+:::
+:::
+
+## 两条主线 · Two tracks
+
+:::{.card-grid}
+:::{.card}
+[**Talking With Agents · 与 Agent 对谈**](talking/index.qmd)
+
+把 Agent 当**讨论对象**：数学、数学教学、学习理论的生物学基础、用数据科学教物理，以及一些闲谈。
+每轮提问保留原文，回答正文重排，配图重绘。
+:::
+:::{.card}
+[**Coding With Agents · 与 Agent 共码**](coding/index.qmd)
+
+把 Agent 当**协作对象**：可运行的代码片段，以及主要由 Agent 写成的 Python 仓库。
+这里只放跑得通、有输出的东西。
+:::
+:::
+
+## 最新笔记 · Latest notes
+
+:::{.listing}
+:::
+
+## 这个站点的规矩 · Conventions
+
+| 方面 | 约定 |
+| --- | --- |
+| 原始记录 | `Talkmd/` 保留聊天导出原文；`scripts/convert_note.py`、`scripts/convert_ima_note.py` 负责把它们变成页面 |
+| 图 | `scripts/make_figures.py` 生成 300 dpi PNG + 矢量 PDF；Okabe–Ito 色板、面板标号、完整图注。聊天截图只作为出处附件 |
+| 数字 | 页面上出现的每个指标，都能在 `output/` 或对应仓库的 `artifacts/` 里找到生成它的脚本 |
+| 语言 | 正文中文为主，术语与图注保留英文，便于直接进论文 |
+
+:::{.callout-tip appearance="minimal"}
+## 本地跑一遍 · Try it locally
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt        # numpy scipy matplotlib sympy polars great_tables …
+python3 scripts/make_figures.py        # 重绘所有静态图
+python3 scripts/space_search_demo.py   # 重跑空间搜索实验（约 1 分钟）
+quarto serve                           # 预览站点
+```
+:::

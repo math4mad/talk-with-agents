@@ -1,0 +1,25 @@
+---
+title: "数学 · Mathematics"
+description: "与 Agent 讨论数学：正交多项式与加权空间、核函数、谱方法、低秩结构与奇异值谱。"
+listing:
+  - contents:
+      - "*.qmd"
+      - "!index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+---
+
+从这里开始的两条线，最后在同一点汇合：**基函数决定空间，权重决定内积**；
+而「换一个空间」既可以靠手调 $(\\alpha,\\beta)$，也可以交给边际似然去搜索。
+
+:::{.callout-note}
+## 阅读顺序 · Suggested order
+
+1. [Jacobi 多项式：换一组权重，就是换一个空间](jacobi-orthogonal-polynomials.qmd) —— 有限维直觉如何长成无穷维语言。
+2. [泛函空间再向上抽象，然后呢？](functional-spaces-to-singular-values.qmd) —— 空间之上还有空间：拓扑、度量、以及权重矩阵的谱。
+:::
+
+:::{.listing}
+:::

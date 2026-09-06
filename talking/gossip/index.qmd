@@ -1,0 +1,16 @@
+---
+title: "闲谈 · Gossip"
+description: "不成体系但有意思的对话：和 Agent 聊的那些「没什么用但很想问」的问题。"
+---
+
+:::{.callout-warning}
+## 虚位以待 · Nothing here yet
+
+有些问题不属于任何栏目，但它们往往是最好的一篇：
+「最小奇异值对应的噪音，会不会和宇宙背景辐射有关系？」就是这种问题——
+它最后被写进了
+[泛函空间再向上抽象，然后呢？](../mathematics/functional-spaces-to-singular-values.qmd) 的最后一问。
+
+这一栏留给**纯粹的瞎猜**：不要求引用，不要求可复现，只要求诚实标注哪些是猜的。
+:::
+

@@ -1,0 +1,114 @@
+project:
+  type: website
+  output-dir: _output
+  # Talkmd/ holds raw chat exports: never rendered, only linked as source material
+  render:
+    - index.qmd
+    - about.qmd
+    - talking/**
+    - coding/**
+
+website:
+  title: "Talk With Agents"
+  description: >
+    Working notes on talking with, and coding with, LLM agents: mathematics,
+    learning theory, runnable snippets and agent-built repositories.
+  site-url: "https://math4mad.github.io/talk-with-agents/"
+  repo-url: "https://github.com/math4mad/talk-with-agents"
+  repo-actions: [edit, issue]
+  page-navigation: true
+  back-to-top-navigation: true
+  page-footer:
+    left: "© 2026 Math4Mad — notes on working with LLM agents"
+    right:
+      - icon: github
+        href: "https://github.com/math4mad"
+      - icon: book
+        text: "Conventions"
+        href: about.qmd
+  search:
+    location: navbar
+    type: overlay
+  navbar:
+    background: dark
+    foreground: light
+    left:
+      - index.qmd
+      - text: "Talking With Agents · 与 Agent 对谈"
+        href: talking/index.qmd
+      - text: "Coding With Agents · 与 Agent 共码"
+        href: coding/index.qmd
+    right:
+      - about.qmd
+  sidebar:
+    - id: talking
+      style: floating
+      contents:
+        - text: "总览 · Overview"
+          href: talking/index.qmd
+        - section: "数学 · Mathematics"
+          contents:
+            - text: "Jacobi 多项式：换一个权重就是换一个空间"
+              href: talking/mathematics/jacobi-orthogonal-polynomials.qmd
+            - text: "泛函空间再向上抽象，然后呢？"
+              href: talking/mathematics/functional-spaces-to-singular-values.qmd
+        - section: "学习理论（生物学基础） · Learning Theory"
+          contents:
+            - text: "从低维到高维的生成，就是人类的学习机理"
+              href: talking/learning-theory/low-to-high-dimension-learning.qmd
+        - section: "数学教学 · Teaching Mathematics"
+          contents:
+            - text: "数学教学 · 栏目说明"
+              href: talking/teaching-mathematics/index.qmd
+        - section: "用数据科学教物理 · Physics by Data"
+          contents:
+            - text: "数据科学视角的物理教学 · 栏目说明"
+              href: talking/teaching-physics-with-data/index.qmd
+        - section: "闲谈 · Gossip"
+          contents:
+            - text: "与 Agent 闲聊 · 栏目说明"
+              href: talking/gossip/index.qmd
+    - id: coding
+      style: floating
+      contents:
+        - text: "总览 · Overview"
+          href: coding/index.qmd
+        - section: "代码片段 · Snippets by Agents"
+          contents:
+            - text: "在候选函数空间中搜索「谁生成了数据」"
+              href: coding/snippets/function-space-search.qmd
+        - section: "Agent 主导的代码库 · Repos"
+          contents:
+            - text: "SARCOS inverse dynamics with Agents"
+              href: coding/repos/sarcos-ml-with-agents.qmd
+            - text: "下一步：空间搜索（对话记录）"
+              href: coding/repos/sarcos-space-search.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    lang: zh
+    toc: true
+    toc-depth: 3
+    toc-title: "目录 · Contents"
+    number-sections: false
+    highlight-style: github-dark
+    link-external-newwindow: true
+    fig-format: png
+    fig-dpi: 300
+    fig-responsive: true
+    fig-caption: "fig"
+    code-overflow: wrap
+    page-layout: full
+    open-graph:
+      site-name: "Talk With Agents"
+      image: assets/figures/site-cover.png
+      locale: zh_CN
+    twitter-card:
+      image: assets/figures/site-cover.png
+metadata:
+  copyright: "CC BY 4.0 — text and figures · MIT — code snippets"
+
+quarto:
+  version: ">=1.6"

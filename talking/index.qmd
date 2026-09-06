@@ -1,0 +1,53 @@
+---
+title: "Talking With Agents · 与 Agent 对谈"
+description: "把 Agent 当讨论对象的对谈记录：数学、数学教学、学习理论的生物学基础、用数据科学教物理、闲谈。"
+listing:
+  - contents:
+      - mathematics/*.qmd
+      - learning-theory/*.qmd
+      - teaching-mathematics/*.qmd
+      - teaching-physics-with-data/*.qmd
+      - gossip/*.qmd
+      - "!*/index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+---
+
+这一栏记录的是**把 Agent 当讨论对象**的对话：不是让它写代码，而是和它把一个概念推到底。
+
+## 子栏目 · Sub-categories
+
+:::{.card-grid}
+:::{.card}
+[**数学 · Mathematics**](mathematics/index.qmd)
+
+正交多项式、加权空间、谱方法、核函数与低秩结构。提问从一张图开始，回答一路推到泛函分析。
+:::
+:::{.card}
+[**数学教学 · Teaching Mathematics**](teaching-mathematics/index.qmd)
+
+同一个数学对象，换一种讲法就是换一个空间：这里记录「怎么讲」而不是「讲什么」。
+:::
+:::{.card}
+[**学习理论（生物学基础） · Learning Theory**](learning-theory/index.qmd)
+
+表征维度、突触可塑性、认知地图——学习作为表征空间的结构性变化。
+:::
+:::{.card}
+[**用数据科学教物理 · Physics by Data**](teaching-physics-with-data/index.qmd)
+
+先有数据，再有定律：用拟合、残差与模型选择来讲物理。
+:::
+:::{.card}
+[**闲谈 · Gossip**](gossip/index.qmd)
+
+不成体系但有意思的对话。
+:::
+:::
+
+## 全部对谈 · All notes
+
+:::{.listing}
+:::

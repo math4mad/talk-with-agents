@@ -1,0 +1,48 @@
+---
+title: "Coding With Agents · 与 Agent 共码"
+description: "把 Agent 当协作对象的记录：可运行的代码片段，以及主要由 Agent 写成的 Python 仓库。"
+listing:
+  - contents:
+      - snippets/*.qmd
+      - repos/*.qmd
+      - "!*/index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+---
+
+这一栏的门槛只有一条：**跑得通、有输出**。对话记录可以修饰，数字不行。
+
+:::{.card-grid}
+:::{.card}
+[**代码片段 · Snippets by Agents**](snippets/index.qmd)
+
+单文件、几分钟能跑完的小实验：用来验证一个想法是否真的成立，而不是用来演示 API。
+:::
+:::{.card}
+[**Agent 主导的仓库 · Repos**](repos/index.qmd)
+
+主要由 Agent 写成的项目：数据管道、模型、测试、CI 与说明页。摘要页只写**能被脚本复现**的结论。
+:::
+:::
+
+## 开发环境 · Dev environment
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+| 用途 | 包 | 备注 |
+| --- | --- | --- |
+| 数值 / 统计 | `numpy` `scipy` `sympy` | 谱方法与特殊函数走 `scipy.special` |
+| 学习模型 | `scikit-learn` `torch` | 基线走 sklearn，GP 走 GPyTorch |
+| 表格数据 | `polars` | 站点里所有结果表都先落 `polars` 再导出 |
+| 表格排版 | `great_tables` | 发布级表格：横线分层、单位入列名、注释在表下 |
+| 图形 | `matplotlib` | 统一走 `scripts/figstyle.py`，300 dpi + PDF |
+
+## 全部条目 · All entries
+
+:::{.listing}
+:::

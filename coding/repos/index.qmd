@@ -1,0 +1,18 @@
+---
+title: "Agent 主导的仓库 · Repos"
+description: "主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。"
+listing:
+  - contents:
+      - "*.qmd"
+      - "!index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+---
+
+摘要页的写法：**只写能被脚本复现的结论**。每个数字都指向仓库里的一条命令或一个 `artifacts/` 文件；
+页面本身不重跑实验，因此也不会悄悄和代码脱节。
+
+:::{.listing}
+:::

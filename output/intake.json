@@ -1,0 +1,37 @@
+{
+  "Jacobi-poly-nomial.md": {
+    "converted": "2026-09-06T12:28:03",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/mathematics/jacobi-orthogonal-polynomials.qmd",
+    "sha256": "fc76cc50e1c2794b"
+  },
+  "talk-20260905-1100.md": {
+    "converted": "2026-09-06T12:27:10",
+    "format": "unknown",
+    "kind": "talk",
+    "page": null,
+    "sha256": "63b482177b2fd8d8"
+  },
+  "从低维到高维的“生成”过程  实际就是人类的学习机理.md": {
+    "converted": "2026-09-06T12:28:03",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/low-to-high-dimension-learning.qmd",
+    "sha256": "11c8c74663e0da0c"
+  },
+  "昨天在 llm 帮助下实现了这个 项目 [SARCOS]md.md": {
+    "converted": "2026-09-06T12:28:03",
+    "format": "note",
+    "kind": "repo",
+    "page": "coding/repos/sarcos-space-search.qmd",
+    "sha256": "d864225600188324"
+  },
+  "泛函空间再向更高级抽象得到什么就够?.md": {
+    "converted": "2026-09-06T12:28:03",
+    "format": "ima",
+    "kind": "talk",
+    "page": "talking/mathematics/functional-spaces-to-singular-values.qmd",
+    "sha256": "dc81d395269ae9e2"
+  }
+}

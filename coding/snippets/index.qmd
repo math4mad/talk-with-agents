@@ -1,0 +1,22 @@
+---
+title: "代码片段 · Snippets by Agents"
+description: "由 Agent 写成、经过本地复跑验证的单文件实验片段。"
+listing:
+  - contents:
+      - "*.qmd"
+      - "!index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
+---
+
+每个片段对应仓库里一个可直接运行的脚本，页面里的图与表都由该脚本产出：
+改脚本 → `python3 scripts/<name>.py` → 重新 `quarto render`，结论不会和代码脱节。
+
+| 片段 | 脚本 | 依赖 | 运行时间 |
+| --- | --- | --- | --- |
+| [在候选函数空间中搜索「谁生成了数据」](function-space-search.qmd) | `scripts/space_search_demo.py` | `numpy` `scipy` `matplotlib` | ≈ 60 s |
+
+:::{.listing}
+:::

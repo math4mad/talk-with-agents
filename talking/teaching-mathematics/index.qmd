@@ -1,0 +1,41 @@
+---
+title: "数学教学 · Teaching Mathematics"
+description: "与 Agent 讨论怎么教数学：同一个对象的多种讲法、错误概念的成因、把抽象落到可画的例子上。"
+---
+
+:::{.callout-warning}
+## 虚位以待 · Nothing here yet
+
+这一栏收「**怎么讲**」的对谈：同一个数学对象，换一组比喻、换一张图，理解难度就不同。
+第一篇待补。想放什么，按下面的模板新建 `talking/teaching-mathematics/<slug>.qmd` 即可，
+侧边栏与列表页会自动收录。
+:::
+
+## 收录标准 · What counts
+
+* 有一段**真实对话**（提问原文可追溯），而不是一份讲稿；
+* 至少一张按出版标准重绘的图，能替讲解分担认知负荷；
+* 说清楚「这个讲法在什么地方会失效」。
+
+## 模板 · Template
+
+```markdown
+---
+title: "……"
+subtitle: "……"
+date: "2026-09-06"
+categories: ["与 Agent 对谈", "数学教学"]
+bibliography: ../../references.bib
+---
+
+:::{.callout-note}
+**🗣️ Ask**
+
+> 提问原文（保留口语与错字）
+:::
+
+回答正文……
+
+![图注：面板 (a)…，(b)…](../../assets/figures/xxx.png){#fig-xxx}
+```
+

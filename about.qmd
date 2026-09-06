@@ -1,0 +1,117 @@
+---
+title: "关于与约定 · About & Conventions"
+description: "这个站点记录什么、怎么记录，以及怎样把一段新的对话变成一页。"
+sidebar: false
+---
+
+## 这个站点记录什么
+
+**Talk With Agents** 是一份工作记录：把 LLM Agent 同时当作*讨论对象*和*协作对象*时，
+哪些东西值得留下来。它不是教程，也不是模型评测榜——它记录的是**问题是怎么被问出来的**，
+以及**结论是怎么被脚本钉住的**。
+
+两条主线：
+
+* [Talking With Agents · 与 Agent 对谈](talking/index.qmd)：数学、数学教学、学习理论的生物学基础、
+  用数据科学教物理、闲谈。
+* [Coding With Agents · 与 Agent 共码](coding/index.qmd)：可运行的代码片段、主要由 Agent 写成的仓库。
+
+## 三条硬约定
+
+:::{.card-grid}
+:::{.card}
+**1 · 原文可追溯**
+
+`Talkmd/` 里是聊天导出的**原始文件**，一个都不改。页面上的正文由脚本生成，
+脚本本身也在仓库里（`scripts/convert_note.py`、`scripts/convert_ima_note.py`）。
+提问原文保留口语与错字，不做「顺手润色」。
+:::
+:::{.card}
+**2 · 图按出版标准**
+
+`scripts/figstyle.py` 统一：300 dpi PNG + 矢量 PDF、单栏 8.6 cm / 双栏 17.3 cm、
+Computer Modern 数学、8 pt 字、Okabe–Ito 色盲友好色板、面板 `(a)(b)` 标号。
+聊天截图只能作为**出处附件**出现，并且要写清楚它是截图。
+:::
+:::{.card}
+**3 · 数字必须可复现**
+
+页面上每个指标都要能追到一个脚本或一个 `artifacts/` 文件。
+站点里的实验（如 `scripts/space_search_demo.py`）落一份 `output/*.csv`，
+页面表格从这份 CSV 抄写；重跑一次就能核对全部数字。
+:::
+:::
+
+## 投放约定 · Drop-in naming
+
+放进 `Talkmd/` 的文件按这个命名，`scripts/intake.py` 就能自动认领：
+
+| 文件名 | 含义 | 落到哪里 |
+| --- | --- | --- |
+| `talk-<YYYYMMDD>-<HHMM>-<序号>.md` | 一段与 Agent 的对谈 | `talking/<子栏目>/<slug>.qmd` |
+| `repo-<YYYYMMDD>-<HHMM>-<序号>.md` | 一个由 Agent 主导的仓库说明 | `coding/repos/<slug>.qmd` |
+
+收到「update」时执行：
+
+```bash
+python3 scripts/intake.py            # 只报告 + 生成草稿（.draft/intake-<文件>.md）
+python3 scripts/intake.py --publish  # 顺便把页面骨架放进栏目目录
+```
+
+脚本用 `output/intake.json` 记录「源文件哈希 → 页面」，所以只处理新增或改动过的源文件；
+认不出提问标记的文件会被标成参考资料（例如 `Talkmd/talk-20260905-1100.md` 是一篇论文正文，
+只被引用、不成页）。
+
+## 怎样把一段对话变成一页
+
+```bash
+# 1) 按上面的命名把导出文件放进 Talkmd/，然后
+python3 scripts/intake.py            # 认领 + 生成草稿
+#    （或者手工指定转换器，见下面两行）
+
+# 2) 生成正文草稿（自动：切分提问、伪代码加围栏、制表符表格转管道表格）
+python3 scripts/convert_note.py "Talkmd/<file>.md" .draft/body.md
+#    检索型 App 的导出（无分隔线、正文与检索摘录粘连）用这个：
+python3 scripts/convert_ima_note.py "Talkmd/<file>.md" .draft/body.md
+
+# 3) 手工完成机器做不了的部分：
+#    · 写 front matter（title / subtitle / description / date / image / bibliography）
+#    · 把每轮提问压缩成小节标题，原文放进 ::: {.callout-note} 的 Ask 框
+#    · 重画被压平的表格、补代码缩进、检查 LaTeX 定界符
+#    · 加一段「关于这一篇」说明删掉了什么、改了什么
+
+# 4) 需要新图就写进 scripts/make_figures.py，然后
+python3 scripts/make_figures.py && quarto render
+```
+
+:::{.callout-warning}
+## 导出文件里最常见的四个坑
+
+1. **零宽空格 `U+200B`** 混在 `$$ … $$` 里，pandoc 会把公式截断；
+2. **聊天转义**：反斜杠加括号的写法（`\(`、`\[`、`\%`）被当成 LaTeX 环境开头；
+3. **表格被压平**：制表符还在，换行没了——必须手工重建；
+4. **检索摘录粘在答案尾巴上**：有些 App 会把「推荐追问 + 检索结果」直接拼在最后一段，
+   长度能到几十万字符。`convert_ima_note.py` 按行密度把它们切掉。
+:::
+
+## 开发环境
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+| 用途 | 包 |
+| --- | --- |
+| 数值 / 统计 / 符号 | `numpy` `scipy` `sympy` `matplotlib` |
+| 学习模型 | `scikit-learn` `torch` |
+| 表格数据 | `polars` |
+| 发布级表格 | `great_tables` |
+| 站点 | `quarto ≥ 1.6` |
+
+图与实验脚本只依赖 `numpy` / `scipy` / `matplotlib`，因此 GitHub Pages 的 CI 不必装 PyTorch。
+
+## 许可 · Licence
+
+文字与图：CC BY 4.0。代码片段：MIT。
+引用他人工作时以页面末尾的参考文献为准。

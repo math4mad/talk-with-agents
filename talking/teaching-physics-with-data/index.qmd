@@ -1,0 +1,23 @@
+---
+title: "用数据科学教物理 · Physics by Data"
+description: "与 Agent 讨论怎么用数据科学的方式教物理：先有数据与残差，再有定律与约束。"
+---
+
+:::{.callout-warning}
+## 虚位以待 · Nothing here yet
+
+这一栏的方法论已经定了：**把定律当成一次拟合，把误差棒当成本地知识**。
+第一篇（用 SARCOS 机械臂逆动力学讲「扭矩 ≈ 惯性 × 角加速度」）在
+[Coding With Agents → Repos](../../coding/repos/sarcos-ml-with-agents.qmd) 里已经埋好了素材，
+拆出来放这里只是时间问题。
+:::
+
+## 计划中的选题 · Planned
+
+| 主题 | 数据 | 想让学生看见的东西 |
+| --- | --- | --- |
+| 逆动力学：从轨迹反推扭矩 | [SARCOS](https://gaussianprocess.org/gpml/data/) | 物理先验如何变成基函数（$\tau \approx M(q)\ddot q + C(q,\dot q)\dot q + g(q)$） |
+| 什么叫做「拟合得好」 | 同一份数据、两种划分 | 数据泄露会把模型排序整体平移（×1.1 到 ×3.6） |
+| 不确定度是产品，不是附属品 | GP / Stan 的 95% 区间 | 名义覆盖 0.98 与真实覆盖 0.91 的差别 |
+| 从开普勒到谱方法 | 行星轨道 / 端点奇异问题 | 权重函数为什么能「自动满足」边界条件 |
+

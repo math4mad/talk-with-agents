@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="与 Agent 讨论怎么教数学：同一个对象的多种讲法、错误概念的成因、把抽象落到可画的例子上。">
+<meta name="description" content="与 Agent 讨论「怎么把数学讲成一层一层的抽象」：从数学科普书出发，落到课堂上能跑的教具与实验。">
 
 <title>数学教学 · Teaching Mathematics – Talk With Agents</title>
 <style>
@@ -65,8 +65,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../talking/teaching-physics-with-data/index.html" rel="next">
+<link href="../../talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html" rel="next">
 <link href="../../talking/learning-theory/low-to-high-dimension-learning.html" rel="prev">
+<script src="../../site_libs/quarto-listing/list.min.js"></script>
+<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -102,18 +104,76 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "搜索"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="数学教学 · Teaching Mathematics – Talk With Agents">
-<meta property="og:description" content="与 Agent 讨论怎么教数学：同一个对象的多种讲法、错误概念的成因、把抽象落到可画的例子上。">
+<meta property="og:description" content="与 Agent 讨论「怎么把数学讲成一层一层的抽象」：从数学科普书出发，落到课堂上能跑的教具与实验。">
 <meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta property="og:site_name" content="Talk With Agents">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image:height" content="724">
 <meta property="og:image:width" content="1284">
 <meta name="twitter:title" content="数学教学 · Teaching Mathematics – Talk With Agents">
-<meta name="twitter:description" content="与 Agent 讨论怎么教数学：同一个对象的多种讲法、错误概念的成因、把抽象落到可画的例子上。">
+<meta name="twitter:description" content="与 Agent 讨论「怎么把数学讲成一层一层的抽象」：从数学科普书出发，落到课堂上能跑的教具与实验。">
 <meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta name="twitter:image-height" content="724">
 <meta name="twitter:image-width" content="1284">
@@ -166,7 +226,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · Teaching Mathematics</a></li><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · 栏目说明</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · Teaching Mathematics</a></li><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · Teaching Mathematics</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -236,7 +296,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../talking/teaching-mathematics/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">数学教学 · 栏目说明</span></a>
+ <span class="menu-text">数学教学 · Teaching Mathematics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">从一头牛到泛函：一堂数学课的抽象阶梯</span></a>
   </div>
 </li>
       </ul>
@@ -285,7 +351,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">目录 · Contents</h2>
    
   <ul>
-  <li><a href="#收录标准-what-counts" id="toc-收录标准-what-counts" class="nav-link active" data-scroll-target="#收录标准-what-counts">收录标准 · What counts</a></li>
+  <li><a href="#全部对谈-all-notes" id="toc-全部对谈-all-notes" class="nav-link active" data-scroll-target="#全部对谈-all-notes">全部对谈 · All notes</a></li>
+  <li><a href="#收录标准-what-counts" id="toc-收录标准-what-counts" class="nav-link" data-scroll-target="#收录标准-what-counts">收录标准 · What counts</a></li>
   <li><a href="#模板-template" id="toc-模板-template" class="nav-link" data-scroll-target="#模板-template">模板 · Template</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/teaching-mathematics/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
@@ -293,14 +360,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · Teaching Mathematics</a></li><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · 栏目说明</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · Teaching Mathematics</a></li><li class="breadcrumb-item"><a href="../../talking/teaching-mathematics/index.html">数学教学 · Teaching Mathematics</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">数学教学 · Teaching Mathematics</h1>
 </div>
 
 <div>
   <div class="description">
-    与 Agent 讨论怎么教数学：同一个对象的多种讲法、错误概念的成因、把抽象落到可画的例子上。
+    与 Agent 讨论「怎么把数学讲成一层一层的抽象」：从数学科普书出发，落到课堂上能跑的教具与实验。
   </div>
 </div>
 
@@ -317,24 +384,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-default callout-warning callout-titled">
+<p>这一栏收「<strong>怎么讲</strong>」的对谈：同一个数学对象，换一组比喻、换一张图、换一个可拖动的滑块， 理解难度就不同。它记录的是讲法，不是知识点。</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-虚位以待 · Nothing here yet
+现在在读什么 · Currently
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>这一栏收「<strong>怎么讲</strong>」的对谈：同一个数学对象，换一组比喻、换一张图，理解难度就不同。 第一篇待补。想放什么，按下面的模板新建 <code>talking/teaching-mathematics/&lt;slug&gt;.qmd</code> 即可， 侧边栏与列表页会自动收录。</p>
+<ul>
+<li><a href="../../talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html">从一头牛到泛函：一堂数学课的抽象阶梯</a> —— 洛克哈特《度量》《算术》→ 猎人记野牛（向量的起源）→ 1 头牛换 5 只羊（函数的起源）→ 交换规则的<strong>函数空间</strong>（泛函）→ 用高斯过程给一杯热咖啡、一段单摆视频建模（课堂可跑的落点）。</li>
+</ul>
 </div>
 </div>
+<section id="全部对谈-all-notes" class="level2">
+<h2 class="anchored" data-anchor-id="全部对谈-all-notes">全部对谈 · All notes</h2>
+<div class="listing">
+
+</div>
+</section>
 <section id="收录标准-what-counts" class="level2">
 <h2 class="anchored" data-anchor-id="收录标准-what-counts">收录标准 · What counts</h2>
 <ul>
 <li>有一段<strong>真实对话</strong>（提问原文可追溯），而不是一份讲稿；</li>
-<li>至少一张按出版标准重绘的图，能替讲解分担认知负荷；</li>
+<li>至少一张按出版标准重绘的图，能替讲解分担认知负荷；合成示意图要在图注里写明；</li>
 <li>说清楚「这个讲法在什么地方会失效」。</li>
 </ul>
 </section>
@@ -359,9 +435,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="al">![图注：面板 (a)…，(b)…](../../assets/figures/xxx.png)</span>{#fig-xxx}</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlQUYlQjklRTglQjAlODglMkMlRTYlOTUlQjAlRTUlQUQlQTYlRTYlOTUlOTklRTUlQUQlQTY=" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1788674665371" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="22" data-listing-word-count-sort="4223">
+<a href="../../talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="../../assets/figures/thumb-teaching.png" class="thumbnail-image card-img" style="height: 190px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+从一头牛到泛函：一堂数学课的抽象阶梯
+</h5>
+<div class="card-subtitle listing-subtitle">
+洛克哈特的两本书、市场里的函数、单摆的高斯过程，以及中学课堂到底该教什么
+</div>
+<div class="listing-reading-time card-text text-muted">
+22 分钟
+</div>
+<div class="card-text listing-description">
+47 轮对谈：从《度量》《算术》出发，用「猎人记野牛」「1 头牛换 5 只羊」两个虚构故事把数字、向量、函数、函数空间一路推到泛函分析与高斯过程；再讨论抽象一词的历史（罗素 1903、Devlin）、marimo/Pluto 交互式笔记作为函数族教具，以及用视频采数据 + GP 拟合的单摆、伯努利效应与弹簧实验。
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+2026年9月6日
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+无匹配项
+</div>
+</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -791,8 +902,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../talking/teaching-physics-with-data/index.html" class="pagination-link" aria-label="数据科学视角的物理教学 · 栏目说明">
-        <span class="nav-page-text">数据科学视角的物理教学 · 栏目说明</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html" class="pagination-link" aria-label="从一头牛到泛函：一堂数学课的抽象阶梯">
+        <span class="nav-page-text">从一头牛到泛函：一堂数学课的抽象阶梯</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

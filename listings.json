@@ -19,9 +19,26 @@
     ]
   },
   {
-    "listing": "/talking/teaching-mathematics/index.html",
+    "listing": "/index.html",
     "items": [
-      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html"
+      "/talking/learning-theory/low-to-high-dimension-learning.html",
+      "/talking/mathematics/functional-spaces-to-singular-values.html",
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html",
+      "/coding/repos/sarcos-ml-with-agents.html",
+      "/coding/repos/sarcos-space-search.html",
+      "/coding/snippets/function-space-search.html"
+    ]
+  },
+  {
+    "listing": "/talking/index.html",
+    "items": [
+      "/talking/mathematics/functional-spaces-to-singular-values.html",
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/talking/learning-theory/low-to-high-dimension-learning.html",
+      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
     ]
   },
   {
@@ -32,24 +49,10 @@
     ]
   },
   {
-    "listing": "/talking/index.html",
+    "listing": "/talking/teaching-mathematics/index.html",
     "items": [
-      "/talking/mathematics/functional-spaces-to-singular-values.html",
-      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
-      "/talking/learning-theory/low-to-high-dimension-learning.html",
-      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html"
-    ]
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/talking/learning-theory/low-to-high-dimension-learning.html",
-      "/talking/mathematics/functional-spaces-to-singular-values.html",
-      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
       "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
-      "/coding/repos/sarcos-ml-with-agents.html",
-      "/coding/repos/sarcos-space-search.html",
-      "/coding/snippets/function-space-search.html"
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
     ]
   },
   {

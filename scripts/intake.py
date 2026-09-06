@@ -29,6 +29,7 @@ DRAFTS = ROOT / ".draft"
 STATE = ROOT / "output" / "intake.json"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from convert_ima_note import MARKER as IMA_MARKER  # noqa: E402
 from convert_ima_note import convert as convert_ima  # noqa: E402
 from convert_note import convert as convert_note     # noqa: E402
 
@@ -65,9 +66,9 @@ def sha256(path: Path) -> str:
 
 def detect_kind(text: str) -> str:
     """Which converter owns this export?"""
-    if re.search(r"ima引用\s*\d+\s*篇资料", text):
+    if IMA_MARKER.search(text):
         return "ima"
-    if re.search(r"(?m)^\s*Math4Mad\s*:?", text):
+    if re.search(r"(?m)^\s*(?:Math4Mad|m4mad)\s*:?", text, re.I):
         return "note"
     return "unknown"
 
@@ -116,6 +117,9 @@ def main(argv: list[str] | None = None) -> int:
             continue                                   # not part of the convention
         kind, stamp, _time, _order = m.groups()
         text = path.read_text(encoding="utf-8")
+        if not text.strip():
+            print(f"  - {path.name}: empty placeholder — nothing to convert yet")
+            continue
         digest = sha256(path)
         record = state.get(path.name)
         if record and record.get("sha256") == digest:

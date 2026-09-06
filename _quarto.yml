@@ -61,6 +61,8 @@ website:
             - talking/teaching-mathematics/index.qmd
             - text: "从一头牛到泛函：一堂数学课的抽象阶梯"
               href: talking/teaching-mathematics/abstraction-ladder-in-a-math-class.qmd
+            - text: "给一个概念下显式定义，买到了什么"
+              href: talking/teaching-mathematics/what-an-explicit-definition-buys.qmd
         - section: "用数据科学教物理 · Physics by Data"
           contents:
             - text: "数据科学视角的物理教学 · 栏目说明"

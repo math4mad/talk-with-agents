@@ -2437,7 +2437,7 @@ this tale end is here
 
 ---
 
-## 编者注 · 书目对照
+## 编者注 · 书目对照 {#sec-books}
 
 对话里被点名的书与文章，按出现的顺序整理如下（**这一节是编者加的**，不是 Agent 的回答）：
 
@@ -2470,6 +2470,8 @@ this tale end is here
   [Jacobi 多项式：换一组权重，就是换一个空间](../mathematics/jacobi-orthogonal-polynomials.qmd)。
 * 「从低维到高维的生成 = 学习」这一问的神经科学版本：
   [从低维到高维的「生成」过程，就是人类的学习机理](../learning-theory/low-to-high-dimension-learning.qmd)。
+* 第 9 问「什么是数学里的抽象思维」单独展开成了续篇：
+  [给一个概念下显式定义，买到了什么](what-an-explicit-definition-buys.qmd)。
 * 洛克哈特、Kreyszig、Devlin 三本书的定位，见下面的参考文献——
   第 19–35 问的历史脉络基本就是围着它们转的。
 

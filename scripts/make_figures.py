@@ -480,6 +480,40 @@ def fig_thumbs():
     _thumb("thumb-spaceladder", "下一步：在一族函数空间里搜索",
            "from model selection to space selection (dialogue)", ladder)
 
+    def rule_family(ax):
+        x = np.linspace(0, 6, 100)
+        for cval, col in ((2, PAL[5]), (5, PAL[0]), (20, PAL[2])):
+            ax.plot(x, cval * x, color=col, lw=2.4, label=f"$c = {cval}$")
+        ax.set_xlabel("cattle (heads)")
+        ax.set_ylabel("goods received")
+        ax.legend(fontsize=10, frameon=False)
+
+    _thumb("thumb-teaching", "从一头牛到泛函：一堂课的抽象阶梯",
+           "one rule -> a family of rules -> a space of rules", rule_family)
+
+    def definition_ladder(ax):
+        import matplotlib.patches as mpatches
+        from figstyle import CJK_FONT
+        ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.axis("off")
+        for i, (y, lab) in enumerate(((2.0, "现实原型"), (5.0, "符号"), (8.0, "一般模式"))):
+            ax.add_patch(mpatches.FancyBboxPatch((0.5, y - 1.05), 4.3, 2.1,
+                         boxstyle="round,pad=0.14", fc="#f6f8fb", ec="#8fa3b8", lw=1.7))
+            ax.text(2.65, y, lab, ha="center", va="center", fontsize=13,
+                    fontweight="bold", family=CJK_FONT, color="#0a2540")
+            if i:
+                ax.annotate("", xy=(2.65, y - 1.3), xytext=(2.65, y - 2.7),
+                            arrowprops=dict(arrowstyle="->", color="#667a8c", lw=2.0))
+        for y, lab, col in ((1.4, "弱抽象", PAL[0]), (3.9, "构象化抽象", PAL[2]),
+                            (6.4, "强抽象", PAL[1]), (8.9, "公理化抽象", PAL[4])):
+            ax.text(5.5, y, lab, ha="left", va="center", fontsize=12.5, family=CJK_FONT,
+                    color="white", fontweight="bold",
+                    bbox=dict(boxstyle="round,pad=0.34", fc=col, ec="none"))
+        ax.text(5.5, 0.25, "an explicit definition is what makes the ladder speakable",
+                ha="left", va="center", fontsize=9.5, color="#9fb4d0", style="italic")
+
+    _thumb("thumb-definition", "给一个概念下显式定义，买到了什么",
+           "以「数学抽象」的课程标准定义为例", definition_ladder)
+
 
 
 # --------------------------------------------------------------------------- #
@@ -581,6 +615,77 @@ def fig_pendulum_gp():
     c.text(6.1, 1.28, "data ends", fontsize=6.0, color="#555")
     save(fig, "pendulum-gp")
 
+
+# --------------------------------------------------------------------------- #
+# 9. Concept map for the "what is an explicit definition for" note
+# --------------------------------------------------------------------------- #
+def fig_definition_map():
+    """A map of the note's own argument — not measured data.
+
+    (a) the four things an explicit definition buys;
+    (b) the three cognitive stages of mathematical abstraction, with the four
+        abstraction types placed by how far up the ladder they take you.
+    """
+    import matplotlib.patches as mpatches
+    from figstyle import CJK_FONT
+
+    fig, ax = new_fig(1, 2, width=WIDTH_2COL, ratio=0.50)
+    a, b = ax[0]
+    for panel in (a, b):
+        panel.set_xlim(0, 10)
+        panel.set_ylim(0, 10)
+        panel.axis("off")
+
+    def box(panel, x, y, w, h, head, sub, ec, fc="white", headcol=None):
+        panel.add_patch(mpatches.FancyBboxPatch((x - w / 2, y - h / 2), w, h,
+                        boxstyle="round,pad=0.14", fc=fc, ec=ec, lw=1.25))
+        panel.text(x, y + (h / 4 if sub else 0), head, ha="center", va="center",
+                   fontsize=7.9, fontweight="bold", family=CJK_FONT,
+                   color=headcol or ec)
+        if sub:
+            panel.text(x, y - h / 4.6, sub, ha="center", va="center", fontsize=6.9,
+                       family=CJK_FONT, color="#3a4a5a")
+
+    # ---- (a) one definition, four jobs -------------------------------------
+    box(a, 5.0, 7.6, 5.2, 1.7, "明确、显式的定义", None, PAL[0], fc="#eef4ff",
+        headcol="#0a2540")
+    jobs = [("划定认知边界", "内涵与外延清楚", PAL[0]),
+            ("提供推理起点", "演绎有所依据", PAL[1]),
+            ("知识可传递", "可交流、可检验", PAL[2]),
+            ("支撑理论体系", "概念得以分层", PAL[4])]
+    for x, (head, sub, col) in zip((1.42, 3.81, 6.19, 8.58), jobs):
+        box(a, x, 2.75, 2.1, 1.95, head, sub, col)
+        a.annotate("", xy=(x, 3.85), xytext=(5.0 + (x - 5.0) * 0.28, 6.68),
+                   arrowprops=dict(arrowstyle="-", color=col, lw=1.0))
+    a.text(5.0, 5.15, "一条定义同时兑现四件事", ha="center", fontsize=7.4,
+           family=CJK_FONT, color="#52606d")
+    a.set_title("(a) 定义买到了什么", fontsize=9.5, family=CJK_FONT, pad=4)
+
+    # ---- (b) the ladder ----------------------------------------------------
+    stages = [(2.0, "现实原型", "具体事物与背景"),
+              (5.0, "符号", "用数学语言表征"),
+              (8.0, "一般模式与结构", "规律本身成为对象")]
+    for y, head, sub in stages:
+        box(b, 3.4, y, 4.6, 1.9, head, sub, "#8fa3b8", fc="#f6f8fb", headcol="#0a2540")
+    for y0, y1 in ((3.0, 4.0), (6.0, 7.0)):
+        b.annotate("", xy=(3.4, y1), xytext=(3.4, y0),
+                   arrowprops=dict(arrowstyle="->", color="#667a8c", lw=1.5))
+    b.text(0.55, 5.0, "抽\n象\n结\n构\n越\n来\n越\n少", rotation=0, ha="center", va="center",
+           fontsize=7.2, family=CJK_FONT, color="#52606d", linespacing=1.35)
+    types = [(1.45, "弱抽象", "舍去细节，保留共性", PAL[0]),
+             (3.95, "构象化抽象", "构造新对象承载性质", PAL[2]),
+             (6.45, "强抽象", "加入新关系与新公理", PAL[1]),
+             (8.55, "公理化抽象", "整个体系重新奠基", PAL[4])]
+    for y, head, sub, col in types:
+        b.text(6.25, y + 0.28, head, ha="left", va="center", fontsize=8.0, family=CJK_FONT,
+               color="white", fontweight="bold",
+               bbox=dict(boxstyle="round,pad=0.28", fc=col, ec="none"))
+        b.text(6.25, y - 0.52, sub, ha="left", va="center", fontsize=6.5,
+               family=CJK_FONT, color=col)
+        b.plot([5.85, 6.12], [y + 0.28, y + 0.28], color=col, lw=1.0)
+    b.set_title("(b) 数学抽象的层次与四种抽象", fontsize=9.5, family=CJK_FONT, pad=4)
+    save(fig, "definition-map")
+
 def main(select: str = "") -> None:
     figures = {
         "jacobi-basis": fig_jacobi_basis,
@@ -590,6 +695,7 @@ def main(select: str = "") -> None:
         "svd-spectrum": fig_svd_spectrum,
         "abstraction-ladder": fig_abstraction_ladder,
         "pendulum-gp": fig_pendulum_gp,
+        "definition-map": fig_definition_map,
         "thumbs": fig_thumbs,
         "site-cover": fig_cover,
     }

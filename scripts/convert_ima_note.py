@@ -39,7 +39,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from normalize_math import convert as normalize_math  # noqa: E402
 
-MARKER = re.compile(r"ima引用\s*\d+\s*篇资料作为参考")
+# the app writes ``ima引用 27 篇资料作为参考``, sometimes split across lines as
+# ``answerRole / ima / 引用 27 篇资料作为参考``.
+MARKER = re.compile(r"(?:answerRole\s*\n\s*)?ima?\s*\n?\s*引用\s*\d+\s*篇资料作为参考")
 
 # strong signals that a chunk of text is a retrieval dump rather than prose
 DUMP_SIGNALS = re.compile(
@@ -78,6 +80,9 @@ def clean_prose(text: str) -> str:
     text = text.replace("｡", "。").replace("､", "、").replace("［", "[").replace("］", "]")
     text = text.replace("&#x95ee;", "问").replace("&#x95EE;", "问")
     text = re.sub(r"<span[^>]*>|</span>", "", text)
+    text = re.sub(r"(?m)^\s*(?:answerRole|questionRole|logo-\d+)\s*$", "", text)
+    text = re.sub(r"logo-\d+", "", text)                      # UI glyphs pasted inline
+    text = re.sub(r"(?m)^\s*(?:展开|收起)\s*$", "", text)        # show/hide buttons
     text = re.sub(r"\[\d+\]\(@ref\)", "", text)              # pandoc-style ref artefacts
     text = re.sub(r"(?<!\\)\\([()\[\]%_#])", r"\1", text)     # chat-escaped punctuation
     # citation indices stuck to the end of a sentence:  …连续。5  /  …框架。51

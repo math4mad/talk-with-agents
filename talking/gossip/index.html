@@ -31,7 +31,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../talking/gossip/how-close-is-close.html" rel="next">
 <link href="../../talking/teaching-physics-with-data/index.html" rel="prev">
+<script src="../../site_libs/quarto-listing/list.min.js"></script>
+<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -67,7 +70,65 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "搜索"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 <meta property="og:title" content="闲谈 · Gossip – Talk With Agents">
@@ -131,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">闲谈 · Gossip</a></li><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">与 Agent 闲聊 · 栏目说明</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">闲谈 · Gossip</a></li><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">闲谈 · Gossip</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -168,6 +229,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../talking/mathematics/functional-spaces-to-singular-values.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">泛函空间再向上抽象，然后呢？</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/mathematics/kernels-are-functions-too.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">核函数也是函数：给核造一个空间</span></a>
   </div>
 </li>
       </ul>
@@ -247,7 +314,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../talking/gossip/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">与 Agent 闲聊 · 栏目说明</span></a>
+ <span class="menu-text">闲谈 · Gossip</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/gossip/how-close-is-close.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How close? 一句台词里的度量与闭包</span></a>
   </div>
 </li>
       </ul>
@@ -257,13 +330,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#全部对谈-all-notes" id="toc-全部对谈-all-notes" class="nav-link active" data-scroll-target="#全部对谈-all-notes">全部对谈 · All notes</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">闲谈 · Gossip</a></li><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">与 Agent 闲聊 · 栏目说明</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">闲谈 · Gossip</a></li><li class="breadcrumb-item"><a href="../../talking/gossip/index.html">闲谈 · Gossip</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">闲谈 · Gossip</h1>
 </div>
@@ -275,7 +354,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 
 
-<div class="quarto-title-meta column-page-right">
+<div class="quarto-title-meta column-body">
 
     
   
@@ -287,24 +366,67 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-warning callout-titled">
+<p>这一栏留给<strong>纯粹的瞎猜</strong>：不要求引用，不要求可复现，只要求诚实标注哪些是猜的。 好的瞎猜的标准是——它最后会逼出一个定义（见第一篇：从 “how close?” 到度量与闭包）。</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-虚位以待 · Nothing here yet
+现在在读什么 · Currently
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>有些问题不属于任何栏目，但它们往往是最好的一篇： 「最小奇异值对应的噪音，会不会和宇宙背景辐射有关系？」就是这种问题—— 它最后被写进了 <a href="../../talking/mathematics/functional-spaces-to-singular-values.html">泛函空间再向上抽象，然后呢？</a> 的最后一问。</p>
-<p>这一栏留给<strong>纯粹的瞎猜</strong>：不要求引用，不要求可复现，只要求诚实标注哪些是猜的。</p>
+<ul>
+<li><a href="../../talking/gossip/how-close-is-close.html">How close? 一句台词里的度量与闭包</a> —— 《老友记》里 “We were very close.” / “How close?” 的一次追问， 走到 <span class="math inline">\(d(x,y)&lt;\varepsilon\)</span>、走到线性代数的 closure、再走到 JavaScript 的词法闭包。</li>
+</ul>
 </div>
 </div>
+<section id="全部对谈-all-notes" class="level2">
+<h2 class="anchored" data-anchor-id="全部对谈-all-notes">全部对谈 · All notes</h2>
+<div class="listing">
+
+</div>
 
 
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+</section>
+
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlQUYlQjklRTglQjAlODglMkMlRTklOTclQjIlRTglQjAlODg=" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1788679134468" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="535">
+<a href="../../talking/gossip/how-close-is-close.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<p class="card-img-top">
+<img loading="lazy" src="../../assets/figures/thumb-close.png" class="thumbnail-image card-img" style="height: 190px;">
+</p>
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+How close? 一句台词里的度量与闭包
+</h5>
+<div class="card-subtitle listing-subtitle">
+从《老友记》的 “We were very close.” 走到 d(x,y)、ε，再走到 closure
+</div>
+<div class="listing-reading-time card-text text-muted">
+3 分钟
+</div>
+<div class="card-text listing-description">
+6 轮对谈：用《老友记》菲比和妈妈的对话追问「有多近」，把日常语言的 close 拆成度量与 ε，再顺着同一个词走到线性代数的闭包与 JavaScript 的词法闭包——它们共享的其实是「最靠近」这一个空间隐喻。
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+2026年9月6日
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+无匹配项
+</div>
+</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -727,13 +849,16 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-page-right">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
       <a href="../../talking/teaching-physics-with-data/index.html" class="pagination-link" aria-label="数据科学视角的物理教学 · 栏目说明">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">数据科学视角的物理教学 · 栏目说明</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../talking/gossip/how-close-is-close.html" class="pagination-link" aria-label="How close? 一句台词里的度量与闭包">
+        <span class="nav-page-text">How close? 一句台词里的度量与闭包</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -744,7 +869,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

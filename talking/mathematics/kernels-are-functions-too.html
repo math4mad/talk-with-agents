@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="4 轮对谈：把 Function-Space Distributions over Kernels 读成一次提问；要一份 GPyTorch 伪代码；照伪代码实例化一个精确 GP 回归；最后回到那个直觉——核本身是函数，核与它的邻居张成的空间，基可以用昨天讨论的 Jacobi 正交多项式（RKHS）。">
+
+<title>核函数也是函数：给核造一个空间 – Talk With Agents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../talking/learning-theory/low-to-high-dimension-learning.html" rel="next">
+<link href="../../talking/mathematics/functional-spaces-to-singular-values.html" rel="prev">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9a023c9ade86a60361e96e3e3f11bc54.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-256888c19e30a3ddc114cfe178dd2333.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="核函数也是函数：给核造一个空间 – Talk With Agents">
+<meta property="og:description" content="4 轮对谈：把 Function-Space Distributions over Kernels 读成一次提问；要一份 GPyTorch 伪代码；照伪代码实例化一个精确 GP 回归；最后回到那个直觉——核本身是函数，核与它的邻居张成的空间，基可以用昨天讨论的 Jacobi 正交多项式（RKHS）。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="核函数也是函数：给核造一个空间 – Talk With Agents">
+<meta name="twitter:description" content="4 轮对谈：把 Function-Space Distributions over Kernels 读成一次提问；要一份 GPyTorch 伪代码；照伪代码实例化一个精确 GP 回归；最后回到那个直觉——核本身是函数，核与它的邻居张成的空间，基可以用昨天讨论的 Jacobi 正交多项式（RKHS）。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../../talking/index.html" aria-current="page"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html">数学 · Mathematics</a></li><li class="breadcrumb-item"><a href="../../talking/mathematics/kernels-are-functions-too.html">核函数也是函数：给核造一个空间</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">总览 · Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">数学 · Mathematics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Jacobi 多项式：换一个权重就是换一个空间</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/mathematics/functional-spaces-to-singular-values.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">泛函空间再向上抽象，然后呢？</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/mathematics/kernels-are-functions-too.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">核函数也是函数：给核造一个空间</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">学习理论（生物学基础） · Learning Theory</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/learning-theory/low-to-high-dimension-learning.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">从低维到高维的生成，就是人类的学习机理</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">数学教学 · Teaching Mathematics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-mathematics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">数学教学 · Teaching Mathematics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">从一头牛到泛函：一堂数学课的抽象阶梯</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-mathematics/what-an-explicit-definition-buys.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">给一个概念下显式定义，买到了什么</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">用数据科学教物理 · Physics by Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/teaching-physics-with-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">数据科学视角的物理教学 · 栏目说明</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">闲谈 · Gossip</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/gossip/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">闲谈 · Gossip</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../talking/gossip/how-close-is-close.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">How close? 一句台词里的度量与闭包</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#把论文读成一次提问function-space-distributions-over-kernels" id="toc-把论文读成一次提问function-space-distributions-over-kernels" class="nav-link active" data-scroll-target="#把论文读成一次提问function-space-distributions-over-kernels">1. 把论文读成一次提问：Function-Space Distributions over Kernels</a></li>
+  <li><a href="#有没有基于-gpytorch-的伪代码实现" id="toc-有没有基于-gpytorch-的伪代码实现" class="nav-link" data-scroll-target="#有没有基于-gpytorch-的伪代码实现">2. 有没有基于 GPyTorch 的伪代码实现？</a></li>
+  <li><a href="#照着伪代码实例化一个简单回归模型" id="toc-照着伪代码实例化一个简单回归模型" class="nav-link" data-scroll-target="#照着伪代码实例化一个简单回归模型">3. 照着伪代码，实例化一个简单回归模型</a></li>
+  <li><a href="#核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基" id="toc-核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基" class="nav-link" data-scroll-target="#核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基">4. 核函数也是函数：给「核和它的邻居」造一个空间，基就用 Jacobi 正交基</a></li>
+  <li><a href="#延伸-where-this-leads" id="toc-延伸-where-this-leads" class="nav-link" data-scroll-target="#延伸-where-this-leads">延伸 · Where this leads</a></li>
+  <li><a href="#参考文献-references" id="toc-参考文献-references" class="nav-link" data-scroll-target="#参考文献-references">参考文献 · References</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/mathematics/kernels-are-functions-too.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-body" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html">数学 · Mathematics</a></li><li class="breadcrumb-item"><a href="../../talking/mathematics/kernels-are-functions-too.html">核函数也是函数：给核造一个空间</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">核函数也是函数：给核造一个空间</h1>
+<p class="subtitle lead">从 FKL 论文到 GPyTorch 实现，再回到 Jacobi 正交基</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">与 Agent 对谈</div>
+    <div class="quarto-category">数学</div>
+    <div class="quarto-category">高斯过程</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    4 轮对谈：把 Function-Space Distributions over Kernels 读成一次提问；要一份 GPyTorch 伪代码；照伪代码实例化一个精确 GP 回归；最后回到那个直觉——核本身是函数，核与它的邻居张成的空间，基可以用昨天讨论的 Jacobi 正交多项式（RKHS）。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-body">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月6日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>原始记录：<code>Talkmd/talk-20260905-1100.md</code>。这份导出比较特殊：<strong>第一篇的提问就是把论文正文粘进来</strong>， 所以第 1 问的 <code>Ask</code> 框里只留了指向论文的链接与一句话；第 3 问在原导出里丢了提问标记 （<code>m4mad:</code> 没有出现在那一行），转换时被并进了第 2 轮，本页把它拆回独立一轮。 代码块是 Agent 给的 GPyTorch 写法，缩进已修复；<strong>未在本机运行</strong>（站点没有装 torch）， 所以它们按”可参考的伪代码/模板”对待，不当作已验证的产物。</p>
+</div>
+</div>
+<p>这条线正好把站点里两篇对谈接上： <a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html">Jacobi 多项式：换一组权重，就是换一个空间</a> 说清了 「基决定空间」；<a href="../../talking/mathematics/functional-spaces-to-singular-values.html">泛函空间再向上抽象，然后呢？</a> 说清了 「空间之上还有空间」。这一篇问的是第三种移动：<strong>把”选哪个空间”本身也变成一个函数空间上的推断问题</strong> ——即 functional kernel learning <span class="citation" data-cites="benton2019fkl wilson2013sm">(<a href="#ref-benton2019fkl" role="doc-biblioref">Benton 等 2019</a>; <a href="#ref-wilson2013sm" role="doc-biblioref">Wilson 和 Adams 2013</a>)</span>。</p>
+<section id="把论文读成一次提问function-space-distributions-over-kernels" class="level2">
+<h2 class="anchored" data-anchor-id="把论文读成一次提问function-space-distributions-over-kernels">1. 把论文读成一次提问：Function-Space Distributions over Kernels</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>（提问里直接把论文正文粘了进来，末尾一句 “review this paper”。）</p>
+<p><em>Function-Space Distributions over Kernels</em> — Gregory W. Benton, Wesley J. Maddox, Jayson P. Salkey, Júlio Albinati, Andrew Gordon Wilson. “Gaussian processes are flexible function approximators, with inductive biases controlled by a covariance kernel. Learning the kernel is the key to representation learning and strong predictive performance. In this paper, we develop functional kernel learning (FKL) to directly infer functional posteriors over kernels.” 全文：<a href="https://arxiv.org/abs/1910.13565" class="uri">https://arxiv.org/abs/1910.13565</a></p>
+</blockquote>
+</div>
+</div>
+<p>当然。这篇论文《Function-Space Distributions over Kernels》提出了一种名为 功能核学习 (Functional Kernel Learning, FKL) 的新方法，旨在从根本上改进高斯过程 (GP) 中的核函数学习方式。</p>
+<p>传统上，高斯过程的性能高度依赖于核函数的选择，而这个核函数通常是从一个有限的、参数化的函数族中选取的（例如 RBF 或 Matérn 核）。论文的核心思想是：不要将核函数局限在一个简单的参数化形式里，而是将核函数本身看作一个未知的函数，并在函数空间 (function space) 中直接对核函数进行推理。这正如 GP 在函数空间中对数据进行建模一样，FKL 在函数空间中对核函数进行建模。</p>
+<p>🎯 核心动机与目标 传统方法的局限：实践中，核函数通常是参数化的（如 RBF, Matérn）。这使得我们不得不假设真实的数据生成过程遵循某个特定参数族，而这种假设可能并不成立。 FKL 的目标：直接推断出核函数的后验分布，以表达对核函数本身的不确定性，并反映“核函数没有简单参数化形式”的信念。这使得模型能够学习到更丰富的表示，而无需复杂的初始化或手动干预。 ⚙️ 核心方法：FKL 如何工作？ FKL 的核心涉及一个层次化的贝叶斯模型：</p>
+<p>建模谱密度：根据博赫纳定理 (Bochner’s Theorem)，一个平稳核函数完全由其谱密度 (Spectral Density) 决定。因此，学习核函数等价于学习其谱密度。 使用高斯过程 (GP) 作为先验：FKL 将一个变换后的高斯过程放置在谱密度上。具体来说，它用一个隐 GP 来建模对数谱密度 log S(ω)。这个隐 GP 的均值函数可以被设置为负二次型（引导核函数趋向 RBF 核），协方差函数使用 Matérn 核（捕捉谱密度的尖峰特性）。 推断与预测：整个模型通过一个交替采样器 (Alternating Sampler) 进行训练。它交替地： 优化超参数 (φ)。 使用椭圆切片采样 (Elliptical Slice Sampling, ESS) 从隐 GP 的后验中采样。 最终的预测通过蒙特卡洛 (Monte Carlo) 积分得到，即对多个后验核采样得到的预测结果进行平均，从而自然地得到不确定性估计。 ✨ 关键优势与特性 高度灵活：可以表达任何平稳协方差函数，而不是受限于特定参数族。 不确定性量化：不仅能给出预测值，还能提供置信区间，量化预测的不确定性，这一点在搜索结果中关于 Deep GP 的讨论中也多次被强调。 可解释的先验：可以直观地设定对核函数的先验期望（例如，通过设定隐 GP 的均值函数来鼓励平滑性）。 鲁棒性：对初始化不敏感，无需像 Spectral Mixture (SM) 核那样进行复杂的初始化调优。 扩展性：论文展示了 FKL 可以扩展到处理多维输入、不规则采样数据以及多任务学习场景。 🔬 实验验证与结果 论文通过一系列实验证明了 FKL 的有效性，结果与您提供的搜索结果中关于 Deep GP 和高级核学习方法的描述高度一致：</p>
+<p>核函数恢复：FKL 能够从数据中准确恢复出已知的真实核函数（如谱混合核），而标准核（RBF, Matérn）则失败。 插值与外推：在具有挑战性的数据集上（如航空公司乘客数据、Sinc 函数），FKL 表现出色，特别是在外推任务上，性能与需要精细调优的 SM 核相当，但鲁棒性更强。 多维数据：在处理 UCI 等标准数据集时，FKL（尤其是共享隐 GP 的版本）在多个数据集上取得了更优或可比的均方根误差 (RMSE)。 多任务学习：在降水预测等多任务场景中，FKL 通过在不同任务间共享一个隐 GP 来学习核结构，表现优于传统的多任务 GP 方法。 可扩展性：在纹理外推任务中，FKL 能够利用 Kronecker 结构高效地处理大规模数据（如 10,000 像素的图片），并成功外推出复杂的图像模式。 💡 总结与展望 功能核学习 (FKL) 是一种新颖且强大的方法，它通过将核学习提升到函数空间，成功地解决了传统高斯过程核函数选择受限的问题。它让模型能够更灵活、更鲁棒地学习数据中的复杂模式，同时提供了可解释的不确定性估计。</p>
+<p>论文提出的未来工作方向包括：</p>
+<p>解释跨多个异构任务学习到的协方差结构。 开发适用于非平稳核函数的函数空间分布。 构建更深层的层次化功能核学习模型。</p>
+</section>
+<section id="有没有基于-gpytorch-的伪代码实现" class="level2">
+<h2 class="anchored" data-anchor-id="有没有基于-gpytorch-的伪代码实现">2. 有没有基于 GPyTorch 的伪代码实现？</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>有没有基于 gpytorch 的伪代码实现?</p>
+</blockquote>
+</div>
+</div>
+<p>有没有基于 gpytorch 的伪代码实现?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>有没有基于 gpytorch 的伪代码实现?</p>
+</blockquote>
+</div>
+</div>
+<p>基于你提供的搜索结果，以下是使用 GPyTorch 实现高斯过程回归的伪代码/核心流程，整合了多个信源中的通用模式。</p>
+<ol type="1">
+<li>导入库 &amp; 定义模型类 首先，需要继承 gpytorch.models.ExactGP 来定义具体的 GP 模型。这是 GPyTorch 的标准做法 。</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gpytorch</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 定义模型类，继承 ExactGP</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExactGPModel(gpytorch.models.ExactGP):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, train_x, train_y, likelihood):</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(ExactGPModel, <span class="va">self</span>).<span class="fu">__init__</span>(train_x, train_y, likelihood)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 定义均值函数 (例如 ConstantMean)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.mean_module <span class="op">=</span> gpytorch.means.ConstantMean()</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 定义核函数 (例如 ScaleKernel + RBFKernel)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.covar_module <span class="op">=</span> gpytorch.kernels.ScaleKernel(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            gpytorch.kernels.RBFKernel()</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        mean_x <span class="op">=</span> <span class="va">self</span>.mean_module(x)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        covar_x <span class="op">=</span> <span class="va">self</span>.covar_module(x)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 返回多元正态分布</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gpytorch.distributions.MultivariateNormal(mean_x, covar_x)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>初始化模型、似然函数和优化器 创建模型实例，并将其移动到 GPU（如果可用）。同时设置优化器和损失函数 。</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 初始化似然函数 (例如 GaussianLikelihood) 和模型</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> gpytorch.likelihoods.GaussianLikelihood()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ExactGPModel(train_x, train_y, likelihood)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 如果可用，将模型和数据移到 GPU</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> torch.cuda.is_available():</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model.cuda()</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    likelihood <span class="op">=</span> likelihood.cuda()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    train_x <span class="op">=</span> train_x.cuda()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    train_y <span class="op">=</span> train_y.cuda()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置为训练模式</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>model.train()</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>likelihood.train()</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用 Adam 优化器</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 定义损失函数：边际对数似然 (Marginal Log Likelihood, MLL)</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>mll <span class="op">=</span> gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>训练循环 通过最大化边际对数似然来学习模型超参数（如核的 lengthscale、noise 等）。</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>training_iterations <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_iterations):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 前向传播，得到模型输出</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> model(train_x)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 计算损失（负的边际对数似然）</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> <span class="op">-</span>mll(output, train_y)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 打印训练信息</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Iter </span><span class="sc">%d</span><span class="st">/</span><span class="sc">%d</span><span class="st"> - Loss: </span><span class="sc">%.3f</span><span class="st"> lengthscale: </span><span class="sc">%.3f</span><span class="st"> noise: </span><span class="sc">%.3f</span><span class="st">'</span> <span class="op">%</span> (</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+</span> <span class="dv">1</span>, training_iterations, loss.item(),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        model.covar_module.base_kernel.lengthscale.item(),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        model.likelihood.noise.item()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>预测与评估 训练完成后，切换到评估模式进行预测，并获取预测均值、方差和置信区间 。</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置为评估模式</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>likelihood.<span class="bu">eval</span>()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 进行预测</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad(), gpytorch.settings.fast_pred_var():</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 获取测试集上的预测分布</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    f_preds <span class="op">=</span> model(test_x)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 或者包含噪声的预测分布</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    y_preds <span class="op">=</span> likelihood(model(test_x))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 获取预测均值和方差</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>f_mean <span class="op">=</span> f_preds.mean</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>f_var <span class="op">=</span> f_preds.variance</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 计算测试指标 (例如 MAE, NLL)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>test_mae <span class="op">=</span> torch.mean(torch.<span class="bu">abs</span>(f_mean <span class="op">-</span> test_y))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># test_nll = -y_preds.log_prob(test_y).mean().item()</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>核心要点总结 继承 ExactGP：所有精确 GP 模型都需要继承 gpytorch.models.ExactGP，并在 <strong>init</strong> 中定义均值函数 (mean_module) 和核函数 (covar_module)，在 forward 中返回 MultivariateNormal 分布 。 训练：通过优化器（如 Adam）最小化负的 ExactMarginalLogLikelihood 来学习超参数 。 GPU 加速：只需将模型、似然函数和训练数据移动到 GPU 上（.cuda()），即可自动利用 GPU 加速 。 可扩展性：对于更大规模的数据，GPyTorch 提供了稀疏 GP（如 SGPR） 和结构化核插值（SKI） 等方法，以降低计算复杂度。</p>
+</section>
+<section id="照着伪代码实例化一个简单回归模型" class="level2">
+<h2 class="anchored" data-anchor-id="照着伪代码实例化一个简单回归模型">3. 照着伪代码，实例化一个简单回归模型</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>根据伪代码实现一个简单的回归模型的实例化</p>
+</blockquote>
+</div>
+</div>
+<p>以下是基于GPyTorch实现的简单高斯过程回归模型完整实例化代码，包含数据准备、模型定义、训练和预测的全流程。</p>
+<ol type="1">
+<li>导入库与数据准备</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gpytorch</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成训练数据：100个点，y = sin(2πx) + 噪声</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>train_x <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)  <span class="co">#</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>train_y <span class="op">=</span> torch.sin(train_x <span class="op">*</span> (<span class="dv">2</span> <span class="op">*</span> math.pi)) <span class="op">+</span> torch.randn(train_x.size()) <span class="op">*</span> math.sqrt(<span class="fl">0.04</span>)  <span class="co">#</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>定义GP模型 继承ExactGP类，定义均值函数和核函数：</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExactGPModel(gpytorch.models.ExactGP):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, train_x, train_y, likelihood):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(ExactGPModel, <span class="va">self</span>).<span class="fu">__init__</span>(train_x, train_y, likelihood)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.mean_module <span class="op">=</span> gpytorch.means.ConstantMean()  <span class="co"># 均值函数</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.covar_module <span class="op">=</span> gpytorch.kernels.ScaleKernel(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            gpytorch.kernels.RBFKernel()  <span class="co"># RBF核函数</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        )  <span class="co">#</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, x):</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        mean_x <span class="op">=</span> <span class="va">self</span>.mean_module(x)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        covar_x <span class="op">=</span> <span class="va">self</span>.covar_module(x)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> gpytorch.distributions.MultivariateNormal(mean_x, covar_x)  <span class="co">#</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>初始化模型、似然函数与优化器</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 初始化似然函数和模型</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>likelihood <span class="op">=</span> gpytorch.likelihoods.GaussianLikelihood()  <span class="co">#</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ExactGPModel(train_x, train_y, likelihood)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置为训练模式</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>model.train()</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>likelihood.train()  <span class="co">#</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 使用Adam优化器，学习率0.1</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">0.1</span>)  <span class="co">#</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 边际对数似然作为损失函数</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>mll <span class="op">=</span> gpytorch.mlls.ExactMarginalLogLikelihood(likelihood, model)  <span class="co">#</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>训练循环</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>training_iter <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(training_iter):</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> model(train_x)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    loss <span class="op">=</span> <span class="op">-</span>mll(output, train_y)  <span class="co"># 负的边际对数似然</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    loss.backward()</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 打印训练信息</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Iter </span><span class="sc">%d</span><span class="st">/</span><span class="sc">%d</span><span class="st"> - Loss: </span><span class="sc">%.3f</span><span class="st"> lengthscale: </span><span class="sc">%.3f</span><span class="st"> noise: </span><span class="sc">%.3f</span><span class="st">'</span> <span class="op">%</span> (</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        i <span class="op">+</span> <span class="dv">1</span>, training_iter, loss.item(),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        model.covar_module.base_kernel.lengthscale.item(),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        model.likelihood.noise.item()</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    ))  <span class="co">#</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>预测与可视化</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 设置为评估模式</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>likelihood.<span class="bu">eval</span>()  <span class="co">#</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 生成测试数据</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>test_x <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">51</span>)  <span class="co">#</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 预测</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad(), gpytorch.settings.fast_pred_var():</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    observed_pred <span class="op">=</span> likelihood(model(test_x))  <span class="co">#</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    mean <span class="op">=</span> observed_pred.mean</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    lower, upper <span class="op">=</span> observed_pred.confidence_region()  <span class="co"># 95%置信区间</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 可视化</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.plot(train_x.numpy(), train_y.numpy(), <span class="st">'k*'</span>, label<span class="op">=</span><span class="st">'Training Data'</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>plt.plot(test_x.numpy(), mean.numpy(), <span class="st">'b'</span>, label<span class="op">=</span><span class="st">'Mean Prediction'</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>plt.fill_between(test_x.numpy(), lower.numpy(), upper.numpy(),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>                 alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Confidence Interval'</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'GPyTorch Exact GP Regression'</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.show()  <span class="co">#</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>核心要点 模型定义：继承ExactGP，在__init__中定义均值函数和核函数，在forward中返回MultivariateNormal分布 训练：使用Adam优化器优化负的ExactMarginalLogLikelihood 预测：切换至评估模式，使用likelihood(model(test_x))获取预测分布，通过confidence_region()获取置信区间 GPU加速：只需将数据、模型和似然函数移至GPU（.cuda()）即可自动利用GPU加速</p>
+</section>
+<section id="核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基" class="level2">
+<h2 class="anchored" data-anchor-id="核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基">4. 核函数也是函数：给「核和它的邻居」造一个空间，基就用 Jacobi 正交基</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>就是说由于核函数本身也是函数, 也可以为核函数和他的邻居么构建一个生活的空间. 这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynomial orthogonal basis, 诸如此类的基</p>
+</blockquote>
+</div>
+</div>
+<p>这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynoimal orthgoanal basi…</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+注记
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>🗣️ Ask</strong></p>
+<blockquote class="blockquote">
+<p>就是说由于核函数本身也是函数, 也可以为核函数和他的邻居么构建一个生活的空间. 这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynoimal orthgoanal basis , 诸如此类的基</p>
+</blockquote>
+</div>
+</div>
+<p>是的，你的理解非常准确。这正是再生核希尔伯特空间（RKHS）理论的核心思想：将核函数及其”邻居”（即由该核生成的函数空间中的元素）赋予一个完整的空间结构，使其成为一个可以进行几何运算的希尔伯特空间。而雅可比（Jacobi）多项式等正交多项式，正是构建这个空间时最自然、最强大的基函数之一。</p>
+<p>核函数与它的”函数空间” 核函数定义空间：一个正定核函数 <span class="math inline">\(K(x, y)\)</span> 可以唯一地生成一个希尔伯特空间 <span class="math inline">\(\mathcal{H}_K\)</span>。这个空间包含了所有形如 <span class="math inline">\(f(x) = \sum_m \alpha_m K(x, y_m)\)</span> 的函数及其极限 。这些函数可以被视为核函数 <span class="math inline">\(K(\cdot, y)\)</span> 的线性组合，因此可以看作是核函数及其”邻居”。</p>
+<p>再生核希尔伯特空间（RKHS）：这个空间 <span class="math inline">\(\mathcal{H}_K\)</span> 拥有一个关键性质——再生性质：对于空间中的任意函数 <span class="math inline">\(f\)</span> 和任意点 <span class="math inline">\(x\)</span>，有 <span class="math inline">\(\langle f, K(\cdot, x) \rangle_{\mathcal{H}_K} = f(x)\)</span> 。这意味着，核函数 <span class="math inline">\(K(\cdot, x)\)</span> 充当了”评估泛函的代表”的角色，它本身是空间中的一个元素，并且可以通过内积来”再生”出任何函数在该点的值。</p>
+<p>正交多项式（如雅可比多项式）作为基函数 RKHS 可以通过其核函数的特征分解来显式地构建。根据 Mercer 定理，核函数可以展开为 ：</p>
+<p><span class="math display">\[K(x, y) = \sum_{i=1}^{\infty} \gamma_i \phi_i(x) \phi_i(y)\]</span> 其中 <span class="math inline">\(\gamma_i \ge 0\)</span> 是特征值，<span class="math inline">\(\phi_i(x)\)</span> 是正交的特征函数。那么，RKHS 中的任意函数 <span class="math inline">\(f\)</span> 可以表示为这些特征函数的线性组合：</p>
+<p><span class="math display">\[f(x) = \sum_{i=1}^{\infty} c_i \phi_i(x)\]</span> 其空间范数（即”能量”）由 <span class="math inline">\(\|f\|^2_{\mathcal{H}_K} = \sum_{i=1}^{\infty} c_i^2 / \gamma_i\)</span> 定义 。</p>
+<p>雅可比多项式的作用：当核函数或问题的对称性对应特定的权重函数时，雅可比多项式 <span class="math inline">\(P_n^{(\alpha, \beta)}(x)\)</span> 正是这些正交特征函数 <span class="math inline">\(\phi_i(x)\)</span> 的完美候选者。它们本身是在区间 <span class="math inline">\([-1, 1]\)</span> 上关于权重函数 <span class="math inline">\((1-x)^\alpha (1+x)^\beta\)</span> 正交的完备基 。因此，你可以将雅可比多项式作为构建这个核函数空间的”坐标轴”或”基础构件”。</p>
+<p>实际应用：正则化与贝叶斯视角 认识到核函数可以生成一个以正交多项式为基的希尔伯特空间，在机器学习中具有重要意义：</p>
+<p>正则化：在 RKHS 中求解一个回归或分类问题，等价于求解一个带惩罚的优化问题 ：</p>
+<p><span class="math display">\[\min_{f \in \mathcal{H}_K} \sum_{i=1}^N L(y_i, f(x_i)) + \lambda \|f\|^2_{\mathcal{H}_K}\]</span> 这里的 <span class="math inline">\(\|f\|^2_{\mathcal{H}_K}\)</span> 惩罚项，在雅可比多项式基下展开，就变成了对系数 <span class="math inline">\(c_i\)</span> 的加权惩罚（权重由特征值 <span class="math inline">\(\gamma_i\)</span> 决定，与雅可比多项式的正交性紧密相关）。这为控制模型复杂度提供了理论基础。</p>
+<p>贝叶斯解释：从贝叶斯角度看，<span class="math inline">\(f\)</span> 可以被视为一个零均值高斯过程的实现，其协方差函数就是核函数 <span class="math inline">\(K\)</span> 。雅可比多项式作为特征函数，其对应的特征值 <span class="math inline">\(\gamma_i\)</span> 就是该函数（基）的先验方差。光滑的特征函数（低频成分）对应较大的先验方差，而粗糙的函数（高频成分）对应较小的方差 。这为核方法提供了一个优雅的概率解释，而雅可比多项式正是连接谱分析与贝叶斯推断的桥梁。</p>
+<p>总结 你的直觉非常正确：核函数本身可以生成一个函数空间（RKHS），而雅可比（Jacobi）多项式这类经典正交多项式，正是描述这个空间结构的理想基函数。它们不仅提供了构建空间的数学工具，还在正则化理论和贝叶斯推断中扮演着核心角色，将核函数的几何结构、谱分析和概率模型紧密地联系在一起。</p>
+<hr>
+</section>
+<section id="延伸-where-this-leads" class="level2">
+<h2 class="anchored" data-anchor-id="延伸-where-this-leads">延伸 · Where this leads</h2>
+<ul>
+<li>「用数据在候选空间里挑一个」的可运行版本： <a href="../../coding/snippets/function-space-search.html">在候选函数空间中搜索「谁生成了数据」</a>。</li>
+<li>精确 GP 在真实数据上的规模问题（44 484 行、只能吃子样本）： <a href="../../coding/repos/sarcos-ml-with-agents.html">SARCOS inverse dynamics with Agents</a>。</li>
+<li>上面那些 GPyTorch 片段若要跑起来，需要 <code>torch</code> + <code>gpytorch</code>（站点的图与实验刻意只用 <code>numpy</code>/<code>scipy</code>，见 <a href="../../coding/index.html">开发环境</a>）。</li>
+</ul>
+</section>
+<section id="参考文献-references" class="level2">
+<h2 class="anchored" data-anchor-id="参考文献-references">参考文献 · References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-benton2019fkl" class="csl-entry" role="listitem">
+Benton, Gregory W., Wesley J. Maddox, Jayson P. Salkey, Júlio Albinati, 和 Andrew Gordon Wilson. 2019. <span>《Function-Space Distributions over Kernels》</span>. 收入 <em>Advances in Neural Information Processing Systems (NeurIPS)</em>. <a href="https://arxiv.org/abs/1910.13565">https://arxiv.org/abs/1910.13565</a>.
+</div>
+<div id="ref-wilson2013sm" class="csl-entry" role="listitem">
+Wilson, Andrew Gordon, 和 Ryan P. Adams. 2013. <span>《Gaussian Process Kernels for Pattern Discovery and Extrapolation》</span>. 收入 <em>Proceedings of the 30th International Conference on Machine Learning (ICML)</em>, 28:1032–40. PMLR. <a href="https://proceedings.mlr.press/v28/wilson13.html">https://proceedings.mlr.press/v28/wilson13.html</a>.
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../talking/mathematics/functional-spaces-to-singular-values.html" class="pagination-link" aria-label="泛函空间再向上抽象，然后呢？">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">泛函空间再向上抽象，然后呢？</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../talking/learning-theory/low-to-high-dimension-learning.html" class="pagination-link" aria-label="从低维到高维的生成，就是人类的学习机理">
+        <span class="nav-page-text">从低维到高维的生成，就是人类的学习机理</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/mathematics/kernels-are-functions-too.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

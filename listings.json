@@ -13,17 +13,20 @@
     ]
   },
   {
-    "listing": "/talking/learning-theory/index.html",
+    "listing": "/talking/teaching-mathematics/index.html",
     "items": [
-      "/talking/learning-theory/low-to-high-dimension-learning.html"
+      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
     ]
   },
   {
     "listing": "/index.html",
     "items": [
+      "/talking/gossip/how-close-is-close.html",
       "/talking/learning-theory/low-to-high-dimension-learning.html",
       "/talking/mathematics/functional-spaces-to-singular-values.html",
       "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/talking/mathematics/kernels-are-functions-too.html",
       "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
       "/talking/teaching-mathematics/what-an-explicit-definition-buys.html",
       "/coding/repos/sarcos-ml-with-agents.html",
@@ -36,23 +39,31 @@
     "items": [
       "/talking/mathematics/functional-spaces-to-singular-values.html",
       "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/talking/mathematics/kernels-are-functions-too.html",
       "/talking/learning-theory/low-to-high-dimension-learning.html",
       "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
-      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html",
+      "/talking/gossip/how-close-is-close.html"
     ]
   },
   {
     "listing": "/talking/mathematics/index.html",
     "items": [
       "/talking/mathematics/functional-spaces-to-singular-values.html",
-      "/talking/mathematics/jacobi-orthogonal-polynomials.html"
+      "/talking/mathematics/jacobi-orthogonal-polynomials.html",
+      "/talking/mathematics/kernels-are-functions-too.html"
     ]
   },
   {
-    "listing": "/talking/teaching-mathematics/index.html",
+    "listing": "/talking/learning-theory/index.html",
     "items": [
-      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
-      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
+      "/talking/learning-theory/low-to-high-dimension-learning.html"
+    ]
+  },
+  {
+    "listing": "/talking/gossip/index.html",
+    "items": [
+      "/talking/gossip/how-close-is-close.html"
     ]
   },
   {

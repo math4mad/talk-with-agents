@@ -2,78 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/coding/repos/sarcos-space-search.html</loc>
-    <lastmod>2026-09-06T06:29:17.458Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.465Z</lastmod>
   </url>
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/coding/repos/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.458Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.465Z</lastmod>
   </url>
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/coding/snippets/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.459Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.466Z</lastmod>
   </url>
   <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/gossip/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.460Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/learning-theory/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.460Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-mathematics/what-an-explicit-definition-buys.html</loc>
-    <lastmod>2026-09-06T06:29:17.462Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/jacobi-orthogonal-polynomials.html</loc>
-    <lastmod>2026-09-06T06:29:17.461Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/functional-spaces-to-singular-values.html</loc>
-    <lastmod>2026-09-06T06:29:17.460Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-physics-with-data/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.462Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.459Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/about.html</loc>
-    <lastmod>2026-09-06T06:29:17.442Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.460Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.461Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-mathematics/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.462Z</lastmod>
-  </url>
-  <url>
-    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html</loc>
-    <lastmod>2026-09-06T06:29:17.462Z</lastmod>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/gossip/how-close-is-close.html</loc>
+    <lastmod>2026-09-06T07:18:54.468Z</lastmod>
   </url>
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/talking/learning-theory/low-to-high-dimension-learning.html</loc>
-    <lastmod>2026-09-06T06:29:17.460Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-mathematics/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/jacobi-orthogonal-polynomials.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/functional-spaces-to-singular-values.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-physics-with-data/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.466Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/about.html</loc>
+    <lastmod>2026-09-06T07:18:54.450Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.468Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/mathematics/kernels-are-functions-too.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/teaching-mathematics/what-an-explicit-definition-buys.html</loc>
+    <lastmod>2026-09-06T07:18:54.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/learning-theory/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.468Z</lastmod>
+  </url>
+  <url>
+    <loc>https://math4mad.github.io/talk-with-agents/talking/gossip/index.html</loc>
+    <lastmod>2026-09-06T07:18:54.468Z</lastmod>
   </url>
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/coding/index.html</loc>
-    <lastmod>2026-09-06T06:29:17.457Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.464Z</lastmod>
   </url>
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/coding/snippets/function-space-search.html</loc>
-    <lastmod>2026-09-06T06:29:17.458Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.465Z</lastmod>
   </url>
   <url>
     <loc>https://math4mad.github.io/talk-with-agents/coding/repos/sarcos-ml-with-agents.html</loc>
-    <lastmod>2026-09-06T06:29:17.458Z</lastmod>
+    <lastmod>2026-09-06T07:18:54.465Z</lastmod>
   </url>
 </urlset>

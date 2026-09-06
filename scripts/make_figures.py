@@ -481,6 +481,106 @@ def fig_thumbs():
            "from model selection to space selection (dialogue)", ladder)
 
 
+
+# --------------------------------------------------------------------------- #
+# 8. Two figures for the teaching note: the abstraction ladder, and a pendulum
+#    fitted by a GP. Both use synthetic data (labelled as such in the caption).
+# --------------------------------------------------------------------------- #
+def _gp(X, y, xs, kfun, noise=0.05):
+    """Posterior mean + sd of a zero-mean GP with fixed hyper-parameters."""
+    K = kfun(X, X) + (noise ** 2 + 1e-9) * np.eye(len(X))
+    L = np.linalg.cholesky(K)
+    alpha = np.linalg.solve(L.T, np.linalg.solve(L, y))
+    mu = kfun(xs, X) @ alpha
+    v = np.diag(kfun(xs, xs)) - np.sum((np.linalg.solve(L, kfun(xs, X).T)) ** 2, axis=0)
+    return mu, np.sqrt(np.clip(v, 0, None))
+
+
+def fig_abstraction_ladder():
+    """one rule -> a family of rules -> a space of rules."""
+    rng = np.random.default_rng(2026)
+    x = np.linspace(0, 6, 7)
+    fig, ax = new_fig(1, 3, width=WIDTH_2COL, ratio=0.36)
+    a, b, c = ax[0]
+
+    a.plot(x, 5 * x, color=PAL[0], lw=1.8, label="$y = 5x$")
+    a.plot(x, 5 * x + rng.normal(0, 0.35, x.size), "o", color=PAL[1], ms=5,
+           mec="white", mew=0.5, label="recorded trades")
+    a.set_xlabel("cattle (heads)")
+    a.set_ylabel("sheep (heads)")
+    a.set_title("(a) one rule the tribe kept")
+    a.legend(fontsize=6.4, loc="upper left")
+
+    for cval, col in zip((2, 5, 20), (PAL[5], PAL[0], PAL[2])):
+        b.plot(x, cval * x, color=col, lw=1.6, label=f"$y = {cval}x$")
+    b.set_xlabel("cattle (heads)")
+    b.set_ylabel("goods received")
+    b.set_title("(b) generalise: one rule per good")
+    b.legend(fontsize=6.4, loc="upper left")
+
+    X = np.sort(rng.uniform(0.5, 5.5, 14))[:, None]
+    y = 5 * X[:, 0] + rng.normal(0, 0.9, X.size)
+    xs = np.linspace(0, 7, 200)[:, None]
+    ell, sf = 2.0, 12.0
+    kern = lambda A, B: sf ** 2 * np.exp(-0.5 * ((A[:, None, :] - B[None, :, :]) / ell) ** 2).sum(-1)
+    mu, sd = _gp(X, y, xs, kern, noise=0.9)
+    c.plot(xs, 5 * xs[:, 0], ls="--", color="#111", lw=1.4, label="the rule that worked")
+    c.plot(xs, mu, color=PAL[0], lw=1.7, label="posterior mean")
+    c.fill_between(xs[:, 0], mu - 1.96 * sd, mu + 1.96 * sd, color=PAL[0], alpha=0.18,
+                   label="95 % interval")
+    c.plot(X, y, "o", color=PAL[1], ms=4.5, mec="white", mew=0.4, label="market data")
+    c.set_xlabel("cattle (heads)")
+    c.set_ylabel("sheep (heads)")
+    c.set_title("(c) search: pricing as GP regression")
+    c.legend(fontsize=6.0, loc="upper left")
+    save(fig, "abstraction-ladder")
+
+
+def fig_pendulum_gp():
+    """A shaky phone clip of a pendulum, and what two kernels do with it."""
+    rng = np.random.default_rng(11)
+    t = np.linspace(0, 6, 60)
+    tt = np.linspace(0, 8, 400)
+    truth = lambda z: 1.1 * np.exp(-z / 5.0) * np.cos(2 * np.pi * 0.8 * z)
+    shaky = truth(t) + rng.normal(0, 0.05, t.size)        # hand-shake noise
+    Y = shaky - shaky.mean()
+
+    se = lambda A, B: np.exp(-0.5 * ((A[:, None] - B[None, :]) / 0.6) ** 2)
+    per = lambda A, B: np.exp(-2 * np.sin(np.pi * np.abs(A[:, None] - B[None, :]) / 1.25) ** 2 / 0.2)
+    prod = lambda A, B: per(A, B) * se(A, B)
+
+    fig, ax = new_fig(1, 3, width=WIDTH_2COL, ratio=0.36)
+    a, b, c = ax[0]
+
+    a.plot(tt, truth(tt), color="#111", lw=1.3, ls="--", label="true angle")
+    a.plot(t, Y, "o", ms=4.0, color=PAL[0], mec="white", mew=0.4, label="extracted frames")
+    a.set_xlabel("time $t$ (s)")
+    a.set_ylabel("$\\theta$ (rad)")
+    a.set_title("(a) frames from a shaky clip")
+    a.legend(fontsize=6.3, loc="upper right")
+
+    for kern, col, title, lab in ((se, PAL[0], "(b) smooth kernel: blank beyond $t=6$",
+                                   "squared-exponential"),
+                                  (prod, PAL[2], "(c) periodic kernel keeps the beat",
+                                   "periodic $\\times$ squared-exponential")):
+        panel = b if kern is se else c
+        mu, sd = _gp(t[:, None], Y, tt[:, None], lambda A, B: kern(A[:, 0], B[:, 0]), noise=0.05)
+        panel.plot(tt, truth(tt), color="#111", ls="--", lw=1.1, label="true angle")
+        panel.plot(tt, mu, color=col, lw=1.6, label=lab)
+        panel.fill_between(tt, mu - 1.96 * sd, mu + 1.96 * sd, color=col, alpha=0.16)
+        panel.plot(t, Y, "o", ms=3.2, color="#9a9a9a", mec="none")
+        panel.set_xlabel("time $t$ (s)")
+        panel.set_ylabel("$\\theta$ (rad)")
+        panel.set_title(title)
+        panel.set_ylim(-1.45, 1.45)
+        panel.set_xlim(0, 8)
+        panel.legend(fontsize=6.1, loc="lower left", framealpha=0.95)
+    b.axvline(6.0, color="#666", lw=0.8, ls=":")
+    c.axvline(6.0, color="#666", lw=0.8, ls=":")
+    b.text(6.1, 1.28, "data ends", fontsize=6.0, color="#555")
+    c.text(6.1, 1.28, "data ends", fontsize=6.0, color="#555")
+    save(fig, "pendulum-gp")
+
 def main(select: str = "") -> None:
     figures = {
         "jacobi-basis": fig_jacobi_basis,
@@ -488,6 +588,8 @@ def main(select: str = "") -> None:
         "representation-stretch": fig_representation_stretch,
         "sarcos-protocol": fig_sarcos_protocol,
         "svd-spectrum": fig_svd_spectrum,
+        "abstraction-ladder": fig_abstraction_ladder,
+        "pendulum-gp": fig_pendulum_gp,
         "thumbs": fig_thumbs,
         "site-cover": fig_cover,
     }

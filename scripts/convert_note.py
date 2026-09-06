@@ -37,8 +37,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from normalize_math import convert as normalize_math  # noqa: E402
 
-ASK_HANDLE = "Math4Mad"
-ANSWER_HANDLES = ("Ima.Copilot", "Copilot", "ChatGPT", "Claude")
+# The human's handle in a chat export. Its spelling drifts between tools and
+# sessions (``Math4Mad:``, ``m4mad:`` …), so it is matched case-insensitively.
+ASK_HANDLES = ("Math4Mad", "m4mad")
+ASK_ALT = "|".join(ASK_HANDLES)
+ANSWER_HANDLES = ("Ima.Copilot", "Copilot", "ChatGPT", "Claude", "Gemini")
 CJK = re.compile(r"[\u3400-\u9fff\u3040-\u30ff]")
 
 # --------------------------------------------------------------------------- #
@@ -52,7 +55,7 @@ def clean(text: str) -> str:
     text = text.replace("\r\n", "\n").replace("\xa0", " ")
     text = re.sub(r"<span[^>]*>|</span>", "", text)
     text = re.sub(r"\[\d+\]\(@ref\)|\(@ref\)", "", text)   # pandoc/Hugo ref artefacts
-    text = re.sub(r"(?m)^\s*(?:Ima\.Copilot|ChatGPT|Claude)[^\n]{0,12}:\s*$", "", text)
+    text = re.sub(r"(?m)^\s*(?:Ima\.Copilot|Copilot|ChatGPT|Claude|Gemini)[^\n]{0,12}:\s*$", "", text)
     text = text.replace("&#x95ee;", "问").replace("&#x95EE;", "问")
     # escaped inline link inside a heading: \[text\]\(url\) -> text (url)
     text = re.sub(r"\\\[(.*?)\\\]\\\(.*?\\\)", r"\1", text, flags=re.S)
@@ -236,13 +239,13 @@ def split_question(text: str) -> tuple[str | None, str]:
     first = text.split("\n", 1)
     head = first[0].strip()
 
-    # "Math4Mad: question on the same line"  (colon is mandatory here)
-    m = re.match(rf"^\s*{ASK_HANDLE}\s*:\s*(.+)$", head)
+    # "m4mad: question on the same line"  (colon is mandatory here)
+    m = re.match(rf"^\s*(?:{ASK_ALT})\s*:\s*(.+)$", head, re.I)
     if m:
         return m.group(1).strip().lstrip(">").strip(), (first[1] if len(first) > 1 else "")
 
-    # "Math4Mad" / "Math4Mad:" alone, question on the following (possibly quoted) lines
-    if re.match(rf"^\s*{ASK_HANDLE}\s*:?\s*$", head):
+    # handle alone on its line, question on the following (possibly quoted) lines
+    if re.match(rf"^\s*(?:{ASK_ALT})\s*:?\s*$", head, re.I):
         rest_lines = (first[1] if len(first) > 1 else "").split("\n")
         q_lines: list[str] = []
         consumed = 0

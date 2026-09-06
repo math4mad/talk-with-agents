@@ -58,8 +58,9 @@ website:
               href: talking/learning-theory/low-to-high-dimension-learning.qmd
         - section: "数学教学 · Teaching Mathematics"
           contents:
-            - text: "数学教学 · 栏目说明"
-              href: talking/teaching-mathematics/index.qmd
+            - talking/teaching-mathematics/index.qmd
+            - text: "从一头牛到泛函：一堂数学课的抽象阶梯"
+              href: talking/teaching-mathematics/abstraction-ladder-in-a-math-class.qmd
         - section: "用数据科学教物理 · Physics by Data"
           contents:
             - text: "数据科学视角的物理教学 · 栏目说明"

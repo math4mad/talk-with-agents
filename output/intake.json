@@ -33,5 +33,12 @@
     "kind": "talk",
     "page": "talking/mathematics/functional-spaces-to-singular-values.qmd",
     "sha256": "dc81d395269ae9e2"
+  },
+  "talk-20260906-1300.md": {
+    "sha256": "d8703ae3cb9b0174",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/mathematics/pdf.qmd",
+    "converted": "2026-09-06T13:54:08"
   }
 }

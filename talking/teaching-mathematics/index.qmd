@@ -1,20 +1,36 @@
 ---
 title: "数学教学 · Teaching Mathematics"
-description: "与 Agent 讨论怎么教数学：同一个对象的多种讲法、错误概念的成因、把抽象落到可画的例子上。"
+description: "与 Agent 讨论「怎么把数学讲成一层一层的抽象」：从数学科普书出发，落到课堂上能跑的教具与实验。"
+listing:
+  - contents:
+      - "*.qmd"
+      - "!index.qmd"
+    type: grid
+    image-height: 190px
+    sort: "date desc"
+    fields: [title, subtitle, description, image, date, reading-time]
 ---
 
-:::{.callout-warning}
-## 虚位以待 · Nothing here yet
+这一栏收「**怎么讲**」的对谈：同一个数学对象，换一组比喻、换一张图、换一个可拖动的滑块，
+理解难度就不同。它记录的是讲法，不是知识点。
 
-这一栏收「**怎么讲**」的对谈：同一个数学对象，换一组比喻、换一张图，理解难度就不同。
-第一篇待补。想放什么，按下面的模板新建 `talking/teaching-mathematics/<slug>.qmd` 即可，
-侧边栏与列表页会自动收录。
+:::{.callout-note}
+## 现在在读什么 · Currently
+
+* [从一头牛到泛函：一堂数学课的抽象阶梯](abstraction-ladder-in-a-math-class.qmd) ——
+  洛克哈特《度量》《算术》→ 猎人记野牛（向量的起源）→ 1 头牛换 5 只羊（函数的起源）→
+  交换规则的**函数空间**（泛函）→ 用高斯过程给一杯热咖啡、一段单摆视频建模（课堂可跑的落点）。
+:::
+
+## 全部对谈 · All notes
+
+:::{.listing}
 :::
 
 ## 收录标准 · What counts
 
 * 有一段**真实对话**（提问原文可追溯），而不是一份讲稿；
-* 至少一张按出版标准重绘的图，能替讲解分担认知负荷；
+* 至少一张按出版标准重绘的图，能替讲解分担认知负荷；合成示意图要在图注里写明；
 * 说清楚「这个讲法在什么地方会失效」。
 
 ## 模板 · Template
@@ -38,4 +54,3 @@ bibliography: ../../references.bib
 
 ![图注：面板 (a)…，(b)…](../../assets/figures/xxx.png){#fig-xxx}
 ```
-

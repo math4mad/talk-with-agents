@@ -360,8 +360,8 @@ window.Quarto = {
    
   <ul>
   <li><a href="#把论文读成一次提问function-space-distributions-over-kernels" id="toc-把论文读成一次提问function-space-distributions-over-kernels" class="nav-link active" data-scroll-target="#把论文读成一次提问function-space-distributions-over-kernels">1. 把论文读成一次提问：Function-Space Distributions over Kernels</a></li>
-  <li><a href="#有没有基于-gpytorch-的伪代码实现" id="toc-有没有基于-gpytorch-的伪代码实现" class="nav-link" data-scroll-target="#有没有基于-gpytorch-的伪代码实现">2. 有没有基于 GPyTorch 的伪代码实现？</a></li>
-  <li><a href="#照着伪代码实例化一个简单回归模型" id="toc-照着伪代码实例化一个简单回归模型" class="nav-link" data-scroll-target="#照着伪代码实例化一个简单回归模型">3. 照着伪代码，实例化一个简单回归模型</a></li>
+  <li><a href="#有没有基于-gpytorch-的伪代码实现" id="toc-有没有基于-gpytorch-的伪代码实现" class="nav-link" data-scroll-target="#有没有基于-gpytorch-的伪代码实现">2. 有没有基于 gpytorch 的伪代码实现?</a></li>
+  <li><a href="#根据伪代码实现一个简答的回归模型的实例化" id="toc-根据伪代码实现一个简答的回归模型的实例化" class="nav-link" data-scroll-target="#根据伪代码实现一个简答的回归模型的实例化">3. 根据伪代码实现一个简答的回归模型的实例化</a></li>
   <li><a href="#核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基" id="toc-核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基" class="nav-link" data-scroll-target="#核函数也是函数给核和它的邻居造一个空间基就用-jacobi-正交基">4. 核函数也是函数：给「核和它的邻居」造一个空间，基就用 Jacobi 正交基</a></li>
   <li><a href="#延伸-where-this-leads" id="toc-延伸-where-this-leads" class="nav-link" data-scroll-target="#延伸-where-this-leads">延伸 · Where this leads</a></li>
   <li><a href="#参考文献-references" id="toc-参考文献-references" class="nav-link" data-scroll-target="#参考文献-references">参考文献 · References</a></li>
@@ -423,7 +423,7 @@ window.Quarto = {
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>原始记录：<code>Talkmd/talk-20260905-1100.md</code>。这份导出比较特殊：<strong>第一篇的提问就是把论文正文粘进来</strong>， 所以第 1 问的 <code>Ask</code> 框里只留了指向论文的链接与一句话；第 3 问在原导出里丢了提问标记 （<code>m4mad:</code> 没有出现在那一行），转换时被并进了第 2 轮，本页把它拆回独立一轮。 代码块是 Agent 给的 GPyTorch 写法，缩进已修复；<strong>未在本机运行</strong>（站点没有装 torch）， 所以它们按”可参考的伪代码/模板”对待，不当作已验证的产物。</p>
+<p>原始记录：<code>Talkmd/talk-20260905-1100.md</code>（4 轮）。这份导出比较特殊：<strong>第 1 问的提问就是把论文正文粘进来</strong>， 所以 <code>Ask</code> 框里只留了指向论文的链接与那句 “review this paper”，原文折叠在下面 （<code>scripts/convert_note.py</code> 的 <code>fold_pasted_document</code>：粘贴文档不再挤占正文开头）。 代码块是 Agent 给的 GPyTorch 写法，缩进已修复；<strong>未在本机运行</strong>——站点只装 <code>numpy</code>/<code>scipy</code>/<code>matplotlib</code>，所以这些片段按可参考的模板对待，不当作已验证的产物。</p>
 </div>
 </div>
 <p>这条线正好把站点里两篇对谈接上： <a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html">Jacobi 多项式：换一组权重，就是换一个空间</a> 说清了 「基决定空间」；<a href="../../talking/mathematics/functional-spaces-to-singular-values.html">泛函空间再向上抽象，然后呢？</a> 说清了 「空间之上还有空间」。这一篇问的是第三种移动：<strong>把”选哪个空间”本身也变成一个函数空间上的推断问题</strong> ——即 functional kernel learning <span class="citation" data-cites="benton2019fkl wilson2013sm">(<a href="#ref-benton2019fkl" role="doc-biblioref">Benton 等 2019</a>; <a href="#ref-wilson2013sm" role="doc-biblioref">Wilson 和 Adams 2013</a>)</span>。</p>
@@ -441,9 +441,25 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>🗣️ Ask</strong></p>
 <blockquote class="blockquote">
-<p>（提问里直接把论文正文粘了进来，末尾一句 “review this paper”。）</p>
-<p><em>Function-Space Distributions over Kernels</em> — Gregory W. Benton, Wesley J. Maddox, Jayson P. Salkey, Júlio Albinati, Andrew Gordon Wilson. “Gaussian processes are flexible function approximators, with inductive biases controlled by a covariance kernel. Learning the kernel is the key to representation learning and strong predictive performance. In this paper, we develop functional kernel learning (FKL) to directly infer functional posteriors over kernels.” 全文：<a href="https://arxiv.org/abs/1910.13565" class="uri">https://arxiv.org/abs/1910.13565</a></p>
+<p><a href="https://arxiv.org/abs/1910.13565">Function-Space Distributions over Kernels</a> —— review this paper （提问里直接把论文正文粘了进来，下面折叠保存）</p>
 </blockquote>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+提问里粘贴的原文 · pasted into the question
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Gregory W. Benton   Wesley J. Maddox  Jayson P. Salkey Júlio Albinati‡ Andrew Gordon Wilson †Equal contribution. <span class="math inline">\(‡\)</span>Work done during internship with AGW. Courant Institute of Mathematical Sciences, New York University Center for Data Science, New York University Microsoft Abstract</p>
+<p>Gaussian processes are flexible function approximators, with inductive biases controlled by a covariance kernel. Learning the kernel is the key to representation learning and strong predictive performance. In this paper, we develop functional kernel learning (FKL) to directly infer functional posteriors over kernels. In particular, we place a transformed Gaussian process over a spectral density, to induce a non-parametric distribution over kernel functions. The resulting approach enables learning of rich representations, with support for any stationary kernel, uncertainty over the values of the kernel, and an interpretable specification of a prior directly over kernels, without requiring sophisticated initialization or manual intervention. We perform inference through elliptical slice sampling, which is especially well suited to marginalizing posteriors with the strongly correlated priors typical to function space modeling. We develop our approach for non-uniform, large-scale, multi-task, and multidimensional data, and show promising performance in a wide range of settings, including interpolation, extrapolation, and kernel recovery experiments.](https://arxiv.org/html/1910.13565v1) review this paper</p>
+</div>
 </div>
 </div>
 <p>当然。这篇论文《Function-Space Distributions over Kernels》提出了一种名为 功能核学习 (Functional Kernel Learning, FKL) 的新方法，旨在从根本上改进高斯过程 (GP) 中的核函数学习方式。</p>
@@ -455,24 +471,7 @@ window.Quarto = {
 <p>解释跨多个异构任务学习到的协方差结构。 开发适用于非平稳核函数的函数空间分布。 构建更深层的层次化功能核学习模型。</p>
 </section>
 <section id="有没有基于-gpytorch-的伪代码实现" class="level2">
-<h2 class="anchored" data-anchor-id="有没有基于-gpytorch-的伪代码实现">2. 有没有基于 GPyTorch 的伪代码实现？</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-注记
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>🗣️ Ask</strong></p>
-<blockquote class="blockquote">
-<p>有没有基于 gpytorch 的伪代码实现?</p>
-</blockquote>
-</div>
-</div>
-<p>有没有基于 gpytorch 的伪代码实现?</p>
+<h2 class="anchored" data-anchor-id="有没有基于-gpytorch-的伪代码实现">2. 有没有基于 gpytorch 的伪代码实现?</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -575,8 +574,8 @@ window.Quarto = {
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># test_nll = -y_preds.log_prob(test_y).mean().item()</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>核心要点总结 继承 ExactGP：所有精确 GP 模型都需要继承 gpytorch.models.ExactGP，并在 <strong>init</strong> 中定义均值函数 (mean_module) 和核函数 (covar_module)，在 forward 中返回 MultivariateNormal 分布 。 训练：通过优化器（如 Adam）最小化负的 ExactMarginalLogLikelihood 来学习超参数 。 GPU 加速：只需将模型、似然函数和训练数据移动到 GPU 上（.cuda()），即可自动利用 GPU 加速 。 可扩展性：对于更大规模的数据，GPyTorch 提供了稀疏 GP（如 SGPR） 和结构化核插值（SKI） 等方法，以降低计算复杂度。</p>
 </section>
-<section id="照着伪代码实例化一个简单回归模型" class="level2">
-<h2 class="anchored" data-anchor-id="照着伪代码实例化一个简单回归模型">3. 照着伪代码，实例化一个简单回归模型</h2>
+<section id="根据伪代码实现一个简答的回归模型的实例化" class="level2">
+<h2 class="anchored" data-anchor-id="根据伪代码实现一个简答的回归模型的实例化">3. 根据伪代码实现一个简答的回归模型的实例化</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -589,7 +588,7 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>🗣️ Ask</strong></p>
 <blockquote class="blockquote">
-<p>根据伪代码实现一个简单的回归模型的实例化</p>
+<p>根据伪代码实现一个简答的回归模型的实例化</p>
 </blockquote>
 </div>
 </div>
@@ -694,23 +693,6 @@ window.Quarto = {
 <div class="callout-body-container callout-body">
 <p><strong>🗣️ Ask</strong></p>
 <blockquote class="blockquote">
-<p>就是说由于核函数本身也是函数, 也可以为核函数和他的邻居么构建一个生活的空间. 这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynomial orthogonal basis, 诸如此类的基</p>
-</blockquote>
-</div>
-</div>
-<p>这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynoimal orthgoanal basi…</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-注记
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p><strong>🗣️ Ask</strong></p>
-<blockquote class="blockquote">
 <p>就是说由于核函数本身也是函数, 也可以为核函数和他的邻居么构建一个生活的空间. 这个核函数们的空间构架的基础就可以是昨天讨论的 Jacobi polynoimal orthgoanal basis , 诸如此类的基</p>
 </blockquote>
 </div>
@@ -734,7 +716,7 @@ window.Quarto = {
 <ul>
 <li>「用数据在候选空间里挑一个」的可运行版本： <a href="../../coding/snippets/function-space-search.html">在候选函数空间中搜索「谁生成了数据」</a>。</li>
 <li>精确 GP 在真实数据上的规模问题（44 484 行、只能吃子样本）： <a href="../../coding/repos/sarcos-ml-with-agents.html">SARCOS inverse dynamics with Agents</a>。</li>
-<li>上面那些 GPyTorch 片段若要跑起来，需要 <code>torch</code> + <code>gpytorch</code>（站点的图与实验刻意只用 <code>numpy</code>/<code>scipy</code>，见 <a href="../../coding/index.html">开发环境</a>）。</li>
+<li>上面那些 GPyTorch 片段若要跑起来，需要 <code>torch</code> + <code>gpytorch</code>；站点的图与实验刻意只用 <code>numpy</code>/<code>scipy</code>（见 <a href="../../coding/index.html">开发环境</a>），所以本页的代码按模板对待。</li>
 </ul>
 </section>
 <section id="参考文献-references" class="level2">

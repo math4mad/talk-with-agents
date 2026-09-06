@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。">
+<meta name="author" content="Math4Mad">
+<meta name="description" content="站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。">
 
-<title>学习理论（生物学基础） · Learning Theory – Talk With Agents</title>
+<title>仓库清单 · Repository list – Talk With Agents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,8 +66,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
+<link href="../../coding/repos/sarcos-ml-with-agents.html" rel="next">
+<link href="../../coding/snippets/function-space-search.html" rel="prev">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,83 +103,25 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "搜索"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="学习理论（生物学基础） · Learning Theory – Talk With Agents">
-<meta property="og:description" content="与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。">
+<meta property="og:title" content="仓库清单 · Repository list – Talk With Agents">
+<meta property="og:description" content="站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。">
 <meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta property="og:site_name" content="Talk With Agents">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image:height" content="724">
 <meta property="og:image:width" content="1284">
-<meta name="twitter:title" content="学习理论（生物学基础） · Learning Theory – Talk With Agents">
-<meta name="twitter:description" content="与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。">
+<meta name="twitter:title" content="仓库清单 · Repository list – Talk With Agents">
+<meta name="twitter:description" content="站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。">
 <meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta name="twitter:image-height" content="724">
 <meta name="twitter:image-width" content="1284">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -170,7 +147,7 @@ window.Quarto = {
 <span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../coding/index.html"> 
+    <a class="nav-link active" href="../../coding/index.html" aria-current="page"> 
 <span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
   </li>  
 </ul>
@@ -185,32 +162,126 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/repos/repo-list.html">Agent 主导的代码库 · Repos</a></li><li class="breadcrumb-item"><a href="../../coding/repos/repo-list.html">仓库清单 · Repository list</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="展开或折叠侧边栏导航" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">总览 · Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">代码片段 · Snippets by Agents</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/snippets/function-space-search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">在候选函数空间中搜索「谁生成了数据」</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Agent 主导的代码库 · Repos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="展开或折叠此栏">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/repos/repo-list.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">仓库清单 · Repository list</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/repos/sarcos-ml-with-agents.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SARCOS inverse dynamics with Agents</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding/repos/sarcos-space-search.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">下一步：空间搜索（对话记录）</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#清单-the-list" id="toc-清单-the-list" class="nav-link active" data-scroll-target="#清单-the-list">清单 · The list</a></li>
+  <li><a href="#清单之外近期还在动的-active-but-not-on-the-list" id="toc-清单之外近期还在动的-active-but-not-on-the-list" class="nav-link" data-scroll-target="#清单之外近期还在动的-active-but-not-on-the-list">清单之外近期还在动的 · Active but not on the list</a></li>
+  <li><a href="#怎么维护-maintenance" id="toc-怎么维护-maintenance" class="nav-link" data-scroll-target="#怎么维护-maintenance">怎么维护 · Maintenance</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/coding/repos/repo-list.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding/repos/repo-list.html">Agent 主导的代码库 · Repos</a></li><li class="breadcrumb-item"><a href="../../coding/repos/repo-list.html">仓库清单 · Repository list</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">学习理论（生物学基础） · Learning Theory</h1>
-</div>
+<h1 class="title">仓库清单 · Repository list</h1>
+<p class="subtitle lead">由 Agent 参与、或以 Agent 为主题的 Python / Julia 仓库</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">与 Agent 共码</div>
+    <div class="quarto-category">Agent 主导的仓库</div>
+  </div>
+  </div>
 
 <div>
   <div class="description">
-    与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。
+    站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-body">
 
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月6日</p>
+    </div>
+  </div>
   
     
   </div>
@@ -220,49 +291,178 @@ window.Quarto = {
 </header>
 
 
-<p>一句话立场：<strong>学习不是信息的堆积，而是表征空间的结构性变化</strong>——从低维到高维的「生成」。</p>
-<div class="listing">
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+这份清单怎么来的 · Provenance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>源文件是 <code>Talkmd/repo-20260906-1510.md</code>：一份编号的仓库列表（意图各一行，部分链接当时没贴全）。 <code>python3 scripts/repo_list.py</code> 把它和 GitHub API 的元数据对账：占位链接按仓库名解析回真实地址， 语言与”最近推送”取仓库实际值，<strong>意图一栏保留原话</strong>（只修掉会破坏渲染的拼写）。 所以表里”最近推送”是事实，“意图”是作者的说法，两者不必一致。</p>
+</div>
+</div>
+<section id="清单-the-list" class="level2">
+<h2 class="anchored" data-anchor-id="清单-the-list">清单 · The list</h2>
+<div class="repo-list">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>仓库</th>
+<th>意图（原话整理）</th>
+<th>语言</th>
+<th>最近推送</th>
+<th>本站</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/10-regression-algorithms">10-regression-algorithms</a></td>
+<td>this repo refactor from Julia to python ｜ GitHub 描述：Practical introduction to 10 regression algorithms — Julia (MLJ) refactored to Python (scikit-learn), published with Quarto</td>
+<td>Julia</td>
+<td>2026-09-05</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/Learning-GaussianProcess">Learning-GaussianProcess</a></td>
+<td>—</td>
+<td>CSS</td>
+<td>2026-09-04</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/ML-Algo-Symbolic">ML-Algo-Symbolic</a></td>
+<td>mainly focus on formula derivations for machine learning algo using symbolic package</td>
+<td>Python</td>
+<td>2026-09-04</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/pi-agents-annotation">pi-agents-annotation</a></td>
+<td>create a extension by conversation with agents ｜ GitHub 描述：add notation inline notify agents what’s your focus</td>
+<td>TypeScript</td>
+<td>2026-09-02</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/3kernel-gp">3kernel-gp</a></td>
+<td>create by agents based on talk . we add later main idea: introduce three kernel function : offensive-kernel, defensive-kernel,cross-kernel to represent 10 player interaction at basket ball match</td>
+<td>Python</td>
+<td>2026-09-02</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/calculus-note">calculus-note</a></td>
+<td>refactor from julia Pluto note to python marimo note</td>
+<td>Julia</td>
+<td>2026-09-01</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/DataViz-With-Agents">DataViz-With-Agents</a></td>
+<td>for exploration of using agents programming</td>
+<td>HTML</td>
+<td>2026-08-30</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/olivetti-faces-project">olivetti-faces-project</a></td>
+<td>refactor from Julia code to python by agents ｜ GitHub 描述：use for face reconstruction</td>
+<td>Julia</td>
+<td>2026-08-29</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/Stat2-With-Py">Stat2-With-Py</a></td>
+<td>refactor from Julia code to python by agents ｜ GitHub 描述：migrate from Stat2-julia</td>
+<td>—</td>
+<td>2026-08-29</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/lock5-stat">lock5-stat</a></td>
+<td>refactor from Julia code to python by agents ｜ GitHub 描述：use for Statistics_ Unlocking the Power of Data with Julia</td>
+<td>Julia</td>
+<td>2026-08-28</td>
+<td>—</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/html-snake-agents">html-snake-agents</a></td>
+<td>by github copilot agents</td>
+<td>HTML</td>
+<td>2026-09-01</td>
+<td>—</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/nba_tactical_analysis">nba_tactical_analysis</a></td>
+<td>—</td>
+<td>私有 · private</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="清单之外近期还在动的-active-but-not-on-the-list" class="level2">
+<h2 class="anchored" data-anchor-id="清单之外近期还在动的-active-but-not-on-the-list">清单之外近期还在动的 · Active but not on the list</h2>
+<p>这些不在源清单里（也不在本页已收录的仓库中），但 2026-08 之后有推送，通常意味着「还没写进笔记」：</p>
+<div class="repo-list-extra">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>仓库</th>
+<th>语言</th>
+<th>最近推送</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/mangus-experiment">mangus-experiment</a></td>
+<td>Python</td>
+<td>2026-08-28</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/context-eng-demo">context-eng-demo</a></td>
+<td>—</td>
+<td>2026-08-27</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/awesome-list">awesome-list</a></td>
+<td>Python</td>
+<td>2026-08-25</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/machine-learning-julia">machine-learning-julia</a></td>
+<td>HTML</td>
+<td>2026-08-24</td>
+</tr>
+<tr class="odd">
+<td><a href="https://github.com/math4mad/prml-book">prml-book</a></td>
+<td>HTML</td>
+<td>2026-08-23</td>
+</tr>
+<tr class="even">
+<td><a href="https://github.com/math4mad/Stat2-julia">Stat2-julia</a></td>
+<td>Julia</td>
+<td>2026-08-29</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="怎么维护-maintenance" class="level2">
+<h2 class="anchored" data-anchor-id="怎么维护-maintenance">怎么维护 · Maintenance</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/repo_list.py            <span class="co"># 读最新的 Talkmd/repo-*.md + 刷新 GitHub 元数据</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> scripts/repo_list.py <span class="at">--offline</span>  <span class="co"># 只用 output/repos.json 缓存（CI 断网时）</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>新增仓库：往 <code>Talkmd/</code> 放一份新的 <code>repo-&lt;日期&gt;-&lt;时间&gt;-&lt;序号&gt;.md</code>，说一声 update 即可。 给某个仓库写正文：在 <code>coding/repos/</code> 新建一页（参考 <a href="../../coding/repos/sarcos-ml-with-agents.html">SARCOS inverse dynamics with Agents</a> 的写法：只写能被脚本复现的结论）， 然后把仓库名加进 <code>scripts/repo_list.py</code> 的 <code>DOCUMENTED</code>，本站一栏就会自动出现链接。</p>
 
-</div>
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1788685175153" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="144">
-<a href="../../talking/learning-theory/low-to-high-dimension-learning.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-learning.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-从低维到高维的「生成」过程，就是人类的学习机理
-</h5>
-<div class="card-subtitle listing-subtitle">
-一次把表征维度、认知地图与反向转移串起来的对谈
-</div>
-<div class="listing-reading-time card-text text-muted">
-1 分钟
-</div>
-<div class="card-text listing-description">
-Agent 综合神经科学与认知心理学证据回答：类别学习如何拉伸表征空间、高维表征与学习效率的关系、认知地图的扩张，以及从习惯学习（低维）到概念学习（高维）的发展性转变。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-无匹配项
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -685,6 +885,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation column-body">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding/snippets/function-space-search.html" class="pagination-link" aria-label="在候选函数空间中搜索「谁生成了数据」">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">在候选函数空间中搜索「谁生成了数据」</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../coding/repos/sarcos-ml-with-agents.html" class="pagination-link" aria-label="SARCOS inverse dynamics with Agents">
+        <span class="nav-page-text">SARCOS inverse dynamics with Agents</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -693,7 +905,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/coding/repos/repo-list.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

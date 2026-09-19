@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="把 Redux 想成一列绿皮火车：乘务员推车是 Store，乘客是组件，「要花生米」是 dispatch，验货交货是 reducer，去库房取货是 saga。本篇将每一幕写成可运行的代码，并展示同一个模型如何原样搬进多 Agent 编排——附园区两幕剧实证。">
+
+<title>Redux 的绿皮火车 – Talk With Agents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9a023c9ade86a60361e96e3e3f11bc54.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-256888c19e30a3ddc114cfe178dd2333.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Redux 的绿皮火车 – Talk With Agents">
+<meta property="og:description" content="把 Redux 想成一列绿皮火车：乘务员推车是 Store，乘客是组件，「要花生米」是 dispatch，验货交货是 reducer，去库房取货是 saga。本篇将每一幕写成可运行的代码，并展示同一个模型如何原样搬进多 Agent 编排——附园区两幕剧实证。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="Redux 的绿皮火车 – Talk With Agents">
+<meta name="twitter:description" content="把 Redux 想成一列绿皮火车：乘务员推车是 Store，乘客是组件，「要花生米」是 dispatch，验货交货是 reducer，去库房取货是 saga。本篇将每一幕写成可运行的代码，并展示同一个模型如何原样搬进多 Agent 编排——附园区两幕剧实证。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talking/index.html"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#一-上车人物表" id="toc-一-上车人物表" class="nav-link active" data-scroll-target="#一-上车人物表">一 · 上车：人物表</a></li>
+  <li><a href="#二-每一幕写成代码" id="toc-二-每一幕写成代码" class="nav-link" data-scroll-target="#二-每一幕写成代码">二 · 每一幕写成代码</a>
+  <ul class="collapse">
+  <li><a href="#第一幕推车与收据" id="toc-第一幕推车与收据" class="nav-link" data-scroll-target="#第一幕推车与收据">第一幕：推车与收据</a></li>
+  <li><a href="#第二幕验货交货的纯函数" id="toc-第二幕验货交货的纯函数" class="nav-link" data-scroll-target="#第二幕验货交货的纯函数">第二幕：验货交货的纯函数</a></li>
+  <li><a href="#第三幕去库房取货saga" id="toc-第三幕去库房取货saga" class="nav-link" data-scroll-target="#第三幕去库房取货saga">第三幕：去库房取货（saga）</a></li>
+  <li><a href="#第四幕各看各的行李架" id="toc-第四幕各看各的行李架" class="nav-link" data-scroll-target="#第四幕各看各的行李架">第四幕：各看各的行李架</a></li>
+  </ul></li>
+  <li><a href="#三-现代改法一车人别再手写收据" id="toc-三-现代改法一车人别再手写收据" class="nav-link" data-scroll-target="#三-现代改法一车人别再手写收据">三 · 现代改法：一车人别再手写收据</a></li>
+  <li><a href="#四-换乘从火车到-agent-编排" id="toc-四-换乘从火车到-agent-编排" class="nav-link" data-scroll-target="#四-换乘从火车到-agent-编排">四 · 换乘：从火车到 Agent 编排</a>
+  <ul class="collapse">
+  <li><a href="#两幕剧实证orchestrator-poc跑真代码" id="toc-两幕剧实证orchestrator-poc跑真代码" class="nav-link" data-scroll-target="#两幕剧实证orchestrator-poc跑真代码">两幕剧实证（orchestrator PoC，跑真代码）</a></li>
+  </ul></li>
+  <li><a href="#五-到站为什么这个抽象配得上跨域" id="toc-五-到站为什么这个抽象配得上跨域" class="nav-link" data-scroll-target="#五-到站为什么这个抽象配得上跨域">五 · 到站：为什么这个抽象配得上跨域</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/architecture/redux-green-train.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Redux 的绿皮火车</h1>
+<p class="subtitle lead">一个推销员、一节车厢，与从 UI 到 AI Agent 的信息流模型</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">与 Agent 对谈</div>
+    <div class="quarto-category">架构</div>
+    <div class="quarto-category">Redux 与多智能体</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    把 Redux 想成一列绿皮火车：乘务员推车是 Store，乘客是组件，「要花生米」是 dispatch，验货交货是 reducer，去库房取货是 saga。本篇将每一幕写成可运行的代码，并展示同一个模型如何原样搬进多 Agent 编排——附园区两幕剧实证。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月19日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>比喻成形于给 Redux 作者 Dan Abramov 的一封信（2026-09-19 寄出）。当时读了十年 Redux 而「没真懂」， 是一列绿皮火车让我忽然看通的——随后发现：这套模型原封不动地适用于多 Agent 协作。 本篇的代码在 Node 上真实跑过（redux 5 · react-redux 的 useSelector 用法 · redux-saga 1.5 · RTK 2.12）， 园区实证出自 CHORA 工作区的 orchestrator PoC。</p>
+</div>
+</div>
+<section id="一-上车人物表" class="level2">
+<h2 class="anchored" data-anchor-id="一-上车人物表">一 · 上车：人物表</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>火车</th>
+<th>Redux</th>
+<th>一句话职责</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>乘务员推车</td>
+<td><strong>Store</strong></td>
+<td>唯一事实源，货都在车上</td>
+</tr>
+<tr class="even">
+<td>乘客</td>
+<td><strong>组件 / Agent</strong></td>
+<td>不碰货，只声明需求</td>
+</tr>
+<tr class="odd">
+<td>「要花生米」</td>
+<td><strong>action (dispatch)</strong></td>
+<td>一张可挂号的收据</td>
+</tr>
+<tr class="even">
+<td>验货、交货</td>
+<td><strong>reducer</strong></td>
+<td>纯函数：查账、改账、取货</td>
+</tr>
+<tr class="odd">
+<td>「车上没有，去库房」</td>
+<td><strong>saga</strong></td>
+<td>一切副作用的总管</td>
+</tr>
+<tr class="even">
+<td>各看各的行李架</td>
+<td><strong>selector</strong></td>
+<td>只订阅你关心的那一格</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="二-每一幕写成代码" class="level2">
+<h2 class="anchored" data-anchor-id="二-每一幕写成代码">二 · 每一幕写成代码</h2>
+<section id="第一幕推车与收据" class="level3">
+<h3 class="anchored" data-anchor-id="第一幕推车与收据">第一幕：推车与收据</h3>
+<p>火车上最要紧的规矩：<strong>乘客永远不伸手进货箱</strong>。他要做的只有一件事——把需求喊成一枚普通对象：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 「我要花生米」 —— action 只是数据，像一张火车票存根</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> buySnack <span class="op">=</span> { <span class="dt">type</span><span class="op">:</span> <span class="st">"snacks/purchased"</span><span class="op">,</span> <span class="dt">item</span><span class="op">:</span> <span class="st">"peanuts"</span><span class="op">,</span> <span class="dt">qty</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>store<span class="op">.</span><span class="fu">dispatch</span>(buySnack)<span class="op">;</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>喊出去的话都有存根：<code>store.getState()</code> 是此刻的账，dispatch 历史是流水。<strong>可回放，即可调试。</strong></p>
+</section>
+<section id="第二幕验货交货的纯函数" class="level3">
+<h3 class="anchored" data-anchor-id="第二幕验货交货的纯函数">第二幕：验货交货的纯函数</h3>
+<p>reducer 是那个只认单据的乘务员——不看乘客脸色、不接手机、不「顺便」干别的：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">snacks</span>(state <span class="op">=</span> { <span class="dt">peanuts</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">guazi</span><span class="op">:</span> <span class="dv">12</span> }<span class="op">,</span> action) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">switch</span> (action<span class="op">.</span><span class="at">type</span>) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">"snacks/purchased"</span><span class="op">:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> { <span class="op">...</span>state<span class="op">,</span> [action<span class="op">.</span><span class="at">item</span>]<span class="op">:</span> state[action<span class="op">.</span><span class="at">item</span>] <span class="op">-</span> action<span class="op">.</span><span class="at">qty</span> }<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">default</span><span class="op">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span> state<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>纯，是这个模型的德性：<strong>同样的单据必交同样的货</strong>。我们园区把它翻译成认知律—— reducer 就是贝叶斯更新：「Host 不猜测，只更新」。</p>
+</section>
+<section id="第三幕去库房取货saga" class="level3">
+<h3 class="anchored" data-anchor-id="第三幕去库房取货saga">第三幕：去库房取货（saga）</h3>
+<p>花生米卖光了、货在 remote 仓库——乘务员不能让全车人干等，也别让乘客自己跳车：</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { takeLatest<span class="op">,</span> put<span class="op">,</span> call<span class="op">,</span> all<span class="op">,</span> fork<span class="op">,</span> cancel } <span class="im">from</span> <span class="st">"redux-saga/effects"</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="op">*</span> <span class="fu">restock</span>(action) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> goods <span class="op">=</span> <span class="kw">yield</span> <span class="fu">call</span>(fetch<span class="op">,</span> <span class="vs">`/warehouse/</span><span class="sc">${</span>action<span class="op">.</span><span class="at">item</span><span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span>   <span class="co">// 异步：唯一允许脏活的地方</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">yield</span> <span class="fu">put</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">"snacks/restocked"</span><span class="op">,</span> goods })<span class="op">;</span>                  <span class="co">// 把结果喊成一张新收据</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="op">*</span> <span class="fu">conductor</span>() {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">yield</span> <span class="fu">takeLatest</span>(<span class="st">"snacks/needRestock"</span><span class="op">,</span> restock)<span class="op">;</span>  <span class="co">// 连喊三次？只跑最后一单，防踩踏</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>takeLatest</code> 防竞态、<code>all</code> 并行、<code>fork/cancel</code> 管生命周期——一个乘务组的纪律，就是并发的全部语法。 而在 Agent 世界里，这一幕还有第三个用途：<strong>问人</strong>（见第四节）。</p>
+</section>
+<section id="第四幕各看各的行李架" class="level3">
+<h3 class="anchored" data-anchor-id="第四幕各看各的行李架">第四幕：各看各的行李架</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode jsx code-with-copy"><code class="sourceCode javascriptreact"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 乘客从不读整辆车——只订阅自己那一格</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> peanuts <span class="op">=</span> <span class="fu">useSelector</span>((s) <span class="kw">=&gt;</span> s<span class="op">.</span><span class="at">snacks</span><span class="op">.</span><span class="at">peanuts</span>)<span class="op">;</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>订阅即<strong>渐进披露</strong>：每节车厢知道得刚好够坐，多一点都嫌吵。多 Agent 系统里， 这就是「每个 agent 只拿它那份上下文」——不必再发明第二套机制。</p>
+</section>
+</section>
+<section id="三-现代改法一车人别再手写收据" class="level2">
+<h2 class="anchored" data-anchor-id="三-现代改法一车人别再手写收据">三 · 现代改法：一车人别再手写收据</h2>
+<p>RTK（官方现代工具链）两行顶过去一个文件夹，且带<strong>防夹带</strong>（Immer 让你忘掉展开运算符——「忘展开」这个十年龄的老 bug 类别直接蒸发）：</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { createSlice<span class="op">,</span> configureStore } <span class="im">from</span> <span class="st">"@reduxjs/toolkit"</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> snacks <span class="op">=</span> <span class="fu">createSlice</span>({</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">name</span><span class="op">:</span> <span class="st">"snacks"</span><span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">initialState</span><span class="op">:</span> { <span class="dt">peanuts</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">guazi</span><span class="op">:</span> <span class="dv">12</span> }<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reducers</span><span class="op">:</span> {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">purchased</span>(s<span class="op">,</span> a) { s[a<span class="op">.</span><span class="at">payload</span><span class="op">.</span><span class="at">item</span>] <span class="op">-=</span> a<span class="op">.</span><span class="at">payload</span><span class="op">.</span><span class="at">qty</span><span class="op">;</span> }<span class="op">,</span>   <span class="co">// 看着像改，实为记账</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> store <span class="op">=</span> <span class="fu">configureStore</span>({</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reducer</span><span class="op">:</span> { <span class="dt">snacks</span><span class="op">:</span> snacks<span class="op">.</span><span class="at">reducer</span> }<span class="op">,</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">middleware</span><span class="op">:</span> (gd) <span class="kw">=&gt;</span> <span class="fu">gd</span>({ <span class="dt">serializableCheck</span><span class="op">:</span> <span class="kw">false</span> })<span class="op">.</span><span class="fu">concat</span>(sagaMiddleware)<span class="op">,</span> <span class="co">// saga 照常同乘</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="四-换乘从火车到-agent-编排" class="level2">
+<h2 class="anchored" data-anchor-id="四-换乘从火车到-agent-编排">四 · 换乘：从火车到 Agent 编排</h2>
+<p>绿皮车抵达终点，模型不下车——把「乘客」换成「agent」，一切都原座保留：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>火车</th>
+<th>Agent 编排</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>乘客喊单</td>
+<td>agent 之间唯一合法通讯：<strong>发消息，不碰对方内部</strong></td>
+</tr>
+<tr class="even">
+<td>账本 = 状态</td>
+<td>append-only 的 action log 就是共享记忆与审计凭据（我们的 git 律：收据即历史）</td>
+</tr>
+<tr class="odd">
+<td>「这单我没把握」</td>
+<td><strong>架构级刹车</strong>：<code>take(CLARIFY_RESPONSE)</code> 让整条流水线挂在轨道上，等人类这一位乘客回话</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb6"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="op">*</span> <span class="fu">clarify</span>(task) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (task<span class="op">.</span><span class="at">confidence</span> <span class="op">&lt;</span> <span class="fl">0.7</span>) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> <span class="fu">put</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">"CLARIFY_REQUEST"</span><span class="op">,</span> <span class="dt">questions</span><span class="op">:</span> task<span class="op">.</span><span class="at">questions</span> })<span class="op">;</span> <span class="co">// 问人：选项式，绝不问超过三条</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> answer <span class="op">=</span> <span class="kw">yield</span> <span class="fu">take</span>(<span class="st">"CLARIFY_RESPONSE"</span>)<span class="op">;</span>                      <span class="co">// 车停在站，人答了才走</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    task <span class="op">=</span> <span class="fu">merge</span>(task<span class="op">,</span> answer)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">yield</span> <span class="fu">put</span>({ <span class="dt">type</span><span class="op">:</span> <span class="st">"AGENT_EXECUTE"</span><span class="op">,</span> <span class="dt">payload</span><span class="op">:</span> task })<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>我们园区的「人」这一端不是弹窗，是主人 iPhone 上的提醒事项：<strong>勾掉即批复</strong>—— UI 可以是火车沿线的任意一站，轨道模型不变。</p>
+<section id="两幕剧实证orchestrator-poc跑真代码" class="level3">
+<h3 class="anchored" data-anchor-id="两幕剧实证orchestrator-poc跑真代码">两幕剧实证（orchestrator PoC，跑真代码）</h3>
+<p>链底挂一只持久中间件，<strong>连 saga 自己 put 的票也不许逃账</strong>：</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> persist <span class="op">=</span> (store) <span class="kw">=&gt;</span> (next) <span class="kw">=&gt;</span> (action) <span class="kw">=&gt;</span> {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">appendFileSync</span>(<span class="st">"bus.ndjson"</span><span class="op">,</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(action) <span class="op">+</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)<span class="op">;</span>   <span class="co">// 每一张票过闸机都留根</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">next</span>(action)<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><strong>幕一</strong>：任务 <code>spring</code> 飞行中进程暴毙（exit 9），账本只剩两行——dispatch、started；</li>
+<li><strong>幕二</strong>：重启读账本 → 见 pending 未 done 者自动 <code>resume</code> → 三件任务恰齐，归档不重不漏（幂等 worker）。</li>
+</ul>
+<p>一次死亡与复活，验尽「持久层」三个字：<strong>不是备份口号，是能在链底接住死亡的结构。</strong></p>
+</section>
+</section>
+<section id="五-到站为什么这个抽象配得上跨域" class="level2">
+<h2 class="anchored" data-anchor-id="五-到站为什么这个抽象配得上跨域">五 · 到站：为什么这个抽象配得上跨域</h2>
+<p>一个比喻成不成立，看它敢不敢接受三问：</p>
+<ol type="1">
+<li><strong>换乘务员，乘客要改吗？</strong> 不用——reducer 可热换（这正是 React 热更与 our park 换 agent 无痛的同一理由）；</li>
+<li><strong>乘客多了，账会乱吗？</strong> 不用——写只有一条路（dispatch），读各订阅一格（selector），乱无处生；</li>
+<li><strong>下了火车上船呢？</strong> 已验——UI、Agent、乃至贝叶斯认知律，同一套「单一事实源 + 声明式变更 + 可回放流水」。</li>
+</ol>
+<p>抽象的成色不在它解决了什么，而在<strong>它没被换掉过</strong>。十年后换乘 Agent 时代，火车还在开。</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>本篇代码在 Node 24 实测（redux 5.0.1 / react-redux 用法 / redux-saga 1.5.1 / RTK 2.12）； 两幕剧见 <code>chora/experiments/orchestra/agent-bus-poc.js</code>（commit <code>4e6ee3c</code>）。 致 Dan 的原信在园匣可溯（mmads4653@agent.qq.com, sent 2026-09-19）。</p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/architecture/redux-green-train.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

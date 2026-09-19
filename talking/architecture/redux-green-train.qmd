@@ -1,0 +1,176 @@
+---
+title: "Redux 的绿皮火车"
+subtitle: "一个推销员、一节车厢，与从 UI 到 AI Agent 的信息流模型"
+description: "把 Redux 想成一列绿皮火车：乘务员推车是 Store，乘客是组件，「要花生米」是 dispatch，验货交货是 reducer，去库房取货是 saga。本篇将每一幕写成可运行的代码，并展示同一个模型如何原样搬进多 Agent 编排——附园区两幕剧实证。"
+author:
+  - name: Math4Mad
+    url: https://github.com/math4mad
+date: "2026-09-19"
+categories:
+  - 与 Agent 对谈
+  - 架构
+  - Redux 与多智能体
+format:
+  html:
+    toc-depth: 3
+    number-sections: false
+---
+
+::: {.callout-note appearance="minimal"}
+## 关于这一篇 · About this note
+
+比喻成形于给 Redux 作者 Dan Abramov 的一封信（2026-09-19 寄出）。当时读了十年 Redux 而「没真懂」，
+是一列绿皮火车让我忽然看通的——随后发现：这套模型原封不动地适用于多 Agent 协作。
+本篇的代码在 Node 上真实跑过（redux 5 · react-redux 的 useSelector 用法 · redux-saga 1.5 · RTK 2.12），
+园区实证出自 CHORA 工作区的 orchestrator PoC。
+:::
+
+## 一 · 上车：人物表
+
+| 火车 | Redux | 一句话职责 |
+|---|---|---|
+| 乘务员推车 | **Store** | 唯一事实源，货都在车上 |
+| 乘客 | **组件 / Agent** | 不碰货，只声明需求 |
+| 「要花生米」 | **action (dispatch)** | 一张可挂号的收据 |
+| 验货、交货 | **reducer** | 纯函数：查账、改账、取货 |
+| 「车上没有，去库房」 | **saga** | 一切副作用的总管 |
+| 各看各的行李架 | **selector** | 只订阅你关心的那一格 |
+
+## 二 · 每一幕写成代码
+
+### 第一幕：推车与收据
+
+火车上最要紧的规矩：**乘客永远不伸手进货箱**。他要做的只有一件事——把需求喊成一枚普通对象：
+
+```js
+// 「我要花生米」 —— action 只是数据，像一张火车票存根
+const buySnack = { type: "snacks/purchased", item: "peanuts", qty: 1 };
+store.dispatch(buySnack);
+```
+
+喊出去的话都有存根：`store.getState()` 是此刻的账，dispatch 历史是流水。**可回放，即可调试。**
+
+### 第二幕：验货交货的纯函数
+
+reducer 是那个只认单据的乘务员——不看乘客脸色、不接手机、不「顺便」干别的：
+
+```js
+function snacks(state = { peanuts: 5, guazi: 12 }, action) {
+  switch (action.type) {
+    case "snacks/purchased":
+      return { ...state, [action.item]: state[action.item] - action.qty };
+    default:
+      return state;
+  }
+}
+```
+
+纯，是这个模型的德性：**同样的单据必交同样的货**。我们园区把它翻译成认知律——
+reducer 就是贝叶斯更新：「Host 不猜测，只更新」。
+
+### 第三幕：去库房取货（saga）
+
+花生米卖光了、货在 remote 仓库——乘务员不能让全车人干等，也别让乘客自己跳车：
+
+```js
+import { takeLatest, put, call, all, fork, cancel } from "redux-saga/effects";
+
+function* restock(action) {
+  const goods = yield call(fetch, `/warehouse/${action.item}`);   // 异步：唯一允许脏活的地方
+  yield put({ type: "snacks/restocked", goods });                  // 把结果喊成一张新收据
+}
+
+function* conductor() {
+  yield takeLatest("snacks/needRestock", restock);  // 连喊三次？只跑最后一单，防踩踏
+}
+```
+
+`takeLatest` 防竞态、`all` 并行、`fork/cancel` 管生命周期——一个乘务组的纪律，就是并发的全部语法。
+而在 Agent 世界里，这一幕还有第三个用途：**问人**（见第四节）。
+
+### 第四幕：各看各的行李架
+
+```jsx
+// 乘客从不读整辆车——只订阅自己那一格
+const peanuts = useSelector((s) => s.snacks.peanuts);
+```
+
+订阅即**渐进披露**：每节车厢知道得刚好够坐，多一点都嫌吵。多 Agent 系统里，
+这就是「每个 agent 只拿它那份上下文」——不必再发明第二套机制。
+
+## 三 · 现代改法：一车人别再手写收据
+
+RTK（官方现代工具链）两行顶过去一个文件夹，且带**防夹带**（Immer 让你忘掉展开运算符——「忘展开」这个十年龄的老 bug 类别直接蒸发）：
+
+```js
+import { createSlice, configureStore } from "@reduxjs/toolkit";
+
+const snacks = createSlice({
+  name: "snacks",
+  initialState: { peanuts: 5, guazi: 12 },
+  reducers: {
+    purchased(s, a) { s[a.payload.item] -= a.payload.qty; },   // 看着像改，实为记账
+  },
+});
+
+const store = configureStore({
+  reducer: { snacks: snacks.reducer },
+  middleware: (gd) => gd({ serializableCheck: false }).concat(sagaMiddleware), // saga 照常同乘
+});
+```
+
+## 四 · 换乘：从火车到 Agent 编排
+
+绿皮车抵达终点，模型不下车——把「乘客」换成「agent」，一切都原座保留：
+
+| 火车 | Agent 编排 |
+|---|---|
+| 乘客喊单 | agent 之间唯一合法通讯：**发消息，不碰对方内部** |
+| 账本 = 状态 | append-only 的 action log 就是共享记忆与审计凭据（我们的 git 律：收据即历史） |
+| 「这单我没把握」 | **架构级刹车**：`take(CLARIFY_RESPONSE)` 让整条流水线挂在轨道上，等人类这一位乘客回话 |
+
+```js
+function* clarify(task) {
+  if (task.confidence < 0.7) {
+    yield put({ type: "CLARIFY_REQUEST", questions: task.questions }); // 问人：选项式，绝不问超过三条
+    const answer = yield take("CLARIFY_RESPONSE");                      // 车停在站，人答了才走
+    task = merge(task, answer);
+  }
+  yield put({ type: "AGENT_EXECUTE", payload: task });
+}
+```
+
+我们园区的「人」这一端不是弹窗，是主人 iPhone 上的提醒事项：**勾掉即批复**——
+UI 可以是火车沿线的任意一站，轨道模型不变。
+
+### 两幕剧实证（orchestrator PoC，跑真代码）
+
+链底挂一只持久中间件，**连 saga 自己 put 的票也不许逃账**：
+
+```js
+const persist = (store) => (next) => (action) => {
+  fs.appendFileSync("bus.ndjson", JSON.stringify(action) + "\n");   // 每一张票过闸机都留根
+  return next(action);
+};
+```
+
+- **幕一**：任务 `spring` 飞行中进程暴毙（exit 9），账本只剩两行——dispatch、started；
+- **幕二**：重启读账本 → 见 pending 未 done 者自动 `resume` → 三件任务恰齐，归档不重不漏（幂等 worker）。
+
+一次死亡与复活，验尽「持久层」三个字：**不是备份口号，是能在链底接住死亡的结构。**
+
+## 五 · 到站：为什么这个抽象配得上跨域
+
+一个比喻成不成立，看它敢不敢接受三问：
+
+1. **换乘务员，乘客要改吗？** 不用——reducer 可热换（这正是 React 热更与 our park 换 agent 无痛的同一理由）；
+2. **乘客多了，账会乱吗？** 不用——写只有一条路（dispatch），读各订阅一格（selector），乱无处生；
+3. **下了火车上船呢？** 已验——UI、Agent、乃至贝叶斯认知律，同一套「单一事实源 + 声明式变更 + 可回放流水」。
+
+抽象的成色不在它解决了什么，而在**它没被换掉过**。十年后换乘 Agent 时代，火车还在开。
+
+::: {.callout-tip appearance="simple"}
+本篇代码在 Node 24 实测（redux 5.0.1 / react-redux 用法 / redux-saga 1.5.1 / RTK 2.12）；
+两幕剧见 `chora/experiments/orchestra/agent-bus-poc.js`（commit `4e6ee3c`）。
+致 Dan 的原信在园匣可溯（mmads4653@agent.qq.com, sent 2026-09-19）。
+:::

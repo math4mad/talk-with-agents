@@ -61,5 +61,47 @@
     "kind": "repo",
     "page": "coding/repos/repo-list.qmd",
     "converted": "2026-09-06T15:44:53"
+  },
+  "talk-20260926-0446-1.md": {
+    "sha256": "b02ff68a445cd635",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/structure-structure-similarity.qmd",
+    "converted": "2026-09-26T16:38:31"
+  },
+  "talk-20260926-0446-2.md": {
+    "sha256": "d3e9d48f1358c43e",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/ai.qmd",
+    "converted": "2026-09-26T16:38:31"
+  },
+  "talk-20260926-0446-3.md": {
+    "sha256": "9d017ce9903c5f4e",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/untitled.qmd",
+    "converted": "2026-09-26T16:38:31"
+  },
+  "talk-20260926-0446-4.md": {
+    "sha256": "8efad5e8004088ea",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/baby-model-yamana-ip-ips-paper.qmd",
+    "converted": "2026-09-26T16:38:31"
+  },
+  "talk-20260926-0446-5.md": {
+    "sha256": "98ce6060ea6fe31b",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/untitled.qmd",
+    "converted": "2026-09-26T16:38:31"
+  },
+  "talk-20260926-0446-6.md": {
+    "sha256": "7f55b064d6653219",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/learning-theory/untitled.qmd",
+    "converted": "2026-09-26T16:38:31"
   }
 }

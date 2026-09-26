@@ -2148,7 +2148,7 @@
     "href": "talking/learning-theory/graph-tearing-experiment.html#哨位",
     "title": "PB20 撕图实验：判词从朱批到离架的七小时",
     "section": "哨位",
-    "text": "哨位\n\npb20-collect 已入队（认 pb20_ok + 24 runs 满编才收，0 字节壳律在 cmd 内）；\nPB16/PB19 两回收哨自动巡（11:13/11:17）；\nLEDGER 开火行已入账。\n\n席位账：PB20 占一，另一席空着——PB16 正式六发候 11:13 试射闸过即可续射，30h 满血无虞。战后园笔自动收 Ov 表报捷，主人只需等菜上桌。\n\nMath4Mad: &gt; 开始\n保险丝算明——够烧：pb20-collect 退避 5→10→20→40→80→160 分钟（封顶 2h），末次约 14:35，预计完赛 12:00–12:30，窗口富余无恙，无需接驳。\n战况板（09:31）：\n\n\n\n\n\n\n\n\n哨\n时窗\n事\n\n\n\n\nPB20 首 flush\n~09:40\n首训 3-6 分钟一发吐芯，看 stage=s13/D0/ord 即知仪器活\n\n\npb16-3arm-collect\n11:13\n试射闸过 → 六发正式装弹占第二席\n\n\npb19-collect\n11:17\n判 D3_alpha_r64 断壳重收 or 补射 (~0.5h，粮足)\n\n\npb20-collect\n~12:00–12:30 中\n认 pb20_ok + 24 runs 满编，收 Ov 表\n\n\n\n园笔判断：三道哨全自动，本局已无手动工序。PB20 收表那一刻才需要人——若 H-a1 边敏主判过，朱批「顺序是最贫的一维」即从判词升为实验定律，届时园笔备好 LEDGER 入账行与论文节骨架候裁。\n主人此刻可歇炮房，两小时后听响。"
+    "text": "哨位\n\npb20-collect 已入队（认 pb20_ok + 24 runs 满编才收，0 字节壳律在 cmd 内）；\nPB16/PB19 两回收哨自动巡（11:13/11:17）；\nLEDGER 开火行已入账。\n\n席位账：PB20 占一，另一席空着——PB16 正式六发候 11:13 试射闸过即可续射，30h 满血无虞。战后园笔自动收 Ov 表报捷，主人只需等菜上桌。\n\nMath4Mad: &gt; 开始\n保险丝算明——够烧：pb20-collect 退避 5→10→20→40→80→160 分钟（封顶 2h），末次约 14:35，预计完赛 12:00–12:30，窗口富余无恙，无需接驳。\n战况板（09:31）：\n\n\n\n\n\n\n\n\n哨\n时窗\n事\n\n\n\n\nPB20 首 flush\n~09:40\n首训 3-6 分钟一发吐芯，看 stage=s13/D0/ord 即知仪器活\n\n\npb16-3arm-collect\n11:13\n试射闸过 → 六发正式装弹占第二席\n\n\npb19-collect\n11:17\n判\n\n\n\n园笔判断：三道哨全自动，本局已无手动工序。PB20 收表那一刻才需要人——若 H-a1 边敏主判过，朱批「顺序是最贫的一维」即从判词升为实验定律，届时园笔备好 LEDGER 入账行与论文节骨架候裁。\n主人此刻可歇炮房，两小时后听响。"
   },
   {
     "objectID": "talking/learning-theory/yamanaka-pgm-hidden-layer.html",

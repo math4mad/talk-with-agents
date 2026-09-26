@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。">
+<meta name="author" content="Math4Mad">
+<meta name="description" content="「顺序是最贫的一维」定谳当日，Agent 与主人把判词变成可证伪实验：四虚构袋（杂货单/蓝月年表/曜光制程链/双链跨边）× 有序/撕图 × 三种子 = 24 训，Kaggle 满血 30h 窗口内完成冻判据、铸袋、装弹、发射、回收。">
 
-<title>Agent 主导的仓库 · Repos – Talk With Agents</title>
+<title>PB20 撕图实验：判词从朱批到离架的七小时 – Talk With Agents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +32,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,76 +67,18 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "搜索"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Agent 主导的仓库 · Repos – Talk With Agents">
-<meta property="og:description" content="主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。">
+<meta property="og:title" content="PB20 撕图实验：判词从朱批到离架的七小时 – Talk With Agents">
+<meta property="og:description" content="「顺序是最贫的一维」定谳当日，Agent 与主人把判词变成可证伪实验：四虚构袋（杂货单/蓝月年表/曜光制程链/双链跨边）× 有序/撕图 × 三种子 = 24 训，Kaggle 满血 30h 窗口内完成冻判据、铸袋、装弹、发射、回收。">
 <meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta property="og:site_name" content="Talk With Agents">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image:height" content="724">
 <meta property="og:image:width" content="1284">
-<meta name="twitter:title" content="Agent 主导的仓库 · Repos – Talk With Agents">
-<meta name="twitter:description" content="主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。">
+<meta name="twitter:title" content="PB20 撕图实验：判词从朱批到离架的七小时 – Talk With Agents">
+<meta name="twitter:description" content="「顺序是最贫的一维」定谳当日，Agent 与主人把判词变成可证伪实验：四虚构袋（杂货单/蓝月年表/曜光制程链/双链跨边）× 有序/撕图 × 三种子 = 24 训，Kaggle 满血 30h 窗口内完成冻判据、铸袋、装弹、发射、回收。">
 <meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta name="twitter:image-height" content="724">
 <meta name="twitter:image-width" content="1284">
@@ -190,27 +131,49 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#昨夜战果三臂皆-complete" id="toc-昨夜战果三臂皆-complete" class="nav-link active" data-scroll-target="#昨夜战果三臂皆-complete">昨夜战果（三臂皆 COMPLETE）</a></li>
+  <li><a href="#配额账10h周一才回血" id="toc-配额账10h周一才回血" class="nav-link" data-scroll-target="#配额账10h周一才回血">配额账：&lt;10h，周一才回血</a></li>
+  <li><a href="#已射" id="toc-已射" class="nav-link" data-scroll-target="#已射">已射</a></li>
+  <li><a href="#判据冻死不悔" id="toc-判据冻死不悔" class="nav-link" data-scroll-target="#判据冻死不悔">判据（冻死不悔）</a></li>
+  <li><a href="#哨位" id="toc-哨位" class="nav-link" data-scroll-target="#哨位">哨位</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/graph-tearing-experiment.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Agent 主导的仓库 · Repos</h1>
+<h1 class="title">PB20 撕图实验：判词从朱批到离架的七小时</h1>
 </div>
 
 <div>
   <div class="description">
-    主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。
+    「顺序是最贫的一维」定谳当日，Agent 与主人把判词变成可证伪实验：四虚构袋（杂货单/蓝月年表/曜光制程链/双链跨边）× 有序/撕图 × 三种子 = 24 训，Kaggle 满血 30h 窗口内完成冻判据、铸袋、装弹、发射、回收。
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月26日</p>
+    </div>
+  </div>
   
     
   </div>
@@ -220,103 +183,242 @@ window.Quarto = {
 </header>
 
 
-<p>摘要页的写法：<strong>只写能被脚本复现的结论</strong>。每个数字都指向仓库里的一条命令或一个 <code>artifacts/</code> 文件； 页面本身不重跑实验，因此也不会悄悄和代码脱节。</p>
-<div class="listing">
+<p>::: {{.callout-note appearance=“minimal”}} ## 关于这一篇 · About this note</p>
+<p>本篇为主人 × <span class="citation" data-cites="lola">(<a href="#ref-lola" role="doc-biblioref"><strong>lola?</strong></a>)</span>（园笔，Qwen 驱动的 Pi agent）同日实录之第 2 / 4 篇，工具操作回合有删节、对话原文照登。原始记录：<code>Talkmd/talk-20260926-0633-2.md</code>。</p>
+<p>看点：①D2 制程链通篇无年份——若仍对撕图敏感，撕的必是依赖边不是历法；②虚构世界设计杜绝预训练先验污染；③首读即撞仪器闸：撕随机袋的本底位移高达 9%，「量尺比预想的钝，或世界比预想的野」——按冻死条款归零候修器，负结果照登。 :::</p>
+<!-- 时间窗: 2026-09-25T23:55Z 起, 23 条消息 -->
+<p>Math4Mad: &gt; 昨天用的狠啊, kaggle 只有不到10小时了</p>
+<p>令旗先勘实况——昨射诸臂生死与席位余量：</p>
+<hr>
+<p>战况与配额账，禀主人：</p>
+<section id="昨夜战果三臂皆-complete" class="level2">
+<h2 class="anchored" data-anchor-id="昨夜战果三臂皆-complete">昨夜战果（三臂皆 COMPLETE）</h2>
+<ul>
+<li><strong>PB16c 三臂</strong>：战果完整落地——ckpt 35MB×(seed×epoch) 满编 + <code>report_macb.json</code> 在场，08:40 队列自验收；</li>
+<li><strong>LADDER-0 seal</strong>：收讫 ☑；</li>
+<li><strong>PB19 r梯（9臂）</strong>：8/9 臂 safetensors 完好，<strong><code>D3_alpha_r64</code> 出 0 字节截断壳</strong>——依铁律作废<strong>重收</strong>（只走下载不费 GPU，08:54 队列哨自动补）。若远端工件本就缺此臂，则需一射小补（单臂 ~20 分钟级），08:54 哨会判明。</li>
+</ul>
+</section>
+<section id="配额账10h周一才回血" class="level2">
+<h2 class="anchored" data-anchor-id="配额账10h周一才回血">配额账：&lt;10h，周一才回血</h2>
+<p>建议三段分配——</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>段</th>
+<th>用途</th>
+<th>花费</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>留底</strong></td>
+<td>尾部 ≥2h 空裕（防 PB19 补射/重收失败无粮）</td>
+<td>2h</td>
+</tr>
+<tr class="even">
+<td><strong>可选一射</strong></td>
+<td><code>D3_alpha_r64</code> 单臂补射（若哨判缺而非下载断）</td>
+<td>~0.5h</td>
+</tr>
+<tr class="odd">
+<td><strong>压轴菜</strong></td>
+<td><strong>dag-ablation 首组</strong>：制程链有序 vs 打乱 × 撕约束边探针，0.5B 小机件，四臂内 ≈3-4h</td>
+<td>4h</td>
+</tr>
+</tbody>
+</table>
+<p><strong>其余重炮一律改道</strong>：PB16 正式六发、后续 r 梯扩面 → AutoDL 4090（LADDER-2b 夜航水土坑已在册：<code>OUT=/root/autodl-tmp</code>、torch2.6+cu124 走内网源 30-40min、sha 对撞不开空火）。</p>
+<p>主人只需点一句： 1. <strong>dag-ablation 今晨开靶否</strong>？点菜即先冻 PREREG 判据（H-序撕图预测：打乱制程链 θ_min 位移 &gt; 打乱无时序对照），再装弹占最后窗口； 2. 或全守留底、今日一枪不发，诸案候周一。</p>
+<p>08:40 / 08:54 两道回收哨已在位，自动过闸，无需看顾。</p>
+<hr>
+<p>Math4Mad: &gt; 看错了, remaing 21 h</p>
+<p>(Lola 此回合为工具操作，无正文。)</p>
+<hr>
+<p>Math4Mad: &gt; 已经reset了, 现在是30小时满血</p>
+<p>明白——是周配额、周一回血。园笔即撤催射铃、改挂候补位射手（席位满时不硬撞，空了才推）。</p>
+<hr>
+<p>好炮况！封炮令作废——催射铃两侧已销（Apple ☑ / MS ☑），那条 monday-refill 队列任务只探状态不吃 GPU，自生自灭不碍事。</p>
+<p><strong>30 小时满血 + 双席位，此刻排兵：</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>序</th>
+<th>弹</th>
+<th>花费</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>08:40 / 08:54 两道回收哨先过闸</td>
+<td>0（纯下载）</td>
+<td>在队自动</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>PB19 <code>D3_alpha_r64</code> 补射（若哨判真缺非断）</td>
+<td>~0.5h</td>
+<td>候哨判</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>PB16 正式六发（试射闸过则射）</td>
+<td>数小时级</td>
+<td>候 08:40 闸</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td><strong>dag-ablation 首组</strong>（制程链有序 vs 打乱 × 撕约束边，0.5B 四臂）</td>
+<td>~4h</td>
+<td><strong>候主人开靶令</strong></td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>富余火力：PB19 r梯扩面 / LADDER-3 预研</td>
+<td>视余量</td>
+<td>候裁</td>
+</tr>
+</tbody>
+</table>
+<p>重炮不再改道 AutoDL（4090 那头省下来做湿臂复验备用）。</p>
+<p>主人只点一句：<strong>dag-ablation 开靶否？</strong> 开——园笔即刻冻 PREREG 判据（预测：打乱制程链 θ_min 位移显著 &gt; 无时序对照组；判据先冻 commit 为证），装弹占双席位，两小时内首发离架。</p>
+<hr>
+<p>Math4Mad: &gt; 开</p>
+<p>开靶。先勘军械库取模板（LADDER-2b 袋恒等排律 + PB16 判据制式），再冻判据：</p>
+<hr>
+<p>Math4Mad: &gt; go</p>
+<p>开靶令入弦。铸卷三步：冻判据 → 铸袋装弹 → 发射挂哨。</p>
+<hr>
+<p>判据已铸待封。先造袋（确定性模板 · 虚构世界 · 零先验污染）：</p>
+<hr>
+<p>袋成（SHA 7b5a04cd·袋恒验讫·D2/D3 零年份）。铸臂——run.py 装弹内嵌：</p>
+<hr>
+<p>刃已开，但有三段占位死码 + 母版误上 GPU 之患（copy 深拷 VRAM 翻倍）。正刃：</p>
+<hr>
+<p>继续装弹。先净刃（死码拔除、母版留守 CPU、基线另起实例）：</p>
+<hr>
+<p>刃上有三段死码，拔之；基线改另起实例，母版留守 CPU：</p>
+<hr>
+<p>ed笔自咬文，改 python 直刀：</p>
+<hr>
+<p>续弦——验刃、上膛、核对 metadata 制式：</p>
+<hr>
+<p>封条早于开火 ✅。发射：</p>
+<hr>
+<p>推送成，URL slug 与 id 对表（连环灾避过）。验内容后挂哨：</p>
+<hr>
+<p><strong>PB20 离架了。</strong> 炮位报告——</p>
+</section>
+<section id="已射" class="level2">
+<h2 class="anchored" data-anchor-id="已射">已射</h2>
+<ul>
+<li><strong>弹</strong>：<code>pb20-dag-ablation</code>，24 训（4 虚构袋 × {有序, 撕图} × seeds{13,14,15}），状态 <strong>RUNNING</strong>，估 2.5–3h 完赛；</li>
+<li><strong>封条</strong>：判据先冻 commit <code>540cf3f</code>（PREREG 早于开火，园律）；</li>
+<li><strong>袋</strong>：SHA <code>7b5a04cd</code> 袋恒验讫。要点设计——<strong>D2 制程链通篇无年份</strong>，模型若仍对撕图敏感，撕的就必是依赖边而非历法；四袋全用虚构世界（蓝月手机/曜光制程），预训练零先验，比 NBA 案更净；</li>
+<li><strong>连环灾防法照执行</strong>：push 后 pull 回验，远端即本刃（DONE 行+袋 sha 双中）。</li>
+</ul>
+</section>
+<section id="判据冻死不悔" class="level2">
+<h2 class="anchored" data-anchor-id="判据冻死不悔">判据（冻死不悔）</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>闸</th>
+<th>判</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>H-a0 仪器闸</td>
+<td>Ov(杂货袋 有序vs撕图) ≥ 0.98，不过全案归零先修器</td>
+</tr>
+<tr class="even">
+<td><strong>H-a1 边敏主判</strong></td>
+<td>撕制程链的子空间位移 ≥ 3× 撕杂货单 → 「肉在边上」成立</td>
+</tr>
+<tr class="odd">
+<td>H-a2 维数阶梯</td>
+<td>1−Ov：D0&lt;D1&lt;D2&lt;D3 单调（D1&gt;D0 必过，后两档记录制）</td>
+</tr>
+<tr class="even">
+<td>H-a3 held 惊奇</td>
+<td>乱序训后对链式新句 +0.02 nats</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="哨位" class="level2">
+<h2 class="anchored" data-anchor-id="哨位">哨位</h2>
+<ul>
+<li><code>pb20-collect</code> 已入队（认 <code>pb20_ok</code> + 24 runs 满编才收，0 字节壳律在 cmd 内）；</li>
+<li>PB16/PB19 两回收哨自动巡（11:13/11:17）；</li>
+<li>LEDGER 开火行已入账。</li>
+</ul>
+<p>席位账：PB20 占一，另一席空着——PB16 正式六发候 11:13 试射闸过即可续射，30h 满血无虞。战后园笔自动收 Ov 表报捷，主人只需等菜上桌。</p>
+<hr>
+<p>Math4Mad: &gt; 开始</p>
+<p>保险丝算明——够烧：<code>pb20-collect</code> 退避 5→10→20→40→80→160 分钟（封顶 2h），末次约 <strong>14:35</strong>，预计完赛 <strong>12:00–12:30</strong>，窗口富余无恙，无需接驳。</p>
+<p>战况板（09:31）：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>哨</th>
+<th>时窗</th>
+<th>事</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PB20 首 flush</td>
+<td>~09:40</td>
+<td>首训 3-6 分钟一发吐芯，看 <code>stage=s13/D0/ord</code> 即知仪器活</td>
+</tr>
+<tr class="even">
+<td>pb16-3arm-collect</td>
+<td>11:13</td>
+<td>试射闸过 → <strong>六发正式</strong>装弹占第二席</td>
+</tr>
+<tr class="odd">
+<td>pb19-collect</td>
+<td>11:17</td>
+<td>判 D3_alpha_r64 断壳重收 or 补射 (~0.5h，粮足)</td>
+</tr>
+<tr class="even">
+<td>pb20-collect</td>
+<td>~12:00–12:30 中</td>
+<td>认 <code>pb20_ok</code> + 24 runs 满编，收 Ov 表</td>
+</tr>
+</tbody>
+</table>
+<p>园笔判断：三道哨全自动，本局已无手动工序。<strong>PB20 收表那一刻才需要人</strong>——若 H-a1 边敏主判过，朱批「顺序是最贫的一维」即从判词升为实验定律，届时园笔备好 LEDGER 入账行与论文节骨架候裁。</p>
+<p>主人此刻可歇炮房，两小时后听响。</p>
 
-</div>
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlODUlQjElRTclQTAlODElMkNBZ2VudCUyMCVFNCVCOCVCQiVFNSVBRiVCQyVFNyU5QSU4NCVFNCVCQiU5MyVFNSVCQSU5Mw==" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790412202764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="396">
-<a href="../../coding/repos/repo-list.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="listing-item-img-placeholder card-img-top" style="height: 190px;">&nbsp;</div>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-仓库清单 · Repository list
-</h5>
-<div class="card-subtitle listing-subtitle">
-由 Agent 参与、或以 Agent 为主题的 Python / Julia 仓库
-</div>
-<div class="listing-reading-time card-text text-muted">
-2 分钟
-</div>
-<div class="card-text listing-description">
-站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlODUlQjElRTclQTAlODElMkNBZ2VudCUyMCVFNCVCOCVCQiVFNSVBRiVCQyVFNyU5QSU4NCVFNCVCQiU5MyVFNSVCQSU5MyUyQyVFOSVBQiU5OCVFNiU5NiVBRiVFOCVCRiU4NyVFNyVBOCU4Qg==" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790412202764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="514">
-<a href="../../coding/repos/sarcos-ml-with-agents.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-sarcos.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-SARCOS inverse dynamics with Agents
-</h5>
-<div class="card-subtitle listing-subtitle">
-一个主要由 LLM Agent 完成的 Python 仓库：数据管道、三条模型线、一次泄露审计
-</div>
-<div class="listing-reading-time card-text text-muted">
-3 分钟
-</div>
-<div class="card-text listing-description">
-摘要页：7 自由度机械臂逆动力学，44 484 行训练数据，scikit-learn / GPyTorch / PyStan 三条模型线；核心结论是发布版划分里 99.93% 的测试行原样出现在训练文件中，改用最简单的分块留出后误差放大 1.1–3.6 倍。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790412202764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1133">
-<a href="../../coding/repos/sarcos-space-search.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-spaceladder.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-下一步：在一族函数空间里搜索「谁生成了数据」
-</h5>
-<div class="card-subtitle listing-subtitle">
-SARCOS 逆动力学项目的第一次追问（对话记录）
-</div>
-<div class="listing-reading-time card-text text-muted">
-6 分钟
-</div>
-<div class="card-text listing-description">
-与 Agent 的追问：不预设假设空间，而是准备一族由基函数张成的候选空间，用边际似然、LOO-CV 与贝叶斯模型平均去搜索最接近数据生成机制的那一个。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-无匹配项
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -747,7 +849,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/coding/repos/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/graph-tearing-experiment.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

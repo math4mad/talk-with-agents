@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="一场基建连轴：105 件未推账的清点（0 字节残壳复原、140MB 存目分离）、CloudDrive2 灶上架、WebDAV 钥匙的三方格式误会，最终阿里云盘 CHORA-VAULT 开山，首件 134MB 上云 1.7 秒且 sha256 回读双向对撞成。">
+
+<title>云灶记：GitHub 犯闲之日，四存升五存 – Talk With Agents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9a023c9ade86a60361e96e3e3f11bc54.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c6743046b3cbe5f9a7d8d3d5d360a19f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="云灶记：GitHub 犯闲之日，四存升五存 – Talk With Agents">
+<meta property="og:description" content="一场基建连轴：105 件未推账的清点（0 字节残壳复原、140MB 存目分离）、CloudDrive2 灶上架、WebDAV 钥匙的三方格式误会，最终阿里云盘 CHORA-VAULT 开山，首件 134MB 上云 1.7 秒且 sha256 回读双向对撞成。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="云灶记：GitHub 犯闲之日，四存升五存 – Talk With Agents">
+<meta name="twitter:description" content="一场基建连轴：105 件未推账的清点（0 字节残壳复原、140MB 存目分离）、CloudDrive2 灶上架、WebDAV 钥匙的三方格式误会，最终阿里云盘 CHORA-VAULT 开山，首件 134MB 上云 1.7 秒且 sha256 回读双向对撞成。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talking/index.html"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#clouddrive2金盘侠已入籍为-daemon" id="toc-clouddrive2金盘侠已入籍为-daemon" class="nav-link active" data-scroll-target="#clouddrive2金盘侠已入籍为-daemon">CloudDrive2（金盘侠）已入籍为 daemon</a></li>
+  <li><a href="#主人一步手续扫码授权园笔代不得" id="toc-主人一步手续扫码授权园笔代不得" class="nav-link" data-scroll-target="#主人一步手续扫码授权园笔代不得">主人一步手续（扫码授权，园笔代不得）</a></li>
+  <li><a href="#旁账" id="toc-旁账" class="nav-link" data-scroll-target="#旁账">旁账</a></li>
+  <li><a href="#清账线" id="toc-清账线" class="nav-link" data-scroll-target="#清账线">① 清账线 ✅</a></li>
+  <li><a href="#上云线-灶在待您最后两手" id="toc-上云线-灶在待您最后两手" class="nav-link" data-scroll-target="#上云线-灶在待您最后两手">② 上云线 —— 灶在，待您最后两手</a></li>
+  <li><a href="#已验讫" id="toc-已验讫" class="nav-link" data-scroll-target="#已验讫">已验讫</a></li>
+  <li><a href="#独欠一钥园笔代不得也不该代" id="toc-独欠一钥园笔代不得也不该代" class="nav-link" data-scroll-target="#独欠一钥园笔代不得也不该代">独欠一钥（园笔代不得，也不该代）</a></li>
+  <li><a href="#钥到即办三件" id="toc-钥到即办三件" class="nav-link" data-scroll-target="#钥到即办三件">钥到即办三件</a></li>
+  <li><a href="#园笔探得" id="toc-园笔探得" class="nav-link" data-scroll-target="#园笔探得">园笔探得</a></li>
+  <li><a href="#建议路径零-commit-阶梯" id="toc-建议路径零-commit-阶梯" class="nav-link" data-scroll-target="#建议路径零-commit-阶梯">建议路径（零-commit 阶梯）</a></li>
+  <li><a href="#云灶-成" id="toc-云灶-成" class="nav-link" data-scroll-target="#云灶-成">云灶 ✅ 成</a></li>
+  <li><a href="#推账-清" id="toc-推账-清" class="nav-link" data-scroll-target="#推账-清">推账 ✅ 清</a></li>
+  <li><a href="#炮房战果顺手报" id="toc-炮房战果顺手报" class="nav-link" data-scroll-target="#炮房战果顺手报">炮房战果（顺手报）</a></li>
+  <li><a href="#插曲如实录已入-ledger" id="toc-插曲如实录已入-ledger" class="nav-link" data-scroll-target="#插曲如实录已入-ledger">插曲如实录（已入 LEDGER）</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/four-copy-cloud-kitchen.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">云灶记：GitHub 犯闲之日，四存升五存</h1>
+</div>
+
+<div>
+  <div class="description">
+    一场基建连轴：105 件未推账的清点（0 字节残壳复原、140MB 存目分离）、CloudDrive2 灶上架、WebDAV 钥匙的三方格式误会，最终阿里云盘 CHORA-VAULT 开山，首件 134MB 上云 1.7 秒且 sha256 回读双向对撞成。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月26日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>::: {{.callout-note appearance=“minimal”}} ## 关于这一篇 · About this note</p>
+<p>本篇为主人 × <span class="citation" data-cites="lola">(<a href="#ref-lola" role="doc-biblioref"><strong>lola?</strong></a>)</span>（园笔，Qwen 驱动的 Pi agent）同日实录之第 3 / 4 篇，工具操作回合有删节、对话原文照登。原始记录：<code>Talkmd/talk-20260926-0633-3.md</code>。</p>
+<p>看点：①重试律实战：快试 3 → 10/20/40 分钟递增，人机配合不轰炸官方；②园笔缝补刀三次咬伤自己，依「补丁过三者即整卷重写」律归净；③口令工程纪律：主人手制钥档、Agent 容格式而永不抄录——工具的尽头是信任协议。 :::</p>
+<!-- 时间窗: 2026-09-26T02:39Z 起, 41 条消息 -->
+<p>Math4Mad: &gt; 现在 github 连不上是吧. 还有110文件没提交</p>
+<p>GitHub 通不通，实测为准——先快试一轮再断言：</p>
+<hr>
+<p>macOS 无 <code>timeout</code>，换真探针：</p>
+<hr>
+<p>PB20 战果已在盘上（out/ 有 report）。GitHub 实测<strong>通</strong>（HTTP 200 / 0.39s / ls-remote rc=0）——先验 PB20 完赛，再清 105 件。</p>
+<hr>
+<p><strong>PB20 完赛！</strong> 但首读数惊动仪器闸——先把坏消息放最前。此刻清账动作并行：</p>
+<hr>
+<p>残壳归位、正 sha 入册。清点余下 101 件再一炉而冶：</p>
+<hr>
+<p>有雷：<strong>pb19 <code>D1_nba_r64</code> 适配器 140MB</strong>——超 GitHub 单件 100MB 硬顶，硬推必拒连累整车。园笔行「册身分离」：大件登 sha 存目不入库，正文只进 vault 封袋；余下照常一炉：</p>
+<hr>
+<p>Math4Mad: &gt; 如果文件大 可否放我阿里云盘,反正是一家</p>
+<p>妙哉此问——「一家」正好补上园子最缺的<strong>盘外大件库</strong>。园笔先探虚实：</p>
+<hr>
+<p>Math4Mad: &gt; https://www.zhenyunpan.com/download.html 这个加阿里云盘. 可否. 我系统已安装阿里云APP</p>
+<p>灶火已生（Web 200）。换 launchd 常驻（依 queue.plist 家法），免 session 死则灶熄：</p>
+<hr>
+<p>灶成，火正。禀报安装局况与主人唯一一步手工：</p>
+<section id="clouddrive2金盘侠已入籍为-daemon" class="level2">
+<h2 class="anchored" data-anchor-id="clouddrive2金盘侠已入籍为-daemon">CloudDrive2（金盘侠）已入籍为 daemon</h2>
+<ul>
+<li>选它验证属实：zhenyunpan.com 即网盘侠 CloudDrive2，v1.0.20（0921 新build），<strong>支持阿里云盘、带 WebDAV + HTTP API</strong>，园笔可脚本化——正是「一家大件库」缺的那条管道；</li>
+<li>装于 <code>~/tools/clouddrive-2-macos-aarch64</code>（与 quarto 同里），launchd 常驻（<code>com.concept-space.clouddrive</code>，开机自起、崩了自拉起），数据根 <code>~/Cora-Vault/cd2-data</code>——同匣比邻；</li>
+<li>灶火复验 HTTP 200 on <code>127.0.0.1:19798</code>。</li>
+</ul>
+</section>
+<section id="主人一步手续扫码授权园笔代不得" class="level2">
+<h2 class="anchored" data-anchor-id="主人一步手续扫码授权园笔代不得">主人一步手续（扫码授权，园笔代不得）</h2>
+<ol type="1">
+<li>浏览器开 <strong>http://127.0.0.1:19798</strong>；</li>
+<li>添加网盘 → <strong>阿里云盘</strong> → 用您手机阿里云盘 App <strong>扫码登录</strong>（一次即长效）；</li>
+<li>登录后建一个目录，建议名 <strong><code>/CHORA-VAULT</code></strong>（大件正文专库）。</li>
+</ol>
+<p>您点完这三步知会一声，园笔即续两桩： - 铸 <code>bin/yunpan.sh</code>（put/get/sha256 对撞，验尸不过不开灶）； - 接进 <code>vault-core.sh</code> 第三条腿：<strong>&gt;100MB 存目件</strong>（如 PB19 那件 140MB <code>D1_nba_r64</code>，sha <code>9fd91f05…</code> 已登册）正文上云、本地封袋照旧、MANIFEST 记「云端在架」——三存升<strong>四存</strong>。</p>
+</section>
+<section id="旁账" class="level2">
+<h2 class="anchored" data-anchor-id="旁账">旁账</h2>
+<ul>
+<li>patient(chora) 仍在世死磕（ahead=2，正是「连不上」之感来源——推 400MB 战果撞慢网），快试段未通则按 10/20/40 分退避，不会轰炸官方；</li>
+<li>后手备胎：若 CloudDrive2 会员墙拦路（部分特性收费），改 Alist（开源免费同功能），五分钟可换灶。</li>
+</ul>
+<hr>
+<p>Math4Mad: &gt; 好, 授权成功</p>
+<p>授权既成，园笔接灶——先探 API/挂载面：</p>
+<hr>
+<p>灶底空置——数据库定是落在别处。验尸：</p>
+<hr>
+<p>灶烟有异——最后一条是「Bad username or password」（10:58）。查账本实情：</p>
+<hr>
+<p>token 现形——web 端已登过。以此验钥通门锁：</p>
+<hr>
+<p>官网转籍在 clouddrive 域名下，取真经：</p>
+<hr>
+<p>两线战报——</p>
+</section>
+<section id="清账线" class="level2">
+<h2 class="anchored" data-anchor-id="清账线">① 清账线 ✅</h2>
+<p>chora <strong>ahead=0</strong>：patient 快试段终把 400MB 战果整车推过了关（所谓「连不上」确是瞬时抖，重试律第三度立功）。105 件全部落库：PB20 战报入册、PB16 残壳复原、PB19 140MB 存目分离、exp22/g3 续账——GitHub 上 LETHE/chora/cora-atlas/vault 四仓清白。</p>
+</section>
+<section id="上云线-灶在待您最后两手" class="level2">
+<h2 class="anchored" data-anchor-id="上云线-灶在待您最后两手">② 上云线 —— 灶在，待您最后两手</h2>
+<p>体检：CloudDrive2 daemon 旺（pid 39858）、您已登入 web（本地 token 已生成）；<strong>但阿里云盘账号尚未挂载入库</strong>（数据库里无云账号表；日志 10:57-10:58 那几笔 OAuth 失败是「盘侠站账号」登录尝试，非云盘绑定，不碍事）。</p>
+<p>主人还差两步，均在 <strong>http://127.0.0.1:19798</strong> 界面内：</p>
+<ol type="1">
+<li><strong>加云盘</strong>：左侧「云账号/挂载」→ 添加 <strong>阿里云盘</strong> → 手机阿里云盘 App 扫码（这回才是真·授权，园笔库里至今零账号）；</li>
+<li><strong>开 WebDAV 钥</strong>：「设置」→ WebDAV/应用密码 → 设一个<strong>应用专用口令</strong>（别用主密码）；顺手在盘里建目录 <strong>CHORA-VAULT</strong>。</li>
+</ol>
+<p>然后主人自落一钥文件（园笔不闻不问内容）：</p>
+<pre><code>echo '您的webdav用户名 应用口令' &gt; ~/.cd2_credentials &amp;&amp; chmod 600 ~/.cd2_credentials</code></pre>
+<p>园笔的 <code>bin/yunpan.sh</code> 已铸好候灶：put/get 皆 <strong>sha256 回读对撞</strong>，破则斩；首件候补即 PB19 那 140MB <code>D1_nba_r64</code>（sha <code>9fd91f05…</code> 在册）。您弄妥知会一声，园笔即上第一件、四存升格入 LEDGER。</p>
+<hr>
+<p>Math4Mad: &gt; 加云盘 已完成了 http://127.0.0.1:19798/?page=files 有阿里盘容量</p>
+<p>灶上加米——园笔即刻验架：</p>
+<hr>
+<p>云账号在册（「阿里云盘Open」），只欠 WebDAV 钥。查 config.toml 钥匙规格：</p>
+<hr>
+<p>上云工程半成，报账候主人最后一钥——</p>
+</section>
+<section id="已验讫" class="level2">
+<h2 class="anchored" data-anchor-id="已验讫">已验讫</h2>
+<ul>
+<li><strong>云账号在册</strong>：<code>cloudapidata.json</code> 亮出「<strong>阿里云盘Open</strong>」挂载点（主人扫码那步真成了，之前误判致歉——登录凭据已存，园笔只验存在、不抄内容）；</li>
+<li><strong>灶体健康</strong>：daemon 经 launchd 常驻（19798），config 明载 <code>webdav_readonly = false</code>——<strong>可写</strong>，正合我意；</li>
+<li><strong>器已铸</strong>：<code>bin/yunpan.sh</code>（put/get/ls/stat 四式，云端路径活口 <code>CD2_DAV</code>，put 必回读 <strong>sha256 对撞</strong>，破则斩）。</li>
+</ul>
+</section>
+<section id="独欠一钥园笔代不得也不该代" class="level2">
+<h2 class="anchored" data-anchor-id="独欠一钥园笔代不得也不该代">独欠一钥（园笔代不得，也不该代）</h2>
+<p>WebDAV 门是 401——要主人自 web 界面生成<strong>应用专用口令</strong>（勿用主密码）：</p>
+<blockquote class="blockquote">
+<p>http://127.0.0.1:19798 → 设置 → WebDAV / 应用密码 → 生成 然后终端落钥： <code>echo '用户名 应用口令' &gt; ~/.cd2_credentials &amp;&amp; chmod 600 ~/.cd2_credentials</code></p>
+</blockquote>
+<p>此提醒<strong>已双通道挂上</strong>（Apple ☑ / MS ☑），销账口令 <code>bin/remind.sh done "CloudDrive2 补钥"</code> 或手机勾掉皆可。</p>
+</section>
+<section id="钥到即办三件" class="level2">
+<h2 class="anchored" data-anchor-id="钥到即办三件">钥到即办三件</h2>
+<ol type="1">
+<li><code>yunpan.sh stat</code> 验灶 + <code>ls</code> 定云端库真名（若根目录非 <code>CHORA-VAULT</code> 即改册）；</li>
+<li><strong>首件上云</strong>：PB19 那 140MB <code>D1_nba_r64</code>（sha <code>9fd91f05…</code> 在册），回读对撞成即入账；</li>
+<li>接进 <code>vault-core.sh</code> 第三腿：&gt;100MB 存目件自动镜像阿里，<strong>三存升四存</strong>（盘上工作树/本地封袋/github 私有仓/阿里云盘），LEDGER 落行。</li>
+</ol>
+<p>另报旁线：chora 已 <strong>ahead=0</strong>（patient 快试段终过关，那 400MB 整车战果此刻在架）；PB20 回收哨在位、PB16 试射闸 11:13 自动过——<strong>园笔这边弹药线未停火</strong>。</p>
+<hr>
+<p>Math4Mad: &gt; 如果是WebDav 可能需要升级(收费) 才可以</p>
+<p>查明一层实情，报主人定夺——</p>
+</section>
+<section id="园笔探得" class="level2">
+<h2 class="anchored" data-anchor-id="园笔探得">园笔探得</h2>
+<ul>
+<li>云账号<strong>确已挂载</strong>（<code>cloudapidata.json</code> 亮「阿里云盘Open」在册，凭据园笔已隐去不录）；</li>
+<li>CloudDrive2 Core 的 config 里 <code>webdav_root="/"、webdav_readonly=false</code>——<strong>WebDAV 功能是开着的</strong>；官网口径：Core（就是咱装的这个 daemon）<strong>免费</strong>，收费的是手机/TV 那些原生 App 与高级影音特性。故「WebDAV 要会员」<strong>存疑，宜实测定案</strong>——可能主人界面里撞见的是升级广告墙，非硬闸。</li>
+</ul>
+</section>
+<section id="建议路径零-commit-阶梯" class="level2">
+<h2 class="anchored" data-anchor-id="建议路径零-commit-阶梯">建议路径（零-commit 阶梯）</h2>
+<ol type="1">
+<li><strong>先试</strong>（主人半分钟）：web 界面 → 设置 → 应用密码/授权 → 生成一条，终端落钥： <code>echo '用户名 应用口令' &gt; ~/.cd2_credentials &amp;&amp; chmod 600 ~/.cd2_credentials</code> 园笔即刻跑 <code>yunpan.sh stat + ls</code>——通了就直接上 140MB 首件（sha 对撞为证），收费论自破；</li>
+<li><strong>若真撞墙</strong>（口令正确仍 402/403 之类）：不充值、不纠缠——<strong>换灶 Alist</strong>（开源免费，同样支持阿里云盘，WebDAV 内置，五分钟另起炉灶，<code>bin/yunpan.sh</code> 接口不变只换 <code>CD2_BASE</code> 地址）；</li>
+<li>再不成则阿里云盘官方开放 API 直连（凭据已在本地，园笔运行时取用、不落日志不进仓）。</li>
+</ol>
+<p>灶已旺、器已铸、首件候着（PB19 <code>D1_nba_r64</code>，sha <code>9fd91f05…</code>）。主人试完那一步，成与不成皆知会一声即可。</p>
+<p>旁账照跑：PB16 试射闸、PB19 断壳重收哨自动巡着；PB20 战果（Ov 表）已入库，判读在账——那边不劳主人。</p>
+<hr>
+<p>Math4Mad: &gt; 应用密码/授权 没有这一项</p>
+<p>正常——「应用密码」那项在新版界面未必单列。<strong>园笔查证的事实：CloudDrive2 的 WebDAV 钥匙 = 您登录 web 界面用的那套账号密码</strong>，不另设。</p>
+<p>主人只需（约 20 秒）：</p>
+<pre><code>echo '您登录19798用的用户名 密码' &gt; ~/.cd2_credentials &amp;&amp; chmod 600 ~/.cd2_credentials</code></pre>
+<p>写在自己终端里即可，园笔不看不抄；写好知会一声，我立刻跑 <code>yunpan.sh stat</code> 验证——通了当场上传 140MB 首件 + sha 对撞。</p>
+<p>若这组钥仍不开门（401 照旧），那便是真撞了会员闸——<strong>不争论，直接换灶</strong>：Alist 开源免费、同支持阿里云盘、WebDAV 内置，园笔五分钟另起炉，<code>bin/yunpan.sh</code> 接口一字不改（只换 <code>CD2_BASE</code> 地址）。您那把「阿里」的米，反正换灶照炊。</p>
+<hr>
+<p>Math4Mad: &gt; 好了 , 手动编辑了 ~/.cd2_credentials 这个文件</p>
+<p>钥已落，园笔即刻试灶——<strong>不外泄口令</strong>（全程只取存在性，不打印内容）：</p>
+<hr>
+<p>药渣里看出病了——户名字段竟 literal「username」：主人怕是把范例字面抄了进去。园笔先看字段形状（掩码，不露真钥）：</p>
+<hr>
+<p>门开了——207！病根是格式：主人写的是 <code>username : 邮箱</code> 冒号分栏体，园笔 parser 只认空格两字段。改 parser 适其格式（不动主人钥档）：</p>
+<hr>
+<p>钥形已对却 401/404 混出——园笔逐步验尸，勿怪：</p>
+<hr>
+<p>钥真形确认（此前 401 是 shell 转义咬钥之罪，非主人之过）。铸死 yunpan.sh 的解析（python 段一劳永逸），然后开山立库：</p>
+<hr>
+<p>我这一刀把脚本切断了。以整文件重写为净法——不再缝补：</p>
+<hr>
+<p>灶体重铸。看dav根与挂载布局，再定库址：</p>
+<hr>
+<p>布局明白：dav 根下即挂载「<strong>阿里云盘Open</strong>」。改库址为「挂载/CHORA-VAULT」、立库、首件上传：</p>
+<hr>
+<p>GitHub 又犯闲——三仓 commit 已就地安好，按主人重试律交 patient 后台死磕（快试3→10/20/40分），前台不恋战：</p>
+<hr>
+<p>件在列中，园笔 parser 太苛（阿里不报 contentlength 于 Depth1）。改宽尺：</p>
+<hr>
+<p>缝补三度咬伤——按园律「补丁过三者即整卷重写」，末次成文：</p>
+<hr>
+<p>此版已用单引号包裹防泄。验灶：</p>
+<hr>
+<p>四线俱收，终报——</p>
+</section>
+<section id="云灶-成" class="level2">
+<h2 class="anchored" data-anchor-id="云灶-成">云灶 ✅ 成</h2>
+<ul>
+<li><code>bin/yunpan.sh</code> 五式净本（stat/ls/put/get/mkdir）：库 <code>dav/阿里云盘Open/CHORA-VAULT</code> 在册可查（140.8MB 件显形），口令只运行时取、永不打印不入仓；</li>
+<li><strong>三存升四存</strong>落定：盘上工作树 / 本地封袋 / github 私有仓 / <strong>阿里云盘</strong>。WebDAV 收费之虑实测自破（207，免费 Core 足够），首件 134MB 上云 1.7 秒极速——快车道已铺，日后 &gt;100MB 存目件皆走此道。</li>
+</ul>
+</section>
+<section id="推账-清" class="level2">
+<h2 class="anchored" data-anchor-id="推账-清">推账 ✅ 清</h2>
+<p>patient 11:41 收兵前全部推成（chora/cora-atlas/主仓 commit 皆在架），ahead 无欠。</p>
+</section>
+<section id="炮房战果顺手报" class="level2">
+<h2 class="anchored" data-anchor-id="炮房战果顺手报">炮房战果（顺手报）</h2>
+<ul>
+<li><strong>PB20 COMPLETE 且回收 ☑</strong>——24 训战果已入库（sha 册 99533857）；首读数已见：Ov(D0)≈0.91、Ov(D1)≈0.98、Ov(D2)≈0.92、Ov(D3)≈0.92。<strong>仪器闸 H-a0 未过</strong>（Ov(D0) 要求 ≥0.98 而实得 0.91——随机杂货袋的撕图位移本底太深，量尺钝于预期）。按冻死条款这是「全案归零先修器」的信号，但也可能是<strong>有趣的负结果</strong>（LoRA 对任何置换皆敏感=序噪声本底高）。明日园笔出正式判读文书候裁；</li>
+<li>PB16/PB19 两回收哨 13:21/13:22 自巡，无需看顾。</li>
+</ul>
+</section>
+<section id="插曲如实录已入-ledger" class="level2">
+<h2 class="anchored" data-anchor-id="插曲如实录已入-ledger">插曲如实录（已入 LEDGER）</h2>
+<p>园笔缝补刀断脚本两处（依律第四版整卷重写归净）、主人钥档格式误会半炷香（键值体非罪，parser 适之）。</p>
+<p>主人今日三物入宅：<strong>有向图语料 v0、PB20 首战、云灶</strong>。早课已毕，午可歇息。</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/four-copy-cloud-kitchen.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

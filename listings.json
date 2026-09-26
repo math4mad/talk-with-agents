@@ -12,12 +12,16 @@
     "listing": "/talking/index.html",
     "items": [
       "/talking/learning-theory/ai.html",
+      "/talking/learning-theory/corpus-of-directed-graphs.html",
       "/talking/learning-theory/grape-trellis-zpd-corpus.html",
+      "/talking/learning-theory/graph-tearing-experiment.html",
       "/talking/learning-theory/naming-diffusion-reality-check.html",
       "/talking/learning-theory/progressive-probing-cssd.html",
       "/talking/learning-theory/structure-mapping-advanced-metaphor.html",
       "/talking/learning-theory/taxonomy-boundary-theory-dag.html",
       "/talking/learning-theory/yamanaka-pgm-hidden-layer.html",
+      "/talking/gossip/dialogue-into-pages.html",
+      "/talking/gossip/four-copy-cloud-kitchen.html",
       "/talking/mathematics/functional-spaces-to-singular-values.html",
       "/talking/mathematics/jacobi-orthogonal-polynomials.html",
       "/talking/mathematics/kernels-are-functions-too.html",
@@ -30,8 +34,12 @@
   {
     "listing": "/index.html",
     "items": [
+      "/talking/gossip/dialogue-into-pages.html",
+      "/talking/gossip/four-copy-cloud-kitchen.html",
       "/talking/learning-theory/ai.html",
+      "/talking/learning-theory/corpus-of-directed-graphs.html",
       "/talking/learning-theory/grape-trellis-zpd-corpus.html",
+      "/talking/learning-theory/graph-tearing-experiment.html",
       "/talking/learning-theory/naming-diffusion-reality-check.html",
       "/talking/learning-theory/progressive-probing-cssd.html",
       "/talking/learning-theory/structure-mapping-advanced-metaphor.html",
@@ -69,6 +77,8 @@
   {
     "listing": "/talking/gossip/index.html",
     "items": [
+      "/talking/gossip/dialogue-into-pages.html",
+      "/talking/gossip/four-copy-cloud-kitchen.html",
       "/talking/gossip/how-close-is-close.html"
     ]
   },
@@ -76,7 +86,9 @@
     "listing": "/talking/learning-theory/index.html",
     "items": [
       "/talking/learning-theory/ai.html",
+      "/talking/learning-theory/corpus-of-directed-graphs.html",
       "/talking/learning-theory/grape-trellis-zpd-corpus.html",
+      "/talking/learning-theory/graph-tearing-experiment.html",
       "/talking/learning-theory/naming-diffusion-reality-check.html",
       "/talking/learning-theory/progressive-probing-cssd.html",
       "/talking/learning-theory/structure-mapping-advanced-metaphor.html",

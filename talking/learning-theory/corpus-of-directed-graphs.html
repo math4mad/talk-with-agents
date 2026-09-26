@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。">
+<meta name="author" content="Math4Mad">
+<meta name="description" content="外部模型母本《高级隐喻结构研究探讨》入册审查 → dag06 有向图语料 v0（行序即课程）→ 十六件引文 arXiv 实测查账（13 中 / 2 查无）→ 母本三存入 vault。朱批判词「顺序是最贫的一维」在这一天定谳。">
 
-<title>Agent 主导的仓库 · Repos – Talk With Agents</title>
+<title>从隐喻母本到有向图语料：主人一天下的三道谕 – Talk With Agents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +32,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,76 +67,18 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "搜索"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Agent 主导的仓库 · Repos – Talk With Agents">
-<meta property="og:description" content="主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。">
+<meta property="og:title" content="从隐喻母本到有向图语料：主人一天下的三道谕 – Talk With Agents">
+<meta property="og:description" content="外部模型母本《高级隐喻结构研究探讨》入册审查 → dag06 有向图语料 v0（行序即课程）→ 十六件引文 arXiv 实测查账（13 中 / 2 查无）→ 母本三存入 vault。朱批判词「顺序是最贫的一维」在这一天定谳。">
 <meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta property="og:site_name" content="Talk With Agents">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image:height" content="724">
 <meta property="og:image:width" content="1284">
-<meta name="twitter:title" content="Agent 主导的仓库 · Repos – Talk With Agents">
-<meta name="twitter:description" content="主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。">
+<meta name="twitter:title" content="从隐喻母本到有向图语料：主人一天下的三道谕 – Talk With Agents">
+<meta name="twitter:description" content="外部模型母本《高级隐喻结构研究探讨》入册审查 → dag06 有向图语料 v0（行序即课程）→ 十六件引文 arXiv 实测查账（13 中 / 2 查无）→ 母本三存入 vault。朱批判词「顺序是最贫的一维」在这一天定谳。">
 <meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta name="twitter:image-height" content="724">
 <meta name="twitter:image-width" content="1284">
@@ -190,27 +131,50 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#母本主线从高级隐喻到结构语料工程" id="toc-母本主线从高级隐喻到结构语料工程" class="nav-link active" data-scroll-target="#母本主线从高级隐喻到结构语料工程">母本主线：从「高级隐喻」到「结构语料工程」</a></li>
+  <li><a href="#园笔记账提醒待主人定夺" id="toc-园笔记账提醒待主人定夺" class="nav-link" data-scroll-target="#园笔记账提醒待主人定夺">园笔记账提醒（待主人定夺）</a></li>
+  <li><a href="#三存母本-落账-补推" id="toc-三存母本-落账-补推" class="nav-link" data-scroll-target="#三存母本-落账-补推">③ 三存母本 + 落账 + 补推</a></li>
+  <li><a href="#有向图语料-v0园笔草样" id="toc-有向图语料-v0园笔草样" class="nav-link" data-scroll-target="#有向图语料-v0园笔草样">① 有向图语料 v0（园笔草样）✅</a></li>
+  <li><a href="#引账抽验-16-件arxiv-实测" id="toc-引账抽验-16-件arxiv-实测" class="nav-link" data-scroll-target="#引账抽验-16-件arxiv-实测">② 引账抽验 16 件（arXiv 实测）✅</a></li>
+  <li><a href="#三存-补推-在路上" id="toc-三存-补推-在路上" class="nav-link" data-scroll-target="#三存-补推-在路上">③ 三存 + 补推 ✅（在路上）</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/corpus-of-directed-graphs.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Agent 主导的仓库 · Repos</h1>
+<h1 class="title">从隐喻母本到有向图语料：主人一天下的三道谕</h1>
 </div>
 
 <div>
   <div class="description">
-    主要由 LLM Agent 写成的代码库，以及它们的摘要页与后续追问。
+    外部模型母本《高级隐喻结构研究探讨》入册审查 → dag06 有向图语料 v0（行序即课程）→ 十六件引文 arXiv 实测查账（13 中 / 2 查无）→ 母本三存入 vault。朱批判词「顺序是最贫的一维」在这一天定谳。
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月26日</p>
+    </div>
+  </div>
   
     
   </div>
@@ -220,103 +184,95 @@ window.Quarto = {
 </header>
 
 
-<p>摘要页的写法：<strong>只写能被脚本复现的结论</strong>。每个数字都指向仓库里的一条命令或一个 <code>artifacts/</code> 文件； 页面本身不重跑实验，因此也不会悄悄和代码脱节。</p>
-<div class="listing">
+<p>::: {{.callout-note appearance=“minimal”}} ## 关于这一篇 · About this note</p>
+<p>本篇为主人 × <span class="citation" data-cites="lola">(<a href="#ref-lola" role="doc-biblioref"><strong>lola?</strong></a>)</span>（园笔，Qwen 驱动的 Pi agent）同日实录之第 1 / 4 篇，工具操作回合有删节、对话原文照登。原始记录：<code>Talkmd/talk-20260926-0633-1.md</code>。</p>
+<p>看点：①Agent 审外部模型写的「文献」——真件 13、赝品 2（Banyan/PlantBert 钉禁引牌），LoRA 子空间夹角论文逐字在场成实验的文献对手；②语料的物理行序=喂序=课程（stage0–5），乱序=毁课；③主人口述后谕把 NBA 案推广成维度数律：制程链的隐含信息（约束边/命名即量值/平面→3D 相变/跨链边）远多于单纯时序。 :::</p>
+<!-- 时间窗: 2026-09-25T22:33Z 起, 22 条消息 -->
+<p>Math4Mad: &gt; <span class="citation" data-cites="lola">(<a href="#ref-lola" role="doc-biblioref"><strong>lola?</strong></a>)</span> see Concept-Space-Sphere/external/高级隐喻结构研究探讨-20260926044614.docx</p>
+<p>Doc read in full. Before reporting, let me follow the session-opening protocol (读账) and check memory context on this file.</p>
+<hr>
+<p>读毕。这份 <code>external/高级隐喻结构研究探讨-20260926044614.docx</code> 是主人 09-26 凌晨与外部模型的一场长谈母本（774 行，转写体，止于 CSSD 报告模板中途）。园笔梳理如下：</p>
+<section id="母本主线从高级隐喻到结构语料工程" class="level2">
+<h2 class="anchored" data-anchor-id="母本主线从高级隐喻到结构语料工程">母本主线：从「高级隐喻」到「结构语料工程」</h2>
+<p><strong>1. 立问：A结构↔︎B结构的相似性有没有人研究过？</strong> - 外部模型给的学术坐标：Gentner 结构映射理论 SMT（1983，关系映射&gt;属性映射，系统性原则）、Lakoff &amp; Johnson 结构隐喻、Hofstadter「类比即认知核心」、Gärdenfors 概念空间——最后这条与本园「概念空间球」直接对上。</p>
+<p><strong>2. 落到训练：葡萄爬架子 × ZPD 的结构映射语料</strong> - 三层次语料设计（三元组 / 多轮对话 / 对比强化负样本）； - 主人提出攀藤植物多源域扩展（豆角、苦瓜、猕猴桃、爬山虎），对方确认这正是「多源域→结构归纳→类比涌现」的正路，并强调课程学习顺序：概念识别 → 单域映射 → 多域归纳。</p>
+<p><strong>3. 关键跃迁：语料即有向图</strong> - 维果斯基理论谱系 = <strong>树状扩展型 DAG</strong>（维果斯基→列昂节夫/鲁利亚/布鲁纳→恩格斯托姆）； - 山中伸弥 24→10→4 因子筛选 = <strong>链式收敛型 DAG</strong>（贝叶斯修剪，「两因子+VPA」是外部补偿分支而非自然延伸，可作边界负样本）； - 主人点出第三维信息：<strong>边的方向携带依赖</strong>——比 NBA 选秀、地铁无向图都更精妙。对方已给出三条可直接用的 JSONL SFT 样本模板。</p>
+<p><strong>4. 与园内既有资产的三处强共振</strong> - <strong>顺序敏感性</strong>：主人引 NBA 选秀打乱实验（LoRA 更新夹角剧变）+ iPhone/Galaxy/Intel/NVIDIA 序列跨域复现——这正是本仓 exp 系列在追的「语料顺序=新维度」命题，对方还帮忙形式化成 H1–H3 假设与 P1–P5 可检验预测； - <strong>大朗/大岭山探针案例</strong>：逐步加约束的「事后知识盲区检测协议」→ CSSD 系统（收敛深度 CD、跳变 JC、高频干扰 HFI、约束遵循度 CF）——与我们的「探针」方法论同源； - <strong>扩散期自省</strong>：外部模型也点名了「结构一词频率暴涨」的框架过度外扩风险，主人的对冲法是「先查有没有人做过」——这与 09-24 那次 Neutralino 转写正名的查账律一脉相承。</p>
+</section>
+<section id="园笔记账提醒待主人定夺" class="level2">
+<h2 class="anchored" data-anchor-id="园笔记账提醒待主人定夺">园笔记账提醒（待主人定夺）</h2>
+<ol type="1">
+<li><strong>引用需查账</strong>：母本里对方引的一批「2025/2026 文献」（DELT、Subspace Geometry Governs…、vPGM、KGLens、DPE、CRANE、MetaphorStar、Banyan、SciReasoner）多为转述，其中混着 09-18 式赝品风险——凡进论文/信件前逐条验明正身，不裸引。</li>
+<li><strong>可落地物</strong>：三条 JSONL 语料样本 + CSSD 度量指标，与本仓语料梯（AGE-LADDER 已立项）可并轨；母本止于 CSSD 报告模板中途，若主人要全 CSSD 设计可让园笔补录挂账。</li>
+<li>是否将此母本按「对话母本」协议入 protect-core-dialogues-papers 三存？文件目前在 external/ 裸奔。</li>
+</ol>
+<p>主人若要园笔先做哪一件（正名建账 / 三存 / 落 CSSD 补全 / 语料样本入库），点菜即可。</p>
+<hr>
+<p>Math4Mad: &gt; 1,2,3 9:15 按顺序执行</p>
+<p>三件语料依样落笔——JSONL 行序即课程序：</p>
+<hr>
+<p>验 JSONL 合法性与课程行序：</p>
+<hr>
+<p>BSD grep 不食 <code>-P</code>，换 python 手摘：</p>
+<hr>
+<p>Math4Mad: &gt; NBA Draft 数据库对我们的启发: 时序路径结构没有变,但是有更多的问题实际需要考虑更多的维度, 例如概念发展的依赖关系. 芯片,cpu发展的制程, 构架进化信息比单纯的时序, 隐含信息更多</p>
+<p>主人重颁谕，原文入卷。园笔此刻把判词铸成案文与样本，再续 ②③ 未竟之账。</p>
+<hr>
+<p>节序颠倒（后谕插在销账口之前而编号为 5），正之：</p>
+<hr>
+<p>铸样本 <code>dag-ct-13</code> 入 stage4 位（紧接 ct-09 之后、stage5 之前，保课程行序）：</p>
+<hr>
+<p>样本入册，行序不乱。续 ② 查账——上回 urllib 撞 SSL 灾，改道 curl（先验讫可用）：</p>
+<hr>
+<p>前四皆中——母本所引并非全是影子。续查余下八项：</p>
+<hr>
+</section>
+<section id="三存母本-落账-补推" class="level2">
+<h2 class="anchored" data-anchor-id="三存母本-落账-补推">③ 三存母本 + 落账 + 补推</h2>
+<p>先勘 LEDGER 行制式，再落账、封存、补推：</p>
+<hr>
+<p>落账毕。行三存清点：</p>
+<hr>
+<p>匣已封。正主仓与论文仓的账，而后依重试律补推四仓：</p>
+<hr>
+<p>推门前先各仓落笔（只动本案相关，他人修改不代签）：</p>
+<hr>
+<p>三道谕执行完毕，收账单如下——</p>
+</section>
+<section id="有向图语料-v0园笔草样" class="level2">
+<h2 class="anchored" data-anchor-id="有向图语料-v0园笔草样">① 有向图语料 v0（园笔草样）✅</h2>
+<p><code>corpus/dag06/</code> - <code>DESIGN_dag.md</code> — 立项判词、课程六阶（stage0–5，<strong>行序即喂序</strong>）、母本→园笔正字注记；主人午间后谕已单立 <strong>§4 维度数律</strong>：NBA=二维 / 谱系=三维 / 制程·架构≥四维（物理约束边、命名即量值、平面→3D 相变、架构-制程跨链边）。试判词候钦：<strong>「顺序是最贫的一维——序是骨架，肉在边的类型与挂载属性里」</strong>。 - <code>data/vygotsky_tree.jsonl</code> 12 行（节点提取→单边定向→多支归纳→逆向幻觉拦截） - <code>data/yamanaka_chain.jsonl</code> 9 行（先验顶→修剪跳→最小充分集→VPA/p53 补偿分支判为虚线旁支→Ocampo 循环重编程作「再定义目标」边） - <code>data/contrast_induction.jsonl</code> 13 行（含新增 <code>dag-ct-13</code> 维度数律样本；行序 stage 非降验讫） - 山中 24→10→4 母本转写已按原刊口径正为 24→20→9→4 并挂 ⚠（转写非罪，引用查账正字律）。</p>
+</section>
+<section id="引账抽验-16-件arxiv-实测" class="level2">
+<h2 class="anchored" data-anchor-id="引账抽验-16-件arxiv-实测">② 引账抽验 16 件（arXiv 实测）✅</h2>
+<p><strong>13 中 / 2 查无 / 1 待</strong>，判果在 <code>corpus/dag06/VERIFY_CITATIONS.md</code>。要点： - ★ <strong>《Subspace Geometry Governs Catastrophic Forgetting in LoRA》题名逐字在场</strong>——咱们的打乱-夹角实验从此有文献对手，母本所拟 H1–H3/P1–P5 框架值得存档候裁； - SciReasoner、MetaphorStar、KGLens、SEA、CRANE、MGeo、EWoK、StructTuning、vPGM、幻觉滚雪球、Data Efficacy（「DELT」缩称存疑）皆真； - <strong>Banyan、PlantBert 查无——禁引</strong>；TARA 候核。</p>
+</section>
+<section id="三存-补推-在路上" class="level2">
+<h2 class="anchored" data-anchor-id="三存-补推-在路上">③ 三存 + 补推 ✅（在路上）</h2>
+<ul>
+<li>母本《高级隐喻结构研究探讨》入 <code>core-20260926.tar.gz</code> 封存袋，MANIFEST 重账，cora-vault 已 commit；</li>
+<li>LEDGER 0926 立案行落笔，主仓+论文仓 commit 完讫；</li>
+<li>github 此刻正塞车（remote hang / empty reply，恰撞 09-19 连坐风险之夜型）——<strong>重试律已由 git-push-patient 后台执剑</strong>：快试 3 → 10/20/40 分钟递增，六试皆败即收兵挂 <code>.pending-push</code>，下次开场先补推。四仓 ahead 志在案（vault 1 / 主仓 1 / atlas 3 / chora 1）。</li>
+</ul>
+<p>顺报一喜（旁案撞见）：atlas 仓内另见新 commit <strong>「Letter 033 回音入匣：MacWhinney 30 分钟即回且 cc 引荐人」</strong>——CHILDES 之门开了，还白得中文语料+ECNU_Yibin 两扇新门。提醒账上那条「回音检查 10-24」可由主人勾掉。</p>
+<p>候主人处：判词「顺序是最贫的一维」朱批与否；dag-ablation 弹（制程链打乱撕约束边）点菜即冻判据。</p>
+<hr>
+<p>Math4Mad: &gt; 可</p>
+<p>朱批收下。三件收尾活：判词定谳入账、033 回音铃销账、看看 patient 剑下战果——</p>
+<hr>
+<p>正字毕。归化上站（build-site → 验活）：</p>
+<hr>
+<p>账全清了，主人。收口一目：</p>
+<p><strong>朱批落定</strong> - 「顺序是最贫的一维」——DESIGN_dag.md §4 由「候钦」正字为「朱批定谳」，LEDGER 新立朱批行（含推论在册：只记先后=多维依赖图压扁成一维编年）； - 碑体站重建 46 页，LEDGER.html 已随站归化。</p>
+<p><strong>推账</strong> - 六线全清：主仓 / cora-atlas / Cora-Vault / chora 皆 ahead=0（07:07 patient 快试段即成功，退兵钟未敲；刚才两笔新 commit 亦直推功成）。</p>
+<p><strong>销铃</strong> - 「Letter 033 回音检查」☑ 已销（Apple 侧；MacWhinney 30 分钟即回且 cc 引荐人，回音已入匣）。</p>
+<p><strong>在册候菜</strong> - <code>dag-ablation</code> 弹：制程链打乱撕约束边/跨链边，为 NBA 案的多维推广——点菜即冻判据（判据先冻 commit 为证，老例）。 - 两件查无（Banyan/PlantBert）已钉禁引牌；TARA 挂待核。 - ct-13 样本里「维度计数为园笔读法候裁」一节，主人哪天得闲可一并正之。</p>
+<p>今日案齐——草样、查账、三存、朱批、上站、补推，六笔皆墨。</p>
 
-</div>
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlODUlQjElRTclQTAlODElMkNBZ2VudCUyMCVFNCVCOCVCQiVFNSVBRiVCQyVFNyU5QSU4NCVFNCVCQiU5MyVFNSVCQSU5Mw==" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790412202764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="396">
-<a href="../../coding/repos/repo-list.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<div class="listing-item-img-placeholder card-img-top" style="height: 190px;">&nbsp;</div>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-仓库清单 · Repository list
-</h5>
-<div class="card-subtitle listing-subtitle">
-由 Agent 参与、或以 Agent 为主题的 Python / Julia 仓库
-</div>
-<div class="listing-reading-time card-text text-muted">
-2 分钟
-</div>
-<div class="card-text listing-description">
-站点收录的仓库总表：意图、语言、最近推送、是否已有本页笔记。清单来自 Talkmd/repo-20260906-1510.md，元数据由 GitHub API 解析（缓存在 output/repos.json）。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlODUlQjElRTclQTAlODElMkNBZ2VudCUyMCVFNCVCOCVCQiVFNSVBRiVCQyVFNyU5QSU4NCVFNCVCQiU5MyVFNSVCQSU5MyUyQyVFOSVBQiU5OCVFNiU5NiVBRiVFOCVCRiU4NyVFNyVBOCU4Qg==" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790412202764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="514">
-<a href="../../coding/repos/sarcos-ml-with-agents.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-sarcos.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-SARCOS inverse dynamics with Agents
-</h5>
-<div class="card-subtitle listing-subtitle">
-一个主要由 LLM Agent 完成的 Python 仓库：数据管道、三条模型线、一次泄露审计
-</div>
-<div class="listing-reading-time card-text text-muted">
-3 分钟
-</div>
-<div class="card-text listing-description">
-摘要页：7 自由度机械臂逆动力学，44 484 行训练数据，scikit-learn / GPyTorch / PyStan 三条模型线；核心结论是发布版划分里 99.93% 的测试行原样出现在训练文件中，改用最简单的分块留出后误差放大 1.1–3.6 倍。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790412202764" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1133">
-<a href="../../coding/repos/sarcos-space-search.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-spaceladder.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-下一步：在一族函数空间里搜索「谁生成了数据」
-</h5>
-<div class="card-subtitle listing-subtitle">
-SARCOS 逆动力学项目的第一次追问（对话记录）
-</div>
-<div class="listing-reading-time card-text text-muted">
-6 分钟
-</div>
-<div class="card-text listing-description">
-与 Agent 的追问：不预设假设空间，而是准备一族由基函数张成的候选空间，用边际似然、LOO-CV 与贝叶斯模型平均去搜索最接近数据生成机制的那一个。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-无匹配项
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -747,7 +703,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/coding/repos/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/corpus-of-directed-graphs.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

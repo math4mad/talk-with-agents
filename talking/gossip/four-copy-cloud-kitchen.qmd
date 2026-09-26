@@ -12,7 +12,7 @@ format:
     toc-depth: 3
 ---
 
-::: {{.callout-note appearance="minimal"}}
+::: {.callout-note appearance="minimal"}
 ## 关于这一篇 · About this note
 
 本篇为主人 × @lola（园笔，Qwen 驱动的 Pi agent）同日实录之第 3 / 4 篇，工具操作回合有删节、对话原文照登。原始记录：`Talkmd/talk-20260926-0633-3.md`。

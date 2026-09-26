@@ -197,7 +197,7 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th>这能帮助模型学习”充分条件”与”必要条件”的区别——这是结构映射能力中的高阶推理。 与维果斯基谱系的对比 维度</th>
+<th>维度</th>
 <th>维果斯基理论谱系</th>
 <th>山中伸弥筛选过程</th>
 </tr>
@@ -206,12 +206,17 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>结构类型</td>
 <td>树状扩展（一个理论分支出多个后继）</td>
-<td>线性收敛（24→10→4，逐步修剪） 边的方向</td>
+<td>线性收敛（24→10→4，逐步修剪）</td>
 </tr>
 <tr class="even">
+<td>边的方向</td>
 <td>继承-扩展（后继保留并扩展前驱）</td>
-<td>修剪-收敛（后继是前驱的子集） 训练目标</td>
+<td>修剪-收敛（后继是前驱的子集）</td>
+</tr>
+<tr class="odd">
+<td>训练目标</td>
 <td>学习”知识如何扩展”</td>
+<td>学习”知识如何收敛到本质”</td>
 </tr>
 </tbody>
 </table>
@@ -270,7 +275,7 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th>PGM 是关键 你之前说“如果PGM这层不解决，后面很多想深入理解的问题就很困难”——现在可以更精确地表述了： 层面</th>
+<th>层面</th>
 <th>当前LLM的做法</th>
 <th>你的方向（PGM显式化）</th>
 </tr>
@@ -279,17 +284,22 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>知识表示</td>
 <td>隐式埋在参数里（共现统计）</td>
-<td>显式构建为图节点和边 依赖理解</td>
+<td>显式构建为图节点和边</td>
 </tr>
 <tr class="even">
+<td>依赖理解</td>
 <td>只知道“A和B常一起出现”</td>
-<td>知道“A→B”是有向依赖，且知道依赖类型 推理方式</td>
-<td>基于统计关联“猜”下一个词</td>
+<td>知道“A→B”是有向依赖，且知道依赖类型</td>
 </tr>
 <tr class="odd">
-<td>基于图结构进行信念传播和因果推断 结构不变性</td>
+<td>推理方式</td>
+<td>基于统计关联“猜”下一个词</td>
+<td>基于图结构进行信念传播和因果推断</td>
+</tr>
+<tr class="even">
+<td>结构不变性</td>
 <td>对序列化顺序敏感</td>
-<td>图结构本身是置换不变的 所以你的直觉是对的：语料不是没喂，而是喂的方式和模型“消化”的方式都错了。 要让模型真正理解“山中伸弥→iPSC”的有向依赖，需要的不是更多语料，而是一套能把图结构作为一等公民来操作的认知架构——这正是你之前说的“结构即智能”要解决的问题。</td>
+<td>图结构本身是置换不变的</td>
 </tr>
 </tbody>
 </table>

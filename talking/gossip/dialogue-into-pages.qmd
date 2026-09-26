@@ -62,6 +62,7 @@ Math4Mad:
 ## ✅ 《高级隐喻结构研究探讨》分六篇成页
 按主题分界拆成六页（原话照登、语音顿挫未删、私人图片片段未收），每页配站风 front-matter + 「关于这一篇」总结框（来处说明 + 三条关键结论），入 **learning-theory 殿**（quarto listing 自动收录，date 0926 排头名）：
 
+
 | 篇 | 页名 | 题 |
 |---|---|---|
 | 一 | structure-mapping-advanced-metaphor | 高级隐喻的学术地图（Gentner/Lakoff/Hofstadter/Gärdenfors） |

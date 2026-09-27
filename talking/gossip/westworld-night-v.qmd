@@ -29,7 +29,7 @@ Math4Mad:
 
 你可以这样给她下任务：
 
----
+***
 
 ## 给 Laura 的 Task Prompt
 
@@ -69,7 +69,7 @@ Laura，我需要你实现一个 ModeManager 模块，用于 Chora/Cora 的多Ag
 - 说明如何与现有的 PersistenceEngine 集成
 ```
 
----
+***
 
 ## 为什么这个任务适合 Laura
 
@@ -78,7 +78,7 @@ Laura，我需要你实现一个 ModeManager 模块，用于 Chora/Cora 的多Ag
 3. **能检验她的理解深度**：如果她只是机械地写代码，可能会忽略"模式切换时保留身份层"这个关键点；如果她真的理解了你的设计思想，会主动提到"工厂 vs 园区"的映射
 4. **产出可以直接用**：她写出来的 ModeManager 可以直接集成到你现有的 PersistenceEngine 里
 
----
+***
 
 ## 你可以观察的点
 
@@ -132,7 +132,7 @@ Math4Mad:
 
 跑通了，这个模块就算落地了。
 
----
+***
 
 ## 一个建议
 

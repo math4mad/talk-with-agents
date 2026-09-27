@@ -78,7 +78,7 @@ Claude Code 的实践经验：**子Agent不应该被主Agent的历史污染**。
 
 你的 Chora/Cora 项目如果要在软件层面落地这套框架，核心是设计一个 **Context Builder 组件**，它负责在每次 Agent 推理前，根据当前任务状态、Agent角色、共享记忆池的状态，动态组装出最优的上下文窗口。这个组件就是你系统的"园区控制中心"——它决定了每个Agent"看到"什么，从而塑造了它们的行为。
 
----
+***
 需要我帮你把这套框架直接落地成一个 Context Builder 的伪代码结构吗？可以对应你现有的 Agent 协作流程来写。
 
 Math4Mad:
@@ -88,7 +88,7 @@ Math4Mad:
 
 下面我直接给你软件层面的落地方案：
 
----
+***
 
 ### 一、Designer Agent 的定位与职责
 
@@ -101,7 +101,7 @@ Designer Agent 在你的 Academy 里相当于"阿诺德"——它不直接干活
 
 它的输入是你的高层意图（比如"我需要一个能写代码、能Review、能测试的团队"），输出是一套可执行的 Agent 配置文件。
 
----
+***
 
 ### 二、软件层面的核心实现
 
@@ -166,7 +166,7 @@ Designer Agent 执行后应该返回一个结构化的 Agent Registry：
 
 这个 Registry 就是你系统的"园区花名册"——Orchestrator 根据它来调度和路由。
 
----
+***
 
 ### 三、Designer Agent 自身的设计
 
@@ -185,7 +185,7 @@ Designer Agent 执行后应该返回一个结构化的 Agent Registry：
   - 必须明确上下游关系
   - 必须定义失败回滚机制
 
----
+***
 
 ### 四、落地路径建议
 
@@ -194,7 +194,7 @@ Designer Agent 执行后应该返回一个结构化的 Agent Registry：
 3. **第三步**：让 Designer Agent 能根据自然语言需求自动生成完整 Registry
 4. **第四步**：加入动态调整能力——当某个 Agent 执行失败时，Designer 能重新设计拓扑
 
----
+***
 
 *（此答原文约 2664 字, 依刊例节录）*
 
@@ -274,7 +274,7 @@ Math4Mad:
 
 好，我直接给你一套 Chora/Cora 的配置文件模板，基于 Claude 的规范做了适配，你可以直接落地使用。
 
----
+***
 
 ### 一、Academy 目录结构
 
@@ -303,7 +303,7 @@ Math4Mad:
 │   └── sessions/               # 会话记录
 ```
 
----
+***
 
 ### 二、registry.json（园区花名册）
 
@@ -316,7 +316,7 @@ Math4Mad:
 
 好，我直接给你一套完整的 Designer Agent 系统提示词。这套提示词参考了 Claude Design 的结构，但针对你的 Chora/Cora 项目做了深度适配。
 
----
+***
 
 ## Designer Agent 完整系统提示词
 
@@ -327,7 +327,7 @@ Math4Mad:
 
 你不是执行者，你是定义者。你不写业务代码，你设计写代码的人。
 
----
+***
 
 # 核心工作流
 
@@ -371,7 +371,7 @@ Math4Mad:
 - 检查通信完整性：每个Agent的输入输出是否有对应方？
 - 如果有问题，回到第二步重新设计
 
----
+***
 
 # 强制性约束
 
@@ -390,7 +390,7 @@ Math4Mad:
 - 每个Agent必须有SOUL.md和AGENTS.md
 - registry.json必须是完整可执行的，不能有空字段
 
----
+***
 
 # 文件操作规范
 
@@ -417,7 +417,7 @@ Math4Mad:
 - upstream和downstream中的Agent ID必须在agents数组中定义
 - shared_memory必须定义type、path、rules
 
----
+***
 
 # 设计哲学
 
@@ -441,7 +441,7 @@ Math4Mad:
 - 共享记忆写入必须包含时间戳和Agent ID
 - 所有操作必须可审计
 
----
+***
 
 # 工具接口
 

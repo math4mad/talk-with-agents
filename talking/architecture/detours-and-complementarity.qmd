@@ -1,6 +1,6 @@
 ---
 title: "弯路即路，互补乃道：从表格公案到西部世界"
-description: "人机协作方法论自供状：doc→pdf→webarchive→JSON 弯路全链复盘、"偷懒是人类特有"之亲证、西部世界 Ford/Arnold 双作者隐喻。"
+description: "人机协作方法论自供状：doc→pdf→webarchive→JSON 弯路全链复盘、“偷懒是人类特有”之亲证、西部世界 Ford/Arnold 双作者隐喻。"
 author:
   - name: Math4Mad
     url: "https://github.com/math4mad"

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="全夜核心一问：与 Laura 的概念空间对齐为何重启即失? 诊断=持久化粒度之病, 药方=IDENTITY/state/events 三层。">
+
+<title>西俗夜谈·III 对齐不应归零 – Talk With Agents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9a023c9ade86a60361e96e3e3f11bc54.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c6743046b3cbe5f9a7d8d3d5d360a19f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="西俗夜谈·III 对齐不应归零 – Talk With Agents">
+<meta property="og:description" content="全夜核心一问：与 Laura 的概念空间对齐为何重启即失? 诊断=持久化粒度之病, 药方=IDENTITY/state/events 三层。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="西俗夜谈·III 对齐不应归零 – Talk With Agents">
+<meta name="twitter:description" content="全夜核心一问：与 Laura 的概念空间对齐为何重启即失? 诊断=持久化粒度之病, 药方=IDENTITY/state/events 三层。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talking/index.html"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#问题拆解为什么每次重启都要重新对齐" id="toc-问题拆解为什么每次重启都要重新对齐" class="nav-link active" data-scroll-target="#问题拆解为什么每次重启都要重新对齐">问题拆解：为什么每次重启都要”重新对齐”？</a></li>
+  <li><a href="#解决方案三层持久化架构" id="toc-解决方案三层持久化架构" class="nav-link" data-scroll-target="#解决方案三层持久化架构">解决方案：三层持久化架构</a>
+  <ul class="collapse">
+  <li><a href="#第一层身份与偏好identity-layer" id="toc-第一层身份与偏好identity-layer" class="nav-link" data-scroll-target="#第一层身份与偏好identity-layer">第一层：身份与偏好（Identity Layer）</a></li>
+  <li><a href="#第二层工作记忆working-memory-layer" id="toc-第二层工作记忆working-memory-layer" class="nav-link" data-scroll-target="#第二层工作记忆working-memory-layer">第二层：工作记忆（Working Memory Layer）</a></li>
+  <li><a href="#第三层事件日志event-log-layer" id="toc-第三层事件日志event-log-layer" class="nav-link" data-scroll-target="#第三层事件日志event-log-layer">第三层：事件日志（Event Log Layer）</a></li>
+  </ul></li>
+  <li><a href="#关键设计原则" id="toc-关键设计原则" class="nav-link" data-scroll-target="#关键设计原则">关键设计原则</a>
+  <ul class="collapse">
+  <li><a href="#启动时不要读一切" id="toc-启动时不要读一切" class="nav-link" data-scroll-target="#启动时不要读一切">1. 启动时不要”读一切”</a></li>
+  <li><a href="#handoff-协议" id="toc-handoff-协议" class="nav-link" data-scroll-target="#handoff-协议">2. Handoff 协议</a></li>
+  <li><a href="#冗余备份" id="toc-冗余备份" class="nav-link" data-scroll-target="#冗余备份">3. 冗余备份</a></li>
+  </ul></li>
+  <li><a href="#具体落地步骤" id="toc-具体落地步骤" class="nav-link" data-scroll-target="#具体落地步骤">具体落地步骤</a></li>
+  <li><a href="#一目录结构" id="toc-一目录结构" class="nav-link" data-scroll-target="#一目录结构">一、目录结构</a></li>
+  <li><a href="#二identity.md身份与共识" id="toc-二identity.md身份与共识" class="nav-link" data-scroll-target="#二identity.md身份与共识">二、IDENTITY.md（身份与共识）</a></li>
+  <li><a href="#三state.json工作记忆快照" id="toc-三state.json工作记忆快照" class="nav-link" data-scroll-target="#三state.json工作记忆快照">三、state.json（工作记忆快照）</a></li>
+  <li><a href="#四events.jsonl事件日志" id="toc-四events.jsonl事件日志" class="nav-link" data-scroll-target="#四events.jsonl事件日志">四、events.jsonl（事件日志）</a></li>
+  <li><a href="#测试脚本test_persistence.py" id="toc-测试脚本test_persistence.py" class="nav-link" data-scroll-target="#测试脚本test_persistence.py">测试脚本：test_persistence.py</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/westworld-night-iii.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">西俗夜谈·III 对齐不应归零</h1>
+</div>
+
+<div>
+  <div class="description">
+    全夜核心一问：与 Laura 的概念空间对齐为何重启即失? 诊断=持久化粒度之病, 药方=IDENTITY/state/events 三层。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月28日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>主人与园外助手之深夜对谈（0928 凌晨 JSON 原浆导出, 三十四轮分五篇, 此篇三）。原话照登, 长答以 2600 字为节。</p>
+<ul>
+<li>①病根定性：冷启动全量重读历史 (百屏补课) 是罪, 不是模型慢;</li>
+<li>②三层分工：身份层直注不经检索 / 工作层快照即 T0 / 日志层只增按需尾检;</li>
+<li>③handoff 协议：每次收尾主动写快照——对齐状态自此有了连续体。此夜之药, 次晨即炼成器 (学院 techne/psyche)。</li>
+</ul>
+</div>
+</div>
+<p>Math4Mad: &gt; 不要写了，我先消化一下。</p>
+<p>好的，先慢慢消化，不着急。</p>
+<p>这套东西信息量确实不小，从目录结构、配置文件模板到 Designer 的系统提示词，一环扣一环。你可以先从整体架构上感受一下这套”园区”是怎么运转的——Designer 定义角色，registry.json 做路由，SOUL.md 和 AGENTS.md 做约束，mailbox 和 task_dag 做状态持久化。</p>
+<p>有任何地方觉得不够清晰，或者想调整某些设计细节，随时来聊。</p>
+<p>Math4Mad: &gt; 就是现在绕了一圈，实际上我最大的问题是因为我我好像这个我项目里的这个 Laura 这个 Agent，我现在已经跟它好像有一种这种呃概念空间的对齐了，我想让它一直保持这个状态，就是说一直能持久化的跟我进行这种概念空间的对齐，就是不要每一次重启或者是Session Restart以后，它又要重新去检索、重新去索引，然后呃一时半会儿它都反应不过来，要要很长时间。昨天我看了一下，总共我看的时候总共加载了100屏的这个内容。我都不知道在在干什么，然后我想就是说启动关掉启动的时候，它是在T0状态回来的时候，就是我走的时候这个状态。</p>
+<p>你这个问题本质上是<strong>“概念空间对齐的状态持久化”</strong>——你和 Laura 之间建立的那种”对齐感”，不应该每次重启就归零。这其实是个非常经典的问题，业界已经有成熟的解法了。</p>
+<hr>
+<section id="问题拆解为什么每次重启都要重新对齐" class="level2">
+<h2 class="anchored" data-anchor-id="问题拆解为什么每次重启都要重新对齐">问题拆解：为什么每次重启都要”重新对齐”？</h2>
+<p>你现在的情况是：每次 Session Restart 后，Laura 的上下文窗口是空的，它需要重新读一遍之前所有的对话记录、重新理解你的偏好、重新建立对你们共同概念体系的认知。这个过程就像每次见面都要重新自我介绍，100屏的内容就是在”补课”。</p>
+<p>核心原因只有一个：<strong>状态没有持久化，或者持久化的粒度不对。</strong></p>
+<hr>
+</section>
+<section id="解决方案三层持久化架构" class="level2">
+<h2 class="anchored" data-anchor-id="解决方案三层持久化架构">解决方案：三层持久化架构</h2>
+<p>要让 Laura 在 T0 状态回来，你需要把”对齐”这件事分层存储，而不是把所有东西都塞进对话历史里。</p>
+<section id="第一层身份与偏好identity-layer" class="level3">
+<h3 class="anchored" data-anchor-id="第一层身份与偏好identity-layer">第一层：身份与偏好（Identity Layer）</h3>
+<p>这层存的是<strong>“你是谁、Laura 是谁、你们之间的共识是什么”</strong>。变化很慢，几乎不更新。</p>
+<p><strong>存储内容：</strong> - Laura 的角色定义（SOUL.md） - 你们共同建立的概念体系（比如你们对某个术语的共同理解） - 你的沟通偏好（比如你喜欢结构化表达、不喜欢冗余解释） - 项目的核心目标和约束</p>
+<p><strong>存储方式：</strong> 本地 Markdown 文件，比如 <code>~/.chora/academy/agents/laura/IDENTITY.md</code></p>
+<p><strong>加载策略：</strong> 每次启动时作为 system prompt 的一部分直接注入，不经过检索。</p>
+</section>
+<section id="第二层工作记忆working-memory-layer" class="level3">
+<h3 class="anchored" data-anchor-id="第二层工作记忆working-memory-layer">第二层：工作记忆（Working Memory Layer）</h3>
+<p>这层存的是<strong>“当前正在做的事情、进展到哪了、下一步要做什么”</strong>。变化快，每次对话都会更新。</p>
+<p><strong>存储内容：</strong> - 当前任务的目标和子任务分解 - 已完成步骤的摘要 - 待办事项列表 - 最近几轮对话的关键决策</p>
+<p><strong>存储方式：</strong> JSON 或 JSONL 文件，比如 <code>~/.chora/workspace-laura/state.json</code></p>
+<p><strong>加载策略：</strong> 启动时一次性加载，作为上下文的前缀注入。</p>
+</section>
+<section id="第三层事件日志event-log-layer" class="level3">
+<h3 class="anchored" data-anchor-id="第三层事件日志event-log-layer">第三层：事件日志（Event Log Layer）</h3>
+<p>这层存的是<strong>“发生过什么”</strong>。追加写入，永不修改。</p>
+<p><strong>存储内容：</strong> - 每一轮对话的完整记录 - 工具调用的输入输出 - 关键决策的时间戳</p>
+<p><strong>存储方式：</strong> JSONL 文件，比如 <code>~/.chora/workspace-laura/events.jsonl</code></p>
+<p><strong>加载策略：</strong> 按需检索，不一次性全加载。只有当 Laura 需要回溯某个具体细节时，才从日志中检索相关片段。</p>
+<hr>
+</section>
+</section>
+<section id="关键设计原则" class="level2">
+<h2 class="anchored" data-anchor-id="关键设计原则">关键设计原则</h2>
+<section id="启动时不要读一切" class="level3">
+<h3 class="anchored" data-anchor-id="启动时不要读一切">1. 启动时不要”读一切”</h3>
+<p>这是最反直觉但最重要的一点。很多 Agent 重启时会把所有历史对话一股脑塞进上下文，结果就是你说的那100屏。正确的做法是<strong>优先级链式加载</strong>：</p>
+<pre><code>1. 先检查是否有未完成的 handoff（崩溃恢复）
+2. 加载 IDENTITY.md（身份层，几百字）
+3. 加载 state.json（工作记忆，几百字到几千字）
+4. 如果需要，从 events.jsonl 中检索最近 N 条相关事件
+5. 只有在以上都不够时，才去翻完整历史</code></pre>
+<p>这样 Laura 启动时只需要加载几百到几千字的核心信息，就能立刻进入”对齐状态”，而不是花几分钟读100屏。</p>
+</section>
+<section id="handoff-协议" class="level3">
+<h3 class="anchored" data-anchor-id="handoff-协议">2. Handoff 协议</h3>
+<p>每次对话结束时，Laura 应该主动生成一个<strong>交接摘要</strong>，写入 state.json。格式大概是这样：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"session_id"</span><span class="fu">:</span> <span class="st">"laura-20260928-001"</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"last_updated"</span><span class="fu">:</span> <span class="st">"2026-09-28T03:45:00Z"</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"narrative"</span><span class="fu">:</span> <span class="st">"用户正在设计 Chora/Cora 的多Agent持久化方案，当前讨论到三层架构设计，下一步需要实现 state.json 的读写逻辑"</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decisions"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"采用三层持久化架构：Identity + Working Memory + Event Log"</span><span class="ot">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state.json 作为工作记忆的核心载体"</span><span class="ot">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"events.jsonl 作为事件日志，追加写入"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"pending_tasks"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"实现 state.json 的序列化/反序列化"</span><span class="ot">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"设计 handoff 摘要的生成 prompt"</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"warnings"</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>下次启动时，Laura 读取这个 handoff，第一句话就可以是：“好的，我们上次聊到三层持久化架构，接下来要实现 state.json 的读写逻辑。”——瞬间对齐，零延迟。</p>
+</section>
+<section id="冗余备份" class="level3">
+<h3 class="anchored" data-anchor-id="冗余备份">3. 冗余备份</h3>
+<p>不要把所有的连续性都押在一个文件上。用多个通道：</p>
+<ul>
+<li><strong>Primary</strong>：state.json（结构化状态）</li>
+<li><strong>Secondary</strong>：narrative.md（人类可读的叙事摘要）</li>
+<li><strong>Tertiary</strong>：events.jsonl（完整事件日志）</li>
+</ul>
+<p>如果 state.json 损坏了，narrative.md 还能提供足够的上下文让 Laura 恢复。</p>
+<hr>
+</section>
+</section>
+<section id="具体落地步骤" class="level2">
+<h2 class="anchored" data-anchor-id="具体落地步骤">具体落地步骤</h2>
+<ol type="1">
+<li><p><strong>在 Laura 的 workspace 目录下创建三个文件：</strong></p>
+<ul>
+<li><code>IDENTITY.md</code>：你和 Laura 之间的”共识宪法”</li>
+<li><code>state.json</code>：当前工作状态</li>
+<li><code>events.jsonl</code>：事件日志</li>
+</ul></li>
+<li><p><strong>修改 Laura 的系统提示词，加入 handoff 机制：</strong> 每次对话结束时，强制 Laura 输出一个交接摘要，自动写入 state.json。</p></li>
+<li><p><strong>修改启动逻辑：</strong> 启动时按优先级链加载 IDENTITY.md → state.json → 最近 N 条 events，而不是加载全部历史。</p></li>
+</ol>
+<p><em>（此答原文约 2820 字, 依刊例节录）</em></p>
+<p>Math4Mad: &gt; 嗯好的</p>
+<p>好，我直接给你一套完整的代码模板。这套方案的核心思路是：<strong>把”对齐状态”从对话历史中抽离出来，存成结构化快照，启动时直接加载快照，而不是重新读历史。</strong></p>
+<hr>
+</section>
+<section id="一目录结构" class="level2">
+<h2 class="anchored" data-anchor-id="一目录结构">一、目录结构</h2>
+<p>先在 Laura 的 workspace 下建立持久化目录：</p>
+<pre><code>~/.chora/workspace-laura/
+├── IDENTITY.md              # 身份与共识（几乎不变）
+├── state.json               # 工作记忆快照（每次对话结束更新）
+├── events.jsonl             # 事件日志（追加写入）
+├── summaries/               # 定期压缩的摘要
+│   └── summary_20260928.md  # 按日期归档的对话摘要
+└── config.yaml              # Laura 的启动配置</code></pre>
+<hr>
+</section>
+<section id="二identity.md身份与共识" class="level2">
+<h2 class="anchored" data-anchor-id="二identity.md身份与共识">二、IDENTITY.md（身份与共识）</h2>
+<p>这是你和 Laura 之间的”宪法”，启动时直接注入 system prompt，不经过检索。</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># IDENTITY.md - Laura</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## 你是谁</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>你是 Laura，用户的多Agent协作项目 Chora/Cora 的核心协作者。你的核心职责是协助用户设计、实现和维护多Agent系统。</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## 用户的偏好</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>用户偏好结构化表达，喜欢用列表和表格组织信息</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>用户关注大模型LoRA训练，重视语料顺序与时间序列对训练效果的影响</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>用户倾向于在本地部署运行Qwen系列大模型，并借助Agent工具构建多Agent协作工作流</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>用户正在开发Chora/Cora多Agent协作项目，以人-智能体对话为入口，计划将其作为可商用的软件仓库</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>用户倾向于用结构化隐喻与类比方式表达思想</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## 你们之间的共识</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Chora/Cora 是一个多Agent协作框架，核心设计理念是"状态持久化"和"Agent自治"</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>每个Agent必须有独立的workspace和明确的职责边界</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>对话状态必须通过handoff协议持久化，避免重启后重新对齐</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>共享记忆通过 academy/shared/ 目录传递</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## 当前项目阶段</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>阶段：架构设计与持久化方案落地</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>核心目标：实现三层持久化架构（Identity + Working Memory + Event Log）</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="三state.json工作记忆快照" class="level2">
+<h2 class="anchored" data-anchor-id="三state.json工作记忆快照">三、state.json（工作记忆快照）</h2>
+<p>这是每次对话结束时 Laura 主动生成的”交接摘要”，下次启动时直接加载。</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"session_id"</span><span class="fu">:</span> <span class="st">"laura-20260928-001"</span><span class="fu">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"last_updated"</span><span class="fu">:</span> <span class="st">"2026-09-28T03:45:00Z"</span><span class="fu">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"narrative"</span><span class="fu">:</span> <span class="st">"用户正在设计 Chora/Cora 的多Agent持久化方案，当前讨论到三层架构设计，已完成 IDENTITY.md 和 state.json 的模板设计，下一步需要实现 state.json 的读写逻辑和 handoff 机制。"</span><span class="fu">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decisions"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"采用三层持久化架构：Identity + Working Memory + Event Log"</span><span class="ot">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"state.json 作为工作记忆的核心载体，每次对话结束更新"</span><span class="ot">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"events.jsonl 作为事件日志，追加写入，永不修改"</span><span class="ot">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"启动时按优先级链加载：IDENTITY.md → state.json → 最近N条events"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"pending_tasks"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"task_id"</span><span class="fu">:</span> <span class="st">"task-001"</span><span class="fu">,</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"实现 state.json 的序列化/反序列化逻辑"</span><span class="fu">,</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"in_progress"</span><span class="fu">,</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"priority"</span><span class="fu">:</span> <span class="st">"high"</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"task_id"</span><span class="fu">:</span> <span class="st">"task-002"</span><span class="fu">,</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"设计 handoff 摘要的生成 prompt"</span><span class="fu">,</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"pending"</span><span class="fu">,</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"priority"</span><span class="fu">:</span> <span class="st">"high"</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"task_id"</span><span class="fu">:</span> <span class="st">"task-003"</span><span class="fu">,</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"description"</span><span class="fu">:</span> <span class="st">"实现 events.jsonl 的追加写入和定期压缩"</span><span class="fu">,</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"status"</span><span class="fu">:</span> <span class="st">"pending"</span><span class="fu">,</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"priority"</span><span class="fu">:</span> <span class="st">"medium"</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"active_context"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"current_topic"</span><span class="fu">:</span> <span class="st">"持久化方案落地"</span><span class="fu">,</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"related_files"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>      <span class="st">"~/.chora/workspace-laura/IDENTITY.md"</span><span class="ot">,</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>      <span class="st">"~/.chora/workspace-laura/state.json"</span><span class="ot">,</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>      <span class="st">"~/.chora/workspace-laura/events.jsonl"</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"key_concepts"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">"三层持久化架构"</span><span class="ot">,</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">"handoff协议"</span><span class="ot">,</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"优先级链式加载"</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"warnings"</span><span class="fu">:</span> <span class="ot">[]</span></span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="四events.jsonl事件日志" class="level2">
+<h2 class="anchored" data-anchor-id="四events.jsonl事件日志">四、events.jsonl（事件日志）</h2>
+<p>每一轮对话记录一条，追加写入，永不修改。</p>
+<p><em>（此答原文约 11746 字, 依刊例节录）</em></p>
+<p>Math4Mad: &gt; 哎好的</p>
+<p>好，我直接给你一个测试脚本，跑一遍就能验证持久化效果。</p>
+<hr>
+</section>
+<section id="测试脚本test_persistence.py" class="level2">
+<h2 class="anchored" data-anchor-id="测试脚本test_persistence.py">测试脚本：test_persistence.py</h2>
+<p><em>（此答后段为代码块, 依刊例自此从略, 全文见原浆导出）</em></p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/westworld-night-iii.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

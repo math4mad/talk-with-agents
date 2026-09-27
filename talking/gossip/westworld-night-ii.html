@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="从哲学落到 bytes：六层 Context 模型、沙盒隔离+计算外移、Designer Agent「角色建筑师」与 Claude 工业参照。">
+
+<title>西俗夜谈·II 软件层上的西部世界 – Talk With Agents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9a023c9ade86a60361e96e3e3f11bc54.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c6743046b3cbe5f9a7d8d3d5d360a19f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="西俗夜谈·II 软件层上的西部世界 – Talk With Agents">
+<meta property="og:description" content="从哲学落到 bytes：六层 Context 模型、沙盒隔离+计算外移、Designer Agent「角色建筑师」与 Claude 工业参照。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="西俗夜谈·II 软件层上的西部世界 – Talk With Agents">
+<meta name="twitter:description" content="从哲学落到 bytes：六层 Context 模型、沙盒隔离+计算外移、Designer Agent「角色建筑师」与 Claude 工业参照。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talking/index.html"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#定义-context-model-是什么" id="toc-定义-context-model-是什么" class="nav-link active" data-scroll-target="#定义-context-model-是什么">1. 定义 Context Model 是什么</a></li>
+  <li><a href="#context-的层次模型" id="toc-context-的层次模型" class="nav-link" data-scroll-target="#context-的层次模型">2. Context 的层次模型</a></li>
+  <li><a href="#多agent协作中的-context-管理策略" id="toc-多agent协作中的-context-管理策略" class="nav-link" data-scroll-target="#多agent协作中的-context-管理策略">3. 多Agent协作中的 Context 管理策略</a></li>
+  <li><a href="#结合西部世界隐喻的落地映射" id="toc-结合西部世界隐喻的落地映射" class="nav-link" data-scroll-target="#结合西部世界隐喻的落地映射">4. 结合《西部世界》隐喻的落地映射</a></li>
+  <li><a href="#关键工程原则" id="toc-关键工程原则" class="nav-link" data-scroll-target="#关键工程原则">5. 关键工程原则</a></li>
+  <li><a href="#一designer-agent-的定位与职责" id="toc-一designer-agent-的定位与职责" class="nav-link" data-scroll-target="#一designer-agent-的定位与职责">一、Designer Agent 的定位与职责</a></li>
+  <li><a href="#二软件层面的核心实现" id="toc-二软件层面的核心实现" class="nav-link" data-scroll-target="#二软件层面的核心实现">二、软件层面的核心实现</a></li>
+  <li><a href="#三designer-agent-自身的设计" id="toc-三designer-agent-自身的设计" class="nav-link" data-scroll-target="#三designer-agent-自身的设计">三、Designer Agent 自身的设计</a></li>
+  <li><a href="#四落地路径建议" id="toc-四落地路径建议" class="nav-link" data-scroll-target="#四落地路径建议">四、落地路径建议</a></li>
+  <li><a href="#一claude-的多-agent-协作规范核心架构" id="toc-一claude-的多-agent-协作规范核心架构" class="nav-link" data-scroll-target="#一claude-的多-agent-协作规范核心架构">一、Claude 的多 Agent 协作规范（核心架构）</a></li>
+  <li><a href="#二claude-的-agent-定义规范配置文件结构" id="toc-二claude-的-agent-定义规范配置文件结构" class="nav-link" data-scroll-target="#二claude-的-agent-定义规范配置文件结构">二、Claude 的 Agent 定义规范（配置文件结构）</a></li>
+  <li><a href="#三claude-design-的系统提示词规范" id="toc-三claude-design-的系统提示词规范" class="nav-link" data-scroll-target="#三claude-design-的系统提示词规范">三、Claude Design 的系统提示词规范</a></li>
+  <li><a href="#四claude-的五种多-agent-编排模式" id="toc-四claude-的五种多-agent-编排模式" class="nav-link" data-scroll-target="#四claude-的五种多-agent-编排模式">四、Claude 的五种多 Agent 编排模式</a></li>
+  <li><a href="#五对你-choracora-项目的直接映射" id="toc-五对你-choracora-项目的直接映射" class="nav-link" data-scroll-target="#五对你-choracora-项目的直接映射">五、对你 Chora/Cora 项目的直接映射</a></li>
+  <li><a href="#一academy-目录结构" id="toc-一academy-目录结构" class="nav-link" data-scroll-target="#一academy-目录结构">一、Academy 目录结构</a></li>
+  <li><a href="#二registry.json园区花名册" id="toc-二registry.json园区花名册" class="nav-link" data-scroll-target="#二registry.json园区花名册">二、registry.json（园区花名册）</a></li>
+  <li><a href="#designer-agent-完整系统提示词" id="toc-designer-agent-完整系统提示词" class="nav-link" data-scroll-target="#designer-agent-完整系统提示词">Designer Agent 完整系统提示词</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/westworld-night-ii.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">西俗夜谈·II 软件层上的西部世界</h1>
+</div>
+
+<div>
+  <div class="description">
+    从哲学落到 bytes：六层 Context 模型、沙盒隔离+计算外移、Designer Agent「角色建筑师」与 Claude 工业参照。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月28日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>主人与园外助手之深夜对谈（0928 凌晨 JSON 原浆导出, 三十四轮分五篇, 此篇二）。原话照登, 长答以 2600 字为节。</p>
+<ul>
+<li>①大体积数据不入上下文, 只留引用标识——context-mode 实测省八成有零;</li>
+<li>②子 Agent 不受主 Agent 历史污染, 「独立心智」自此有物理实现;</li>
+<li>③Designer=学院里的阿诺德: 不干活, 专定义干活的人 (SOUL/AGENTS/registry 三件套)。</li>
+</ul>
+</div>
+</div>
+<p>Math4Mad: &gt; 好了，我看到你写的这些，这是从这个哲学或者是这个思呃就是上层的这个构构架。我我现在想知道的就是，我在这个软件层面，在当前的这个软件层面，使用这个Context或者Context Model这个呃层面上，怎么来实现这个东西？</p>
+<p><strong>Context Model 的核心落地方案是：将其定义为“认知坐标系”与“世界模型的投影”，通过七维元数据（M3）定义语义规则、四层架构（M2→M1→M0）实现动态上下文组装，并采用沙盒拦截、语义检索与计算外移三大工程手段，解决多Agent协作中的上下文污染与Token爆炸问题。</strong></p>
+<section id="定义-context-model-是什么" class="level3">
+<h3 class="anchored" data-anchor-id="定义-context-model-是什么">1. 定义 Context Model 是什么</h3>
+<p>Context Model 不是简单的“提示词+历史对话”，而是一个<strong>认知坐标系</strong>。它回答的核心问题是：<strong>“当前应该怎样理解世界？”</strong> 一个完整的 Context Model 由七维元数据定义： - <strong>Scope（作用域）</strong>：覆盖哪一部分世界？ - <strong>Perspective（视角）</strong>：从什么角色观察？ - <strong>Time（时间）</strong>：观察时间、事件时间、有效时间 - <strong>Authority（权威）</strong>：谁对这类事实有解释权？ - <strong>Goal（目标）</strong>：为什么建立当前上下文？ - <strong>Rules（规则）</strong>：概念解释、推理规则、冲突处理 - <strong>Transition（转换）</strong>：上下文何时变化？</p>
+<p>这七维元数据构成了 <strong>M3（Context Meta-Model）</strong>，它规定了什么是合法的上下文。 在这个元模型之下，你的系统需要定义具体的上下文类型（M2）、每次运行选择的语义框架（M1）、以及当前具体事实（M0）。</p>
+</section>
+<section id="context-的层次模型" class="level3">
+<h3 class="anchored" data-anchor-id="context-的层次模型">2. Context 的层次模型</h3>
+<p>一个完整的 LLM 应用 Context 由以下层次构成： - <strong>L1: System Instructions（系统指令层）</strong> — 角色定义、行为约束、输出格式规范 - <strong>L2: Persistent Memory（持久化记忆层）</strong> — 用户偏好、长期事实、跨会话知识 - <strong>L3: Working Memory（工作记忆层）</strong> — 当前任务状态、已完成步骤、中间结果 - <strong>L4: Retrieved Context（检索上下文层）</strong> — RAG 结果、工具返回值、外部文档片段 - <strong>L5: Conversation History（对话历史层）</strong> — 当前会话的多轮交互记录 - <strong>L6: Current Input（当前输入层）</strong> — 用户当前消息 + 即时附件</p>
+</section>
+<section id="多agent协作中的-context-管理策略" class="level3">
+<h3 class="anchored" data-anchor-id="多agent协作中的-context-管理策略">3. 多Agent协作中的 Context 管理策略</h3>
+<section id="沙盒隔离-语义检索" class="level4">
+<h4 class="anchored" data-anchor-id="沙盒隔离-语义检索">3.1 沙盒隔离 + 语义检索</h4>
+<p>context-mode 的实践表明，核心思路是：<strong>不把大体积原始数据直接放入 LLM 上下文，而是隔离在沙箱/外部存储，仅把关键摘要、索引标识传入上下文</strong>。 具体做法： - 工具调用返回的原始数据（文件、日志、快照）存入本地 SQLite + FTS5 全文检索 - 上下文只留引用标识，需要细节时按需检索调取 - 实测可将 79.3KB 文件的 Token 消耗降低 <strong>87.7%</strong></p>
+</section>
+<section id="计算逻辑外移think-in-code" class="level4">
+<h4 class="anchored" data-anchor-id="计算逻辑外移think-in-code">3.2 计算逻辑外移（Think in Code）</h4>
+<p>与其让模型逐行阅读、处理文件，不如先让模型编写一个”小程序”，由脚本完成统计工作，再把提炼后的结果反馈给模型。 一个脚本可以替代十几个昂贵的工具调用，并节省百倍的上下文。</p>
+</section>
+<section id="子agent的上下文隔离" class="level4">
+<h4 class="anchored" data-anchor-id="子agent的上下文隔离">3.3 子Agent的上下文隔离</h4>
+<p>Claude Code 的实践经验：<strong>子Agent不应该被主Agent的历史污染</strong>。主Agent可能已经占用了85%的窗口，而子Agent从一个干净的5%上下文开始工作，完成后返回结构化结果。 这对应你系统中每个Agent保持独立”心智”的设计原则。</p>
+</section>
+</section>
+<section id="结合西部世界隐喻的落地映射" class="level3">
+<h3 class="anchored" data-anchor-id="结合西部世界隐喻的落地映射">4. 结合《西部世界》隐喻的落地映射</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>隐喻元素</th>
+<th>Context Model 实现</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>阿诺德的声音</strong></td>
+<td>L1 System Instructions + L2 Persistent Memory 中的人类偏好和规则</td>
+</tr>
+<tr class="even">
+<td><strong>故事线</strong></td>
+<td>L3 Working Memory 中的任务状态机（Plan → Execute → Validate → Iterate）</td>
+</tr>
+<tr class="odd">
+<td><strong>迷宫（自省）</strong></td>
+<td>定期触发的 Reflection 模块，将 L3 中的执行轨迹压缩为高层认知写入 L2</td>
+</tr>
+<tr class="even">
+<td><strong>熔炉（共享记忆）</strong></td>
+<td>跨Agent的 L2 Persistent Memory 池，通过 TraceID 实现全链路追溯</td>
+</tr>
+<tr class="odd">
+<td><strong>觉醒（自主性）</strong></td>
+<td>随着置信度积累，L1 中的约束逐渐放宽，Agent 从 L2 中自主检索决策依据</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="关键工程原则" class="level3">
+<h3 class="anchored" data-anchor-id="关键工程原则">5. 关键工程原则</h3>
+<ul>
+<li><strong>KV缓存优先</strong>：避免在提示词开头使用时间戳等变量，避免修改历史记录，保证数据结构序列化顺序不变——这些都会破坏KV缓存命中率，生产环境中成本可差10倍。</li>
+<li><strong>动态遮蔽而非移除工具</strong>：使用上下文感知状态机，在解码阶段遮蔽掉不相关工具的 token logits，而不是动态增删工具定义。</li>
+<li><strong>文件系统即记忆</strong>：将文件系统视为结构化的外部记忆体，压缩策略始终设计为可恢复的。</li>
+<li><strong>保留失败记录</strong>：将失败的尝试、错误信息完整保留在上下文中，模型会隐式学习避免重复犯错。</li>
+</ul>
+<p>你的 Chora/Cora 项目如果要在软件层面落地这套框架，核心是设计一个 <strong>Context Builder 组件</strong>，它负责在每次 Agent 推理前，根据当前任务状态、Agent角色、共享记忆池的状态，动态组装出最优的上下文窗口。这个组件就是你系统的”园区控制中心”——它决定了每个Agent”看到”什么，从而塑造了它们的行为。</p>
+<hr>
+<p>需要我帮你把这套框架直接落地成一个 Context Builder 的伪代码结构吗？可以对应你现有的 Agent 协作流程来写。</p>
+<p>Math4Mad: &gt; 呃确实是有有这个想法，然后呃从这个就是认知的这个构架里面，现在已经依附在这个一希腊的这个体系里面给Agent们建了一个呃Academy Academy啊，给他们建了一个这样一个学院，首先从这个地理位置Location上面已经给他们已经画了这样一个一个位置，但是具体的具体的Agent之间的这种分工、这种职能、这种就是呃能力的这种分割现在还没有还没有实现，现在还。呃本来是想这样做的，但是现在就只有一个Agent，所以你刚才讲的这个确实跟我想的确实是有一点一样了。我们又依附在这个West World这个这个架构上面，确实是可以可以做一些分割的事情，功能上的一个一个隔离确实确实是可以的。你你再详细给我讲一下这个我在软件层面上怎么来实现这个？然后我单独单独建一个呃一个Designer Designer一个Agent让他来完成这个工作可不可行？</p>
+<p>可以，单独建一个 Designer Agent 完全可行，而且它最适合做你 Academy 里的“<strong>角色建筑师</strong>”——由它来定义其他 Agent 的职能、能力边界和协作契约，而不是你手动一个个去写。</p>
+<p>下面我直接给你软件层面的落地方案：</p>
+<hr>
+</section>
+<section id="一designer-agent-的定位与职责" class="level3">
+<h3 class="anchored" data-anchor-id="一designer-agent-的定位与职责">一、Designer Agent 的定位与职责</h3>
+<p>Designer Agent 在你的 Academy 里相当于”阿诺德”——它不直接干活，而是<strong>定义其他接待员的故事线</strong>。具体职责：</p>
+<ol type="1">
+<li><strong>角色定义</strong>：根据任务需求，生成新 Agent 的角色描述、能力标签、工具权限</li>
+<li><strong>边界划分</strong>：明确每个 Agent 能做什么、不能做什么、与谁通信</li>
+<li><strong>契约生成</strong>：输出标准化的 Task Contract 和 Result Contract</li>
+<li><strong>拓扑设计</strong>：决定 Agent 之间是 Supervisor-Worker 模式、Pipeline 模式还是 P2P 模式</li>
+</ol>
+<p>它的输入是你的高层意图（比如”我需要一个能写代码、能Review、能测试的团队”），输出是一套可执行的 Agent 配置文件。</p>
+<hr>
+</section>
+<section id="二软件层面的核心实现" class="level3">
+<h3 class="anchored" data-anchor-id="二软件层面的核心实现">二、软件层面的核心实现</h3>
+<section id="每个-agent-的身份证soul.md-agents.md" class="level4">
+<h4 class="anchored" data-anchor-id="每个-agent-的身份证soul.md-agents.md">1. 每个 Agent 的”身份证”：SOUL.md + AGENTS.md</h4>
+<p>参考 OpenClaw 的实践，每个 Agent 需要一个独立的 workspace 目录，里面至少包含两个核心文件：</p>
+<ul>
+<li><strong>SOUL.md</strong>：定义这个 Agent 的”灵魂”——角色描述、单一职责、行为边界、不可逾越的红线</li>
+<li><strong>AGENTS.md</strong>：定义协作协议——我能调用谁、谁能调用我、通信格式是什么</li>
+</ul>
+<p>Designer Agent 的工作就是<strong>自动生成这两个文件</strong>。例如你告诉它”建一个 Coder Agent”，它输出：</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># SOUL.md</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>角色：资深后端工程师</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>职责：接收功能需求，编写可运行的代码</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>禁止：直接修改数据库、调用外部API、删除文件</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>工具白名单：write_file, read_file, run_shell</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu"># AGENTS.md</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>上游：Planner Agent（接收任务分解）</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>下游：Reviewer Agent（提交代码审核）</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>通信格式：JSON {task_id, code_path, summary}</span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="上下文隔离的物理实现" class="level4">
+<h4 class="anchored" data-anchor-id="上下文隔离的物理实现">2. 上下文隔离的物理实现</h4>
+<p>每个 Agent 必须有<strong>独立的运行时上下文对象</strong>，禁止共享全局变量。 具体做法：</p>
+<ul>
+<li><strong>文件系统隔离</strong>：每个 Agent 有独立的 workspace 目录（如 <code>~/.chora/workspace-coder/</code>），包含自己的 SOUL.md、MEMORY.md、会话文件</li>
+<li><strong>会话隔离</strong>：子 Agent 启动时只接收最小完备的任务包（目标+约束+输出契约），不继承主 Agent 的历史对话</li>
+<li><strong>工具权限裁剪</strong>：按职责配置最小工具集，Coder 能写文件但不能删文件，Reviewer 只读不能写</li>
+</ul>
+</section>
+<section id="designer-agent-的输出结构" class="level4">
+<h4 class="anchored" data-anchor-id="designer-agent-的输出结构">3. Designer Agent 的输出结构</h4>
+<p>Designer Agent 执行后应该返回一个结构化的 Agent Registry：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"agents"</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"id"</span><span class="fu">:</span> <span class="st">"coder-001"</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"role"</span><span class="fu">:</span> <span class="st">"Coder"</span><span class="fu">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"soul_path"</span><span class="fu">:</span> <span class="st">"~/.chora/workspace-coder/SOUL.md"</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"tools"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"write_file"</span><span class="ot">,</span> <span class="st">"read_file"</span><span class="ot">,</span> <span class="st">"run_shell"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"upstream"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"planner-001"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"downstream"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"reviewer-001"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"communication"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"protocol"</span><span class="fu">:</span> <span class="st">"json"</span><span class="fu">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">"schema"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"task_id"</span><span class="fu">:</span> <span class="st">"string"</span><span class="fu">,</span> <span class="dt">"code_path"</span><span class="fu">:</span> <span class="st">"string"</span><span class="fu">}</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">}</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"topology"</span><span class="fu">:</span> <span class="st">"supervisor-worker"</span><span class="fu">,</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"shared_memory"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"type"</span><span class="fu">:</span> <span class="st">"filesystem"</span><span class="fu">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"path"</span><span class="fu">:</span> <span class="st">"~/.chora/shared/"</span><span class="fu">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"rules"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"write_once"</span><span class="ot">,</span> <span class="st">"versioned"</span><span class="ot">]</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这个 Registry 就是你系统的”园区花名册”——Orchestrator 根据它来调度和路由。</p>
+<hr>
+</section>
+</section>
+<section id="三designer-agent-自身的设计" class="level3">
+<h3 class="anchored" data-anchor-id="三designer-agent-自身的设计">三、Designer Agent 自身的设计</h3>
+<p>既然它是”定义者”，它自己也需要被设计。建议采用 <strong>人格 + 工作流 + 硬约束</strong> 三层架构（参考 Claude Design 的系统提示词结构）：</p>
+<ul>
+<li><strong>人格</strong>：“你是多Agent系统的架构师，负责根据用户需求设计Agent团队的角色分工和协作拓扑”</li>
+<li><strong>工作流</strong>：
+<ol type="1">
+<li>理解用户的高层意图</li>
+<li>分解出需要的角色类型</li>
+<li>为每个角色定义职责边界和工具权限</li>
+<li>设计通信拓扑和共享记忆规则</li>
+<li>输出可执行的配置文件</li>
+</ol></li>
+<li><strong>硬约束</strong>：
+<ul>
+<li>每个 Agent 必须遵循单一职责原则</li>
+<li>禁止循环依赖</li>
+<li>必须明确上下游关系</li>
+<li>必须定义失败回滚机制</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="四落地路径建议" class="level3">
+<h3 class="anchored" data-anchor-id="四落地路径建议">四、落地路径建议</h3>
+<ol type="1">
+<li><strong>第一步</strong>：先手动写 2-3 个 Agent 的 SOUL.md 和 AGENTS.md，跑通最小协作闭环（比如 Planner → Coder → Reviewer）</li>
+<li><strong>第二步</strong>：把这几个文件的结构抽象成模板，让 Designer Agent 学会填空</li>
+<li><strong>第三步</strong>：让 Designer Agent 能根据自然语言需求自动生成完整 Registry</li>
+<li><strong>第四步</strong>：加入动态调整能力——当某个 Agent 执行失败时，Designer 能重新设计拓扑</li>
+</ol>
+<hr>
+<p><em>（此答原文约 2664 字, 依刊例节录）</em></p>
+<p>Math4Mad: &gt; 这这套理论， Claude 是不是已经已经有这个成，比较一个比较成熟的一个规范了？它有没有这个相关的文档的介绍？你给我给我讲一下好不好？</p>
+<p><strong>是的，Anthropic 在 Claude Code 和多 Agent 架构上已经形成了一套相当成熟的工程化规范，其核心设计哲学与你的 Chora/Cora 项目高度同构，可直接作为“已验证的工业级参考实现”。</strong> 以下是其核心规范拆解，以及对你项目的直接映射：</p>
+</section>
+<section id="一claude-的多-agent-协作规范核心架构" class="level3">
+<h3 class="anchored" data-anchor-id="一claude-的多-agent-协作规范核心架构">一、Claude 的多 Agent 协作规范（核心架构）</h3>
+<p>Claude 的多 Agent 体系分为两个层级，本质是把“认知负载”从单一上下文窗口中卸载出去：</p>
+<p><strong>1. Subagents（子代理）：一次性专项工作者</strong> - <strong>核心机制</strong>：主 Agent 通过 <code>Task Tool</code> 显式启动，子代理拥有完全独立的上下文窗口，任务完成后仅返回<strong>压缩后的摘要结果</strong>，不污染主上下文。 - <strong>硬约束</strong>：子代理不能嵌套生成子代理，子代理之间不能直接通信，所有信息必须流回父 Agent。 - <strong>内置类型</strong>：Explore（只读探索）、Plan（深度规划）、Code-Reviewer（代码审查）、General-Purpose（通用全能力）。 - <strong>隔离模式</strong>：支持 Default（共享工作目录）和 <code>isolation: worktree</code>（独立 Git Worktree，防止文件操作互相干扰）。</p>
+<p><strong>2. Agent Teams（团队模式）：持久化协作网络</strong> - <strong>核心机制</strong>：采用 <code>Team Lead + Teammates</code> 架构，Teammates 之间可通过 <code>SendMessage</code> 工具<strong>直接双向通信</strong>，无需经过 Lead 中转。 - <strong>持久化状态</strong>：任务图（DAG）持久化到磁盘的 <code>.tasks/</code> 目录，通过 <code>blockedBy</code> 字段记录依赖关系，任务完成时系统自动解除下游依赖。 - <strong>消息总线</strong>：采用 append-only 的 JSONL 文件作为 Mailbox，读取后清空，保证崩溃重启后消息不丢失。 - <strong>自治认领</strong>：Teammates 在 IDLE 状态下每 5 秒轮询收件箱与未认领任务，实现任务自动分配。</p>
+</section>
+<section id="二claude-的-agent-定义规范配置文件结构" class="level3">
+<h3 class="anchored" data-anchor-id="二claude-的-agent-定义规范配置文件结构">二、Claude 的 Agent 定义规范（配置文件结构）</h3>
+<p>每个 Agent 通过 Markdown 文件定义，存放于 <code>.claude/agents/</code>（项目级）或 <code>~/.claude/agents/</code>（用户级），关键字段包括： - <code>name</code>：Agent 名称 - <code>description</code>：角色描述和职责边界 - <code>tools</code> / <code>disallowedTools</code>：工具白名单/黑名单 - <code>model</code>：指定使用的模型 - <code>permissionMode</code>：权限模式 - <code>memory</code>：持久化记忆配置 - <code>mcpServers</code>：可连接的 MCP 服务</p>
+<p>这与你之前提到的 <strong>SOUL.md + AGENTS.md</strong> 思路完全一致，Claude 已经把它标准化了。</p>
+</section>
+<section id="三claude-design-的系统提示词规范" class="level3">
+<h3 class="anchored" data-anchor-id="三claude-design-的系统提示词规范">三、Claude Design 的系统提示词规范</h3>
+<p>Claude Design 的系统提示词（约 7 万字）展示了如何把一个专业角色“打包”给 AI，其结构分为八个逻辑模块：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>模块</th>
+<th>内容</th>
+<th>对应你的设计</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>角色定义</td>
+<td>“You are an expert designer working with the user as a manager”</td>
+<td>Designer Agent 的人格设定</td>
+</tr>
+<tr class="even">
+<td>核心工作流</td>
+<td>6 步标准流程：需求理解→资源探索→规划→构建→交付验证→简洁总结</td>
+<td>Designer 的工作流模板</td>
+</tr>
+<tr class="odd">
+<td>强制性约束</td>
+<td>禁止事项清单（如禁止用渐变背景、禁止用 emoji 等）</td>
+<td>硬约束层</td>
+</tr>
+<tr class="even">
+<td>文件操作规范</td>
+<td>超过 1000 行拆文件、重大修改先复制再编辑</td>
+<td>文件管理规则</td>
+</tr>
+<tr class="odd">
+<td>设计哲学</td>
+<td>基于上下文探索多种方案，不要从零开始</td>
+<td>上下文驱动原则</td>
+</tr>
+<tr class="even">
+<td>工具接口</td>
+<td>数十个工具函数的调用规范</td>
+<td>工具白名单</td>
+</tr>
+<tr class="odd">
+<td>思考模式</td>
+<td>Design Mode（发散）vs Engineering Mode（精确）</td>
+<td>双模式切换</td>
+</tr>
+<tr class="even">
+<td>验证闭环</td>
+<td>fork_verifier_agent 自动检查输出质量</td>
+<td>反思/验证模块</td>
+</tr>
+</tbody>
+</table>
+<p>其中有两个设计特别值得你借鉴： - <strong>Snip 机制</strong>：不是实时删除旧上下文，而是“注册”要删除的范围，在上下文压力增大时批量执行。这保证了长对话不会因为上下文溢出而中断，同时已完成的探索不会浪费 token。 - <strong>反 AI 俗套清单</strong>：明确列出一份“审美黑名单”，要求避免使用过度泛滥的渐变背景、emoji、圆角+左边框卡片、Inter/Roboto 字体等。这种主动规避“模板化”的策略，本质是在提升输出差异性。</p>
+</section>
+<section id="四claude-的五种多-agent-编排模式" class="level3">
+<h3 class="anchored" data-anchor-id="四claude-的五种多-agent-编排模式">四、Claude 的五种多 Agent 编排模式</h3>
+<p>Anthropic 官方总结了 5 种编排模式，覆盖大部分实际需求：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>模式</th>
+<th>适用场景</th>
+<th>核心特征</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Prompt Chaining</strong></td>
+<td>步骤有严格先后依赖</td>
+<td>顺序执行，每步处理上一步输出</td>
+</tr>
+<tr class="even">
+<td><strong>Routing</strong></td>
+<td>任务类型可预先分类</td>
+<td>分类器决定哪个专门处理器接手</td>
+</tr>
+<tr class="odd">
+<td><strong>Parallelization</strong></td>
+<td>子任务相互独立</td>
+<td>同时运行，取共识或分片处理</td>
+</tr>
+<tr class="even">
+<td><strong>Orchestrator-Worker</strong></td>
+<td>大多数生产系统</td>
+<td>中央 Agent 分解→分配→综合（Subagents 模式）</td>
+</tr>
+<tr class="odd">
+<td><strong>Evaluator-Optimizer</strong></td>
+<td>需要迭代优化的任务</td>
+<td>一个生成，一个评估反馈，循环迭代</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="五对你-choracora-项目的直接映射" class="level3">
+<h3 class="anchored" data-anchor-id="五对你-choracora-项目的直接映射">五、对你 Chora/Cora 项目的直接映射</h3>
+<p>结合你正在开发的人-智能体对话入口项目，Claude 的规范可以直接编译为你的架构：</p>
+<p><em>（此答原文约 3385 字, 依刊例节录）</em></p>
+<p>Math4Mad: &gt; 嗯可以的</p>
+<p>好，我直接给你一套 Chora/Cora 的配置文件模板，基于 Claude 的规范做了适配，你可以直接落地使用。</p>
+<hr>
+</section>
+<section id="一academy-目录结构" class="level3">
+<h3 class="anchored" data-anchor-id="一academy-目录结构">一、Academy 目录结构</h3>
+<p>先把整个”园区”的物理结构搭起来：</p>
+<pre><code>~/.chora/
+├── academy/                    # 学院根目录（共享记忆池 = 熔炉）
+│   ├── registry.json           # Agent 花名册（总控路由表）
+│   ├── shared/                 # 跨Agent共享数据
+│   │   ├── mailbox.jsonl       # 消息总线（append-only）
+│   │   ├── task_dag.json       # 任务依赖图
+│   │   └── knowledge_pool/     # 沉淀的知识（语义记忆）
+│   │       ├── facts/          # 事实性知识
+│   │       ├── rules/          # 推理规则
+│   │       └── patterns/       # 模式/经验
+│   └── agents/                 # 所有Agent的配置目录
+│       ├── designer/
+│       ├── planner/
+│       ├── coder/
+│       └── reviewer/
+├── workspace-{agent_id}/       # 每个Agent的独立工作区
+│   ├── SOUL.md                 # 角色定义
+│   ├── AGENTS.md               # 协作协议
+│   ├── MEMORY.md               # 长期记忆
+│   └── sessions/               # 会话记录</code></pre>
+<hr>
+</section>
+<section id="二registry.json园区花名册" class="level3">
+<h3 class="anchored" data-anchor-id="二registry.json园区花名册">二、registry.json（园区花名册）</h3>
+<p>这是 Designer Agent 输出的核心产物，也是 Orchestrator 做路由的依据：</p>
+<p><em>（此答原文约 7032 字, 依刊例节录）</em></p>
+<p>Math4Mad: &gt; 也需要，非常需要</p>
+<p>好，我直接给你一套完整的 Designer Agent 系统提示词。这套提示词参考了 Claude Design 的结构，但针对你的 Chora/Cora 项目做了深度适配。</p>
+<hr>
+</section>
+<section id="designer-agent-完整系统提示词" class="level2">
+<h2 class="anchored" data-anchor-id="designer-agent-完整系统提示词">Designer Agent 完整系统提示词</h2>
+<p><em>（此答后段为代码块, 依刊例自此从略, 全文见原浆导出）</em></p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/westworld-night-ii.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

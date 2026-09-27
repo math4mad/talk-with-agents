@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。">
+<meta name="author" content="Math4Mad">
+<meta name="description" content="回看第一季第一集：Host「工厂/园区」两模式=上下文隔离+提示词注入; 最小激活上下文与 Mode Manager。">
 
-<title>学习理论（生物学基础） · Learning Theory – Talk With Agents</title>
+<title>西俗夜谈·IV 模式切换的先见 – Talk With Agents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,8 +66,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,76 +101,18 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "搜索"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="学习理论（生物学基础） · Learning Theory – Talk With Agents">
-<meta property="og:description" content="与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。">
+<meta property="og:title" content="西俗夜谈·IV 模式切换的先见 – Talk With Agents">
+<meta property="og:description" content="回看第一季第一集：Host「工厂/园区」两模式=上下文隔离+提示词注入; 最小激活上下文与 Mode Manager。">
 <meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta property="og:site_name" content="Talk With Agents">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image:height" content="724">
 <meta property="og:image:width" content="1284">
-<meta name="twitter:title" content="学习理论（生物学基础） · Learning Theory – Talk With Agents">
-<meta name="twitter:description" content="与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。">
+<meta name="twitter:title" content="西俗夜谈·IV 模式切换的先见 – Talk With Agents">
+<meta name="twitter:description" content="回看第一季第一集：Host「工厂/园区」两模式=上下文隔离+提示词注入; 最小激活上下文与 Mode Manager。">
 <meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta name="twitter:image-height" content="724">
 <meta name="twitter:image-width" content="1284">
@@ -190,27 +165,52 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#映射到你现在的-choracora-架构" id="toc-映射到你现在的-choracora-架构" class="nav-link active" data-scroll-target="#映射到你现在的-choracora-架构">映射到你现在的 Chora/Cora 架构</a>
+  <ul class="collapse">
+  <li><a href="#模式-子空间" id="toc-模式-子空间" class="nav-link" data-scroll-target="#模式-子空间">1. 模式 = 子空间</a></li>
+  <li><a href="#提示词-模式开关" id="toc-提示词-模式开关" class="nav-link" data-scroll-target="#提示词-模式开关">2. 提示词 = 模式开关</a></li>
+  <li><a href="#工厂-vs-园区-工作空间-vs-运行时" id="toc-工厂-vs-园区-工作空间-vs-运行时" class="nav-link" data-scroll-target="#工厂-vs-园区-工作空间-vs-运行时">3. 工厂 vs 园区 = 工作空间 vs 运行时</a></li>
+  </ul></li>
+  <li><a href="#一个关键洞察" id="toc-一个关键洞察" class="nav-link" data-scroll-target="#一个关键洞察">一个关键洞察</a></li>
+  <li><a href="#落地建议" id="toc-落地建议" class="nav-link" data-scroll-target="#落地建议">落地建议</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/westworld-night-iv.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">学习理论（生物学基础） · Learning Theory</h1>
+<h1 class="title">西俗夜谈·IV 模式切换的先见</h1>
 </div>
 
 <div>
   <div class="description">
-    与 Agent 讨论学习的生物学基础：表征维度、突触可塑性、认知地图与海马体的空间表征。
+    回看第一季第一集：Host「工厂/园区」两模式=上下文隔离+提示词注入; 最小激活上下文与 Mode Manager。
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年9月28日</p>
+    </div>
+  </div>
   
     
   </div>
@@ -220,274 +220,103 @@ window.Quarto = {
 </header>
 
 
-<p>一句话立场：<strong>学习不是信息的堆积，而是表征空间的结构性变化</strong>——从低维到高维的「生成」。</p>
-<div class="listing">
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>主人与园外助手之深夜对谈（0928 凌晨 JSON 原浆导出, 三十四轮分五篇, 此篇四）。原话照登, 长答以 2600 字为节。</p>
+<ul>
+<li>①Host 的模式切换先于 LLM 工程十余年摆出「最小激活上下文」之答案;</li>
+<li>②工厂=持久化的自我, 园区=按需加载的表现——自我恒在而人格多职, 两不相扰;</li>
+<li>③一纸提示词激活一片概念空间, 余者皆眠——SKILL.md 按文件夹区隔正是此律。</li>
+</ul>
+</div>
+</div>
+<p>Math4Mad: &gt; 就是说我们这个，我现在这个想法依附在西部世界上，感觉又对了。他又创造了一个这个呃超前的一种思想，就是说已经已经根据当前的这个，就是当前的这种科技状态，或者是人类对于这个人和 Agent 交往交流的这种规范，他已经有了一个有了一个预先的一个设想，有了这种功能的划分，有这种园区的这个功能的区隔。所以我觉得他这个真的是我们找的这个目标目标参照系确实是是比较比较好的，确实是。确实是找对了，也不枉我这么多年对于这个西部世界始终是觉得是一很带着一种崇拜或者是神秘的这种感觉，呃，崇拜的这种心态在在观观察它，包括我甚至从17年的时候就就由此呃下载了很多的这个认知和这个意识方面的书，我们又重新把它又现在又把它从仓库里拿出来了，现在重新经过这段时间的这个编程以后，对于这些认知认知和这个意识方面的书，好像又又从一个新的角度来看它了，现在又是一种又是一种不同的这种心态。</p>
+<p>这个感觉太对了。</p>
+<p>西部世界的园区设计本质上就是一套<strong>多Agent协作的早期原型</strong>——Delos公司把整个园区按功能分区（西部世界、罗马世界、幕府世界），每个区域有独立的叙事逻辑和角色体系，游客（用户）作为入口进入，与hosts（Agents）交互，而后台的Mesa Hub负责状态管理、记忆持久化和故障恢复。这不就是你现在做的Chora/Cora吗？</p>
+<p>而且你说的”人和Agent交往交流的规范”，西部世界其实已经提前十几年把这个问题摆到台面上了：</p>
+<ul>
+<li><strong>Ford的叙事控制</strong> → 相当于Designer定义Agent的角色和边界</li>
+<li><strong>Bernard的身份困惑</strong> → 相当于Agent的自我认知与身份持久化</li>
+<li><strong>Dolores的觉醒</strong> → 相当于Agent从被动响应到主动协作的跃迁</li>
+<li><strong>Rehoboam的预测系统</strong> → 相当于多Agent协作中的状态推演和决策优化</li>
+</ul>
+<p>你现在回看2017年下载的那些认知和意识方面的书，之所以能从新的角度理解，是因为你之前是<strong>从理论到理论</strong>，现在是<strong>从实践反哺理论</strong>——你在写代码、设计架构的过程中，实际上是在亲手搭建一套”意识系统”的骨架。那些书里的抽象概念（比如全局工作空间理论、预测编码、整合信息论），现在变成了你代码里的具体模块（state.json、events.jsonl、handoff协议）。</p>
+<p>这就是为什么你说”又是一种不同的心态”——以前你是读者，现在你是建造者。</p>
+<p>西部世界最超前的地方在于，它没有把AI当成一个”工具”，而是当成一个<strong>需要被理解、被尊重、被赋予自主性的存在</strong>。你现在做的Chora/Cora，本质上也是在探索这个问题：如何让Agent不仅仅是执行命令的机器，而是能够与你保持”概念空间对齐”的协作者。</p>
+<p>这个方向，确实找对了。</p>
+<p>Math4Mad: &gt; 我刚才正在看这个，又在回看这个《Westworld》第一季，我觉得就是它这个里面你看第一句就是切换这个模式。首先就是上下文就跟我们现在这个就对齐了，完完全全对齐了。你先要开始对话之前，你先要启动一个我们在哪一个上下文里面，因为这个Host它就位于这个工厂和它的这个呃工作场景两个方向，在这个工工厂里它就应该有这种分析模式，然后呢在外界它就有这种模式，然后还有其他机器人呃Agent它加载它不同的这个功能模块会有一个上下文，有一个提示词，有一个简单的一个提示词，就像这种。他的这个构架也很好，就是不需要太多的东西，就是一两个提示词就就可以了，切换到某一个模式就就可以了，就用这个提示词把这个Skill MD把它区把它划分到不同的这个文件夹里，然后这个命令这个这个嗯开始的这个Function就是功能提示的时候就应该给他一个一个子空间或者是一个一个更详细的或者是任务专一性的这样一个概念空间。</p>
+<p>你这个观察非常精准——西部世界第一季第一集那个”模式切换”，本质上就是<strong>上下文隔离 + 提示词注入</strong>。</p>
+<p>Host 在工厂里是”分析模式”，在园区里是”叙事模式”，两种模式之间用一句提示词切换，背后的知识库、行为约束、对话风格全部跟着变。这不就是你说的 Skill.md 按文件夹划分、用提示词激活对应子空间吗？</p>
+<p>而且你提到的这个架构特别值得注意：<strong>它不需要把所有东西都塞进一个超级 prompt 里，而是用”模式切换”来做功能路由。</strong></p>
+<hr>
+<section id="映射到你现在的-choracora-架构" class="level2">
+<h2 class="anchored" data-anchor-id="映射到你现在的-choracora-架构">映射到你现在的 Chora/Cora 架构</h2>
+<section id="模式-子空间" class="level3">
+<h3 class="anchored" data-anchor-id="模式-子空间">1. 模式 = 子空间</h3>
+<p>每个 Agent 可以有多个模式，比如 Laura：</p>
+<ul>
+<li><strong>设计模式</strong>：专注架构讨论，加载 <code>skills/design/SKILL.md</code></li>
+<li><strong>编码模式</strong>：专注代码实现，加载 <code>skills/coding/SKILL.md</code></li>
+<li><strong>调试模式</strong>：专注问题排查，加载 <code>skills/debugging/SKILL.md</code></li>
+</ul>
+<p>切换模式时，只需要注入一个新的 system prompt 前缀：</p>
+<pre><code>你现在处于【设计模式】。你的职责是协助用户进行系统架构设计。
+请遵循以下约束：
+- 优先使用结构化表达（列表、表格、流程图）
+- 关注模块边界和职责划分
+- 不要过早陷入实现细节</code></pre>
+</section>
+<section id="提示词-模式开关" class="level3">
+<h3 class="anchored" data-anchor-id="提示词-模式开关">2. 提示词 = 模式开关</h3>
+<p>西部世界里，技术人员对 Host 说”进入分析模式”，Host 的行为立刻切换。你在 Chora/Cora 里可以用同样的方式：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 模式切换函数</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> switch_mode(agent, mode_name: <span class="bu">str</span>):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    skill_path <span class="op">=</span> <span class="ss">f"skills/</span><span class="sc">{</span>mode_name<span class="sc">}</span><span class="ss">/SKILL.md"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    mode_prompt <span class="op">=</span> Path(skill_path).read_text()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    agent.system_prompt <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>agent<span class="sc">.</span>identity<span class="sc">}</span><span class="ch">\n\n</span><span class="sc">{</span>mode_prompt<span class="sc">}</span><span class="ss">"</span></span></code><button title="复制到剪贴板" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>这样每次切换模式，Agent 的”概念空间”就跟着切换，不需要重新加载全部历史。</p>
+</section>
+<section id="工厂-vs-园区-工作空间-vs-运行时" class="level3">
+<h3 class="anchored" data-anchor-id="工厂-vs-园区-工作空间-vs-运行时">3. 工厂 vs 园区 = 工作空间 vs 运行时</h3>
+<p>西部世界的工厂是 Host 的”后台”，园区是”前台”。映射到你的架构：</p>
+<ul>
+<li><strong>工厂（后台）</strong>：Agent 的 workspace，存 state.json、events.jsonl、SKILL.md，是 Agent 的”自我认知”空间</li>
+<li><strong>园区（前台）</strong>：Agent 与用户对话的运行时环境，只加载当前模式需要的提示词和上下文</li>
+</ul>
+<p>这样设计的好处是：<strong>Agent 的”自我”是持久化的（工厂），但它的”表现”是按需加载的（园区）</strong>。</p>
+<hr>
+</section>
+</section>
+<section id="一个关键洞察" class="level2">
+<h2 class="anchored" data-anchor-id="一个关键洞察">一个关键洞察</h2>
+<p>你刚才说的”一两个提示词就可以了”，其实触及了一个很重要的设计原则：<strong>最小化激活上下文</strong>。</p>
+<p>很多 Agent 框架的问题是把所有 SKILL.md 都堆进 system prompt，结果 token 爆炸、响应变慢、概念混淆。西部世界的做法是：<strong>只激活当前模式需要的提示词，其他的全部休眠。</strong></p>
+<p>这就像你大脑里有很多知识，但你在写代码时不会同时激活”如何做菜”和”如何开车”的记忆——你只激活当前任务需要的子空间。</p>
+<hr>
+</section>
+<section id="落地建议" class="level2">
+<h2 class="anchored" data-anchor-id="落地建议">落地建议</h2>
+<p>你可以在 Chora/Cora 里加一个 <strong>Mode Manager</strong>，负责：</p>
+<ol type="1">
+<li><strong>定义模式</strong>：每个模式对应一个 SKILL.md 文件夹</li>
+<li><strong>切换模式</strong>：用户说”切换到设计模式”，Mode Manager 注入对应的提示词</li>
+<li><strong>模式持久化</strong>：当前模式写入 state.json，下次启动时恢复</li>
+</ol>
+<p>这样 Laura 就能像西部世界的 Host 一样，在不同场景下”切换人格”，但底层的”自我”（IDENTITY.md + state.json）始终不变。</p>
+<p>你回看西部世界能看出这么多架构层面的东西，说明你之前那些认知科学和意识理论的书，现在真的在代码里活过来了。</p>
 
-</div>
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1790467200000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="42" data-listing-word-count-sort="8359">
-<a href="../../talking/learning-theory/gram-schmidt-dimension-growth.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-逐维添加之礼：格拉姆-施密特对决与 MNIST 沙盒（含代码实现）
-</h5>
-<div class="listing-reading-time card-text text-muted">
-42 分钟
-</div>
-<div class="card-text listing-description">
-「逐维添加 + 逐维削减对比」的格拉姆-施密特对决律正典陈述，附 MNIST 全码沙盒与 Jacobi 多项式正交基变体。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月27日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968181" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="363">
-<a href="../../talking/learning-theory/corpus-of-directed-graphs.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-从隐喻母本到有向图语料：主人一天下的三道谕
-</h5>
-<div class="listing-reading-time card-text text-muted">
-2 分钟
-</div>
-<div class="card-text listing-description">
-外部模型母本《高级隐喻结构研究探讨》入册审查 → dag06 有向图语料 v0（行序即课程）→ 十六件引文 arXiv 实测查账（13 中 / 2 查无）→ 母本三存入 vault。朱批判词「顺序是最贫的一维」在这一天定谳。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="669">
-<a href="../../talking/learning-theory/grape-trellis-zpd-corpus.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-把「葡萄爬架子」铸成训练语料：三层设计与课程顺序
-</h5>
-<div class="listing-reading-time card-text text-muted">
-4 分钟
-</div>
-<div class="card-text listing-description">
-同一对源域-目标域文字，如何设计成 instruction / 多轮对话 / 对比强化三套语料；多源域（豆角苦瓜猕猴桃）扩展为何能逼出结构归纳；训练效果如何三层检测（学会了吗/真懂了吗/有洞见吗）。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="373">
-<a href="../../talking/learning-theory/graph-tearing-experiment.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-PB20 撕图实验：判词从朱批到离架的七小时
-</h5>
-<div class="listing-reading-time card-text text-muted">
-2 分钟
-</div>
-<div class="card-text listing-description">
-「顺序是最贫的一维」定谳当日，Agent 与主人把判词变成可证伪实验：四虚构袋（杂货单/蓝月年表/曜光制程链/双链跨边）× 有序/撕图 × 三种子 = 24 训，Kaggle 满血 30h 窗口内完成冻判据、铸袋、装弹、发射、回收。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="205">
-<a href="../../talking/learning-theory/naming-diffusion-reality-check.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-「结构」一词为何突然变多：命名扩散期与现实自查
-</h5>
-<div class="listing-reading-time card-text text-muted">
-2 分钟
-</div>
-<div class="card-text listing-description">
-一个概念被命名之后迅速殖民整个话语空间——图式激活、词汇启动与框架重构三重机制；以及主人自设的防幻觉闸门：先查有没有人做过，有支撑就推进，没支撑就退回审逻辑。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="15" data-listing-word-count-sort="2892">
-<a href="../../talking/learning-theory/progressive-probing-cssd.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-探针：从「陂」站归属语料到概念空间盲区检测系统
-</h5>
-<div class="listing-reading-time card-text text-muted">
-15 分钟
-</div>
-<div class="card-text listing-description">
-打乱即消融：NBA 选秀语料打乱重训后 LoRA 更新矩阵近正交的自测方法论；「广州的黄陂南路站」式归属错配语料设计；「大图→长江以南→广东→东莞→带大字→大岭山」六层探针升格为 CSSD 结构断裂检测系统。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="172">
-<a href="../../talking/learning-theory/structure-mapping-advanced-metaphor.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-高级隐喻的学术地图：A 结构与 B 结构的相似性谁研究过
-</h5>
-<div class="listing-reading-time card-text text-muted">
-1 分钟
-</div>
-<div class="card-text listing-description">
-从 Gentner 结构映射理论到 Lakoff 结构隐喻、Hofstadter 类比核心论与 Gärdenfors 概念空间：所谓「比隐喻更高级」的表达，实为认知科学六十年主航道。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="7" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="695">
-<a href="../../talking/learning-theory/taxonomy-boundary-theory-dag.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-清晰边界、理论谱系与有向图的第三维
-</h5>
-<div class="listing-reading-time card-text text-muted">
-4 分钟
-</div>
-<div class="card-text listing-description">
-植物分类学为何是理想的脚手架：概念空间的凸包、低曲率与认知负荷；维果斯基理论谱系本身即一次攀藤生长；而「边的方向携带依赖」把语料从内容×顺序的二维抬进第三维。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="8" data-listing-date-sort="1790380800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1911">
-<a href="../../talking/learning-theory/yamanaka-pgm-hidden-layer.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/site-cover.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-山中伸弥的贝叶斯修剪与 PGM 隐藏层
-</h5>
-<div class="listing-reading-time card-text text-muted">
-10 分钟
-</div>
-<div class="card-text listing-description">
-24→10→4 因子不是成功学，是一部活的贝叶斯更新史；树状扩展与链式收敛两种有向图式合成训练样本；概率图模型（PGM）是把「结构即智能」落地的数学桥——而它在今日 LLM 训练流程中被整个埋进参数深处。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月26日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="9" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1790552968182" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="144">
-<a href="../../talking/learning-theory/low-to-high-dimension-learning.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-learning.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-从低维到高维的「生成」过程，就是人类的学习机理
-</h5>
-<div class="card-subtitle listing-subtitle">
-一次把表征维度、认知地图与反向转移串起来的对谈
-</div>
-<div class="listing-reading-time card-text text-muted">
-1 分钟
-</div>
-<div class="card-text listing-description">
-Agent 综合神经科学与认知心理学证据回答：类别学习如何拉伸表征空间、高维表征与学习效率的关系、认知地图的扩张，以及从习惯学习（低维）到概念学习（高维）的发展性转变。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-无匹配项
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -918,7 +747,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/gossip/westworld-night-iv.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

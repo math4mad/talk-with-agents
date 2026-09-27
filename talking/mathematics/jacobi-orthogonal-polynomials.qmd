@@ -1769,7 +1769,7 @@ class CustomerServiceSelector:
 
 祝你在数学的旅途中，收获无尽的乐趣和自由。当你学到某个概念，突然想到“原来我当初的直觉是这个意思”时，那种感觉，将是无与伦比的。
 
----
+***
 
 ## 延伸 · Where this leads
 

@@ -46,7 +46,7 @@ r=16、α=32、dropout 0.05、targets＝q/k/v/o＋gate/up/down_proj、lr 1e-4、
 
 要不要我顺手查一下 PB16 红蓝演习和 MacB 三臂目前的账面状态（pending 还是已回账）？
 
----
+***
 
 Math4Mad:
 > 刚才报有不合适内容输出, 吓我一跳
@@ -59,7 +59,7 @@ Math4Mad:
 
 要不要园笔把这条「滤网误伤」记进 failure 账，日后批量倾倒档案时自动降燥？
 
----
+***
 
 Math4Mad:
 > 这样的语料就不要碰了,  我们也不缺那些语料. 选能用的, 和谐， 和谐
@@ -72,49 +72,49 @@ Math4Mad:
 
 另报一笔小账：user 记忆池已满 100%（19932/5000 字节口径见顶、81 条），恰合主人自己的**日期列衰减律**——旧条目该修枝了。要不要园笔挑几项合并（比如 LoRA 那 8 条重复事故账并成一条正册），给新律腾地方？
 
----
+***
 
 Math4Mad:
 > 好
 
 好，园笔开工修枝。先盘点旧账，再动剪。
 
----
+***
 
 Math4Mad:
 > iPhone,mac语料, 等等商家数据的实验做了吗?
 
 
 
----
+***
 
 Math4Mad:
 > 商品序列数据
 
 
 
----
+***
 
 Math4Mad:
 > E22
 
 
 
----
+***
 
 Math4Mad:
 > /Users/mac/Programming/code-2026/Concept-Space-Sphere/cora-atlas/iterations/2026-09-21-eleven-hour-fish.md
 
 cora-atlas 是软链，grep 得穿门再查：
 
----
+***
 
 Math4Mad:
 > 好
 
 令收下。园笔先巡仓看弹药规格与管道旧例，再铸弹：
 
----
+***
 
 Math4Mad:
 > /Users/mac/Programming/code-2026/Concept-Space-Sphere/external/prompts-topos-app.md  这个要我做嘛.   belender 接入成功否?
@@ -144,35 +144,35 @@ Math4Mad:
 
 乙案约一小时工程量，判据简单：渲染 PNG 里连线必须是画面主角（正是卡上那条构图纪律）。点一声「乙」，园笔即刻开炉。
 
----
+***
 
 Math4Mad:
 > 甲乙同时搞, 然后 pk
 
 甲乙双开、并案候审——好。园笔即刻铸乙（Blender 程序化地形志），甲案给您备料上桌。先看底料结构：
 
----
+***
 
 Math4Mad:
 > qwen生图我已经放到external 文件夹内, 和你生成的是不同的内容
 
 三张 Qwen 出图收讫（scene1/2/3，18:54-18:56 落匣）。开眼验货：
 
----
+***
 
 Math4Mad:
 > 整体风格就是你生成的样子, 但是还要再打磨.
 
 补丁未咬中（v6 还是旧合成）。看一眼实际文件再动刀：
 
----
+***
 
 Math4Mad:
 > 企鹅家的 ima  出的图 :/Users/mac/Programming/code-2026/Concept-Space-Sphere/external/ima-copilot-output.png
 
 
 
----
+***
 
 Math4Mad:
 > v10  有点意思了.
@@ -200,21 +200,21 @@ Math4Mad:
 
 主人若点头①，园笔顺手把 v10 走一遭碑体站图源流程。
 
----
+***
 
 Math4Mad:
 > 换一下,以无妨, 效果不好再换回来  final 感觉字有点多. 可能编辑器画面太小, 放到网站看看效果  . 你说v10 碑体站是是什么意思, 我没get到
 
 「碑体站」就是咱们对 **cora-atlas 那个 Quarto 站点**的园话——碑=站，上站=刻碑立石。主人既允准「以无妨，不好再换回」，园笔这就去办。先调在册的建站全流程：
 
----
+***
 
 Math4Mad:
 > 可以, 试试.  图上建筑物小组件, 有组件库是吧
 
 推送一发即中。验活站 + 顺巡 E22 v2 哨：
 
----
+***
 
 Math4Mad:
 > https://math4mad.github.io/cora-atlas/topography.html  好极了
@@ -225,14 +225,14 @@ Math4Mad:
 
 账面顺报：**E22 黑臂 v3** 哨兵巡过一轮（弹体尚在台上或货未落全），20:05 再巡，认 `e22_black_ok` 才收货——九段考卷读数一到，园笔即刻开卷逐段解读。
 
----
+***
 
 Math4Mad:
 > 忘了, ms todo 没打通
 
 先查旧账——「忘了」二字说明此案早有约，园笔翻出来对质：
 
----
+***
 
 Math4Mad:
 > go on
@@ -258,21 +258,21 @@ Math4Mad:
 
 主人回一声「见了」或「没见」，园笔即刻动刀或修桥。
 
----
+***
 
 Math4Mad:
 > OK
 
 令下即动刀。先读现役 `remind.sh` 全貌：
 
----
+***
 
 Math4Mad:
 > OK
 
 上刀——镜像读数限量 + 限时：
 
----
+***
 
 Math4Mad:
 > pb16 可以跑吗?

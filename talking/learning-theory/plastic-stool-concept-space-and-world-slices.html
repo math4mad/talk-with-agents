@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-Hans" xml:lang="zh-Hans"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Math4Mad">
+<meta name="description" content="从一只塑胶凳出发：世界切片＝概念空间基的线性组合；逐维添加用格拉姆施密特对决；黑天鹅闪现必须留名；结账之前的微分切片；直到「结构即智能」。由 ima.copilot 据主人的推演整理。">
+
+<title>塑胶凳、概念空间与世界切片的联合分布——一套关于时间、感知与智能的推演 – Talk With Agents</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-9a023c9ade86a60361e96e3e3f11bc54.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-c6743046b3cbe5f9a7d8d3d5d360a19f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "没有结果",
+    "search-matching-documents-text": "匹配的文档",
+    "search-copy-link-title": "复制搜索链接",
+    "search-hide-matches-text": "隐藏其它匹配结果",
+    "search-more-match-text": "更多匹配结果",
+    "search-more-matches-text": "更多匹配结果",
+    "search-clear-button-title": "清除",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "取消",
+    "search-submit-button-title": "提交",
+    "search-label": "搜索"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="塑胶凳、概念空间与世界切片的联合分布——一套关于时间、感知与智能的推演 – Talk With Agents">
+<meta property="og:description" content="从一只塑胶凳出发：世界切片＝概念空间基的线性组合；逐维添加用格拉姆施密特对决；黑天鹅闪现必须留名；结账之前的微分切片；直到「结构即智能」。由 ima.copilot 据主人的推演整理。">
+<meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta property="og:site_name" content="Talk With Agents">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image:height" content="724">
+<meta property="og:image:width" content="1284">
+<meta name="twitter:title" content="塑胶凳、概念空间与世界切片的联合分布——一套关于时间、感知与智能的推演 – Talk With Agents">
+<meta name="twitter:description" content="从一只塑胶凳出发：世界切片＝概念空间基的线性组合；逐维添加用格拉姆施密特对决；黑天鹅闪现必须留名；结账之前的微分切片；直到「结构即智能」。由 ima.copilot 据主人的推演整理。">
+<meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
+<meta name="twitter:image-height" content="724">
+<meta name="twitter:image-width" content="1284">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Talk With Agents</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="搜索"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="展开或折叠导航栏" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Talk With Agents</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../talking/index.html"> 
+<span class="menu-text">Talking With Agents · 与 Agent 对谈</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../coding/index.html"> 
+<span class="menu-text">Coding With Agents · 与 Agent 共码</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">关于与约定 · About &amp; Conventions</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#一-世界切片-概念空间的线性组合" id="toc-一-世界切片-概念空间的线性组合" class="nav-link active" data-scroll-target="#一-世界切片-概念空间的线性组合">一 · 世界切片 ＝ 概念空间的线性组合</a></li>
+  <li><a href="#二-这个想法的两个技术源头" id="toc-二-这个想法的两个技术源头" class="nav-link" data-scroll-target="#二-这个想法的两个技术源头">二 · 这个想法的两个技术源头</a></li>
+  <li><a href="#三-token-也有生命周期语料里被丢弃的时间信息" id="toc-三-token-也有生命周期语料里被丢弃的时间信息" class="nav-link" data-scroll-target="#三-token-也有生命周期语料里被丢弃的时间信息">三 · token 也有生命周期：语料里被丢弃的时间信息</a></li>
+  <li><a href="#四-如何逐维添加格拉姆施密特对决" id="toc-四-如何逐维添加格拉姆施密特对决" class="nav-link" data-scroll-target="#四-如何逐维添加格拉姆施密特对决">四 · 如何逐维添加：格拉姆施密特对决</a></li>
+  <li><a href="#五-阈值与先来先到控制复杂度" id="toc-五-阈值与先来先到控制复杂度" class="nav-link" data-scroll-target="#五-阈值与先来先到控制复杂度">五 · 阈值与先来先到：控制复杂度</a></li>
+  <li><a href="#六-黑天鹅闪现必须留名" id="toc-六-黑天鹅闪现必须留名" class="nav-link" data-scroll-target="#六-黑天鹅闪现必须留名">六 · 黑天鹅闪现，必须留名</a></li>
+  <li><a href="#七-不是回退是概率的重新分配" id="toc-七-不是回退是概率的重新分配" class="nav-link" data-scroll-target="#七-不是回退是概率的重新分配">七 · 不是回退，是概率的重新分配</a></li>
+  <li><a href="#八-购物车模型结账之前的微分切片" id="toc-八-购物车模型结账之前的微分切片" class="nav-link" data-scroll-target="#八-购物车模型结账之前的微分切片">八 · 购物车模型：结账之前的微分切片</a></li>
+  <li><a href="#九-连收款机都不是永恒的" id="toc-九-连收款机都不是永恒的" class="nav-link" data-scroll-target="#九-连收款机都不是永恒的">九 · 连收款机都不是永恒的</a></li>
+  <li><a href="#十-并没有同步你看到的只是一个-image" id="toc-十-并没有同步你看到的只是一个-image" class="nav-link" data-scroll-target="#十-并没有同步你看到的只是一个-image">十 · 并没有同步：你看到的只是一个 image</a></li>
+  <li><a href="#十一-连镜头都在老化没有绝对支点" id="toc-十一-连镜头都在老化没有绝对支点" class="nav-link" data-scroll-target="#十一-连镜头都在老化没有绝对支点">十一 · 连镜头都在老化：没有绝对支点</a></li>
+  <li><a href="#十二-结构即智能" id="toc-十二-结构即智能" class="nav-link" data-scroll-target="#十二-结构即智能">十二 · 结构即智能</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/plastic-stool-concept-space-and-world-slices.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content column-page-left" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">塑胶凳、概念空间与世界切片的联合分布——一套关于时间、感知与智能的推演</h1>
+</div>
+
+<div>
+  <div class="description">
+    从一只塑胶凳出发：世界切片＝概念空间基的线性组合；逐维添加用格拉姆施密特对决；黑天鹅闪现必须留名；结账之前的微分切片；直到「结构即智能」。由 ima.copilot 据主人的推演整理。
+  </div>
+</div>
+
+
+<div class="quarto-title-meta column-page-left">
+
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年10月1日</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>ima.copilot 据 <strong>2026-10-01</strong> 与主人的一场推演整理成文（主人嘱以「塑胶凳」起、一路推到「结构即智能」）。 <strong>私人缘起与尾声已剔除不出版</strong>（含 2026-09-28 订阅变更一段，与讨论无关）。</p>
+<p><strong>主线</strong>：① <strong>世界切片 ＝ 概念空间基的线性组合</strong>（系数＝权重向量）；② 逐维添加＝<strong>格拉姆施密特对决</strong>（只留超出既有投影的正交残余）；③ <strong>黑天鹅闪现必须留名</strong>；④ <strong>不是回退，是概率的重新分配</strong>；⑤ <strong>结账之前的微分切片</strong>（每一步轻微不可逆，累积成锁定）；⑥ <strong>并没有同步</strong>——你看到只是自己切片上的 image；⑦ <strong>连镜头都在老化，没有绝对支点</strong>；⑧ <strong>结构即智能</strong>。</p>
+</div>
+</div>
+<section id="一-世界切片-概念空间的线性组合" class="level2">
+<h2 class="anchored" data-anchor-id="一-世界切片-概念空间的线性组合">一 · 世界切片 ＝ 概念空间的线性组合</h2>
+<p>用一个生活里的对象开场——广东<strong>塑胶凳</strong>。塑胶凳会出现在<strong>肠粉店、蒸饭店、烧烤摊</strong>三种场景里。如果这三个场景只能”活一天”：肠粉店早上出生，中午基本死去，但拖着长尾；烧烤摊在夜晚出生。</p>
+<p>向上抽象一层：如果存在更多概念空间，那么”早晨出现的概念空间”和”夜晚出现的概念空间”，它们的<strong>联合分布</strong>是不同的——“早晨”和”夜晚”不是两个孤立标签，而是<strong>两套不同的联合分布结构</strong>。再加上地理信息，又会分出更多维度：同一个”早晨的肠粉店”，在广州和在县城，生命周期和出现模式又不一样。</p>
+<p>于是得到核心命题：</p>
+<blockquote class="blockquote">
+<p>在<strong>每个时间切片 <span class="math inline">\(t\)</span></strong> 上，存在一个概念空间的联合分布 <span class="math inline">\(P(\text{概念空间}_1,\dots,\text{概念空间}_n \mid t)\)</span>。<strong>世界，就是这些时间切片上的联合分布。</strong></p>
+</blockquote>
+<p>而如果有一组”<strong>常识概念空间</strong>”基（便利店、超市、肯德基、麦当劳这类”永远都在、不随时间明显起伏”的基线），加上一组”<strong>时间依赖的概念空间</strong>”（肠粉店、烧烤摊这类有生命周期的），那么世界在任一时刻的切片，可以由这两组的<strong>线性组合</strong>重建出来——我们只需要一组高维<strong>系数向量</strong>（每个概念空间的权重），就能重建整个世界的切片。</p>
+</section>
+<section id="二-这个想法的两个技术源头" class="level2">
+<h2 class="anchored" data-anchor-id="二-这个想法的两个技术源头">二 · 这个想法的两个技术源头</h2>
+<p>这套”世界切片 ＝ 基的线性组合 ＋ 系数向量”的直觉，来自两个反复咀嚼过的技术实例：</p>
+<ul>
+<li><strong>2017 年关于人脸识别的思考</strong>：把人脸投影到一组特征基上，用低维系数向量表征一个人。</li>
+<li><strong>JPEG 图像编码</strong>：把图像变换到一组基底（DCT）上，丢弃不重要的高频系数，用少量系数重建出人眼可接受的图像。</li>
+</ul>
+<p>如果人脸、图像都能”投影到基上、用系数重建”，那么对世界切片的认识，只是同一个过程在更大尺度上的重复；而大模型的输入（token 序列），则是这个投影更简化的一种形式。</p>
+</section>
+<section id="三-token-也有生命周期语料里被丢弃的时间信息" class="level2">
+<h2 class="anchored" data-anchor-id="三-token-也有生命周期语料里被丢弃的时间信息">三 · token 也有生命周期：语料里被丢弃的时间信息</h2>
+<p>塑胶凳作为一个”token”的代表，引出一个关键观察：每个输入大模型的 token 都有<strong>生命周期</strong>。而输入语料的”生命周期”所携带的信息，并没有被用于模型训练。</p>
+<p>业界有一个对应的研究现象，叫 <strong>knowledge horizon gap（知识地平线缺口）</strong>：一个模型明明训练到了 2024 年，但问它 2023 年的事实，反而可能比 2018 年答得更差。原因是——标准的预训练会把多年语料<strong>打乱（shuffled）</strong>再训练，时间戳信号被抹掉了，旧的、被反复抓取的数据反而占了主导。</p>
+<p>有研究指出，语言模型活在一种 <strong>token-bound time（被 token 锁住的时间）</strong> 里：在那里，“时间”不是一个以秒、以衰变度量的维度，而是一个<strong>以序列长度度量的拓扑维度</strong>。模型感知到的”过去”，不是一个需要能量维持的衰减信号，而是一串在特定位置索引处被完美保存的整数。于是，“The ball fell”（瞬间事件）和 “The empire fell”（跨世纪的因果衰变）——这两种生命周期完全不同的东西，在 token 化的时间观里，<strong>序列距离却是等长的：时间维度被压扁了</strong>。</p>
+<p>而有人尝试的解法，恰好印证了这个直觉的方向：按<strong>时间顺序（chronological）</strong>喂数据，而不是打乱，能让小模型获得”时间感知”，在近期事实上超过更大的开源模型。</p>
+</section>
+<section id="四-如何逐维添加格拉姆施密特对决" class="level2">
+<h2 class="anchored" data-anchor-id="四-如何逐维添加格拉姆施密特对决">四 · 如何逐维添加：格拉姆施密特对决</h2>
+<p>要把”世界切片 ＝ 系数向量”真正建起来，必须回答：<strong>哪些概念空间够格成为基？</strong> 这里借用<strong>格拉姆施密特正交化</strong>的思路——把一个向量组一步一步正交化，每次只添加一个新增的正交方向。应用到”模型／世界对决”上，就是：<strong>维度一个一个添加，比较逐维度进行，直到分出胜负的那个维度出现。</strong></p>
+<p>用一个具体例子说明（<strong>华强北买电脑</strong>）：老板先拿一台，电池寿命 <strong>86%</strong>——这是第一个维度。看我不满意，老板又拿一台，电池寿命 <strong>100%</strong>——这是第二个维度。关键洞察：<strong>86% 是”第二个维度在第一个维度上的投影”</strong>——第二台机器的信息里，有一部分（86%）是第一台就已提供的（重叠／投影），<strong>多出来的 14%，才是第二个维度真正新增的信息</strong>。</p>
+<p>所以”逐个维度添加”的实际操作 ＝ <strong>每一步，只记录”这个新维度里，超出已有维度投影的那部分新信息”</strong>。这正是格拉姆施密特的核心：每一步减去已有方向上的投影，留下的才是新增的正交分量。</p>
+</section>
+<section id="五-阈值与先来先到控制复杂度" class="level2">
+<h2 class="anchored" data-anchor-id="五-阈值与先来先到控制复杂度">五 · 阈值与先来先到：控制复杂度</h2>
+<p>一个新维度有没有意义，取决于它能否提供”超出已有投影之外的新信息”：</p>
+<ul>
+<li>第二台 <strong>100%</strong>：扣除投影 86%，多出 <strong>14%</strong> 新信息 → 有意义，值得加进维度系统。</li>
+<li>第二台<strong>也是 86%</strong>：新增信息 ＝ 0 → 它和第一台完全冗余 → 没有出现的意义。</li>
+</ul>
+<p>这里采用<strong>阈值标准</strong>：增量太小（比如小于某个值）就不算新维度，避免”几乎冗余的维度”塞满系统。再加上<strong>先来先到原则</strong>：当两个维度”差不多”、区分不出来时，先出现的那个留下，后出现的被视为冗余。</p>
+</section>
+<section id="六-黑天鹅闪现必须留名" class="level2">
+<h2 class="anchored" data-anchor-id="六-黑天鹅闪现必须留名">六 · 黑天鹅闪现，必须留名</h2>
+<p>但很快意识到一个漏洞：如果<strong>先出现 100%、后出现 86%</strong>（增量是负的），按”先来先到 ＋ 阈值”本应被排除——可这恰恰不能忽略。给它起个名字：<strong>黑天鹅闪现，必须留名。</strong></p>
+<p>因为一个”增量是负的、更差的”对象，不代表它没有意义——它可能是一次<strong>反常的、偏离既有基的异常信号</strong>。如果因为”增量是负的”就忽略它，我们会漏掉那些”<strong>看似冗余、实则异常</strong>”的关键预兆。</p>
+<p>而它真正的价值，在操作层面会显现：如果先出现的是 100%（好维度），你选了它；但你回家发现这台 100% 的电脑<strong>显示屏老化</strong>——原来主选择失效了。这时候，那个”被留名”的 86% 就有了重新被考虑的机会。因为它的位置被保留了，你还有重新分配概率的空间。</p>
+</section>
+<section id="七-不是回退是概率的重新分配" class="level2">
+<h2 class="anchored" data-anchor-id="七-不是回退是概率的重新分配">七 · 不是回退，是概率的重新分配</h2>
+<p>这里要修正一个常见的说法：这<strong>不是回退（fallback）</strong>。不是退回到旧选项，而是<strong>概率分布根据新出现的”屏幕信息”发生了重新分配</strong>。</p>
+<p>系统的状态，不是”当前选的是哪台”，而是一组<strong>候选维度上的概率分布</strong>；新证据（屏幕老化）进来时，不是触发”回退到次选”，而是更新这组概率——86% 那个维度的概率被重新调高、100% 的概率被调低。选择不是”锁定 ＋ 回退”，而是<strong>概率分布持续地根据新证据重新分配</strong>。</p>
+<p>而这个”重新分配”，作用在<strong>整个系数向量</strong>层面——<strong>一个决定，就改变很多联合概率分布值</strong>。因为它不是在单个维度上微调，而是连锁地更新整组系数，进而改变世界切片在不同时间／场景下的联合分布。<strong>动一处，牵动整组联合分布。</strong></p>
+</section>
+<section id="八-购物车模型结账之前的微分切片" class="level2">
+<h2 class="anchored" data-anchor-id="八-购物车模型结账之前的微分切片">八 · 购物车模型：结账之前的微分切片</h2>
+<p>为了理解”什么时候可以自由重新分配、什么时候锁定”，建一个<strong>购物车模型</strong>：</p>
+<ul>
+<li><strong>货架前（自由）</strong>：所有候选维度都在，概率完全可自由分配；</li>
+<li><strong>购物车里（半锁定）</strong>：你已经挑了，但还没结账，还能改——这正是”黑天鹅留名”的价值，86% 还在候选池里，100% 一失效你还能换；</li>
+<li><strong>结账后（锁定）</strong>：一旦付款，就不可逆了，只能沿这个分支走下去。</li>
+</ul>
+<p>但更进一步：<strong>结账之前，其实还有很多很多个小切片——微分切片。</strong> “结账”不是一个瞬时的跳跃，而是一连串极小步的、连续的中间状态。在每一个微分切片里，概率都还可以微调、还可以反悔。而<strong>每个微分切片本身，都有一点点不可逆</strong>——每一步都轻微不可逆。</p>
+<p>不可逆性不是集中在”结账”那一个点，而是<strong>分散在每一个微分切片里、逐渐累积</strong>，累积到”结账”这个点，才显性地、整体地被感知为”锁定了”。这非常接近<strong>热力学时间之箭</strong>的本质：熵的不可逆增加，不是某个瞬间发生的，而是连续地、在每一个微观时刻都累积。无数个微小不可逆步骤，累积成一次”看起来是突然的”锁定。</p>
+</section>
+<section id="九-连收款机都不是永恒的" class="level2">
+<h2 class="anchored" data-anchor-id="九-连收款机都不是永恒的">九 · 连收款机都不是永恒的</h2>
+<p>但还有最后一个隐藏的<strong>静止假设</strong>要拆掉：我们一直默认”收款机”是固定的背景。<strong>不是的——收款机也有自己的生命周期。</strong> 它可能老化、可能关机、可能被搬走。</p>
+<p>所以”结账”不是在一个静止的背景上发生的，而是在另一个也在演化的对象（收款机）的生命周期里发生的。<strong>没有什么是静止的。</strong> 连承载”结账”动作的收款机，本身也是概念空间联合分布的一部分，也会随时间不可逆地变化。</p>
+<p>而且，你在货架前挑三拣四的时候，其他东西不会等你结完账再发生变化——货架上的 86% 可能在老化、其他商品可能被买走、可能上架新货。你以为你在”自由地挑选”，但<strong>你挑选的窗口本身也在收窄，因为世界不等待</strong>。</p>
+</section>
+<section id="十-并没有同步你看到的只是一个-image" class="level2">
+<h2 class="anchored" data-anchor-id="十-并没有同步你看到的只是一个-image">十 · 并没有同步：你看到的只是一个 image</h2>
+<p>这里有一个必须澄清的误解：货架上的东西独立于你在变化——但<strong>不是”同步进行”</strong>。<strong>并没有同步。</strong> 你并没有和它们一起流动。你只不过在一个时间切片上，恰好看到了它们当前状态的 <strong>image（影像／快照）</strong>。</p>
+<p>没有那条”大家共享的同步时间轴”。每一个概念空间都有自己的演化，<strong>没有一个统一的、大家同步对齐的时间</strong>。你”看到”的，只是你自己的切片上，所有概念空间联合分布给出的那个 image。</p>
+<p>而这个 image，不是被动接收的客观快照，而是<strong>由你的感知”合成”出来的</strong>。你的感知结构，把那些独立演化的概念空间在当前的状态，聚合、合成了一个你”看到”的联合分布 image。“看到”这个动作本身，就带着你这一侧的结构。</p>
+<p>这彻底呼应了一句贯穿始终的话：<strong>不是你在前进，而是你感知的所有概念空间的联合分布在改变。你不在世界之外当观众，你是成像机制的一部分。</strong></p>
+</section>
+<section id="十一-连镜头都在老化没有绝对支点" class="level2">
+<h2 class="anchored" data-anchor-id="十一-连镜头都在老化没有绝对支点">十一 · 连镜头都在老化：没有绝对支点</h2>
+<p>那么，这个”合成 image 的感知结构”本身呢？<strong>它也会随时间轻微不可逆地演化。</strong> 不仅 image 在变，连”你如何合成 image”这件事也在变——<strong>你的”镜头”本身也在老化。</strong></p>
+<p>但这里的”老化”，是中性的、变化的——不是一定变差。它可能失去某些敏感度，也可能因为经验、学习而变得更敏锐，改变成像方式。它是”<strong>不可逆地改变</strong>”，而非单纯地”变坏”。</p>
+<p>这意味着：在这个框架里，<strong>没有留下任何”绝对支点”</strong>。没有静止的货架、没有永恒不变的收款机、没有不动的时间轴，甚至没有一个”恒定不变的感知者”作为锚。连那个合成 image 的你，也在时间里老化、演化。<strong>世界切片 ＝ 联合分布演化</strong>——包括你，都是这个演化的一部分。</p>
+</section>
+<section id="十二-结构即智能" class="level2">
+<h2 class="anchored" data-anchor-id="十二-结构即智能">十二 · 结构即智能</h2>
+<p>最后收敛到一个关于”智能”的结论：<strong>结构即智能。</strong></p>
+<p>如果”智能体”也是一个高维系数向量（它的感知结构、它的成像方式、它的概念空间的基），那么——<strong>“哪个智能更好”这个问题，本身就不该用二元判断（好坏、对错）来回答。</strong> 两个高维向量没有”谁绝对更好”，只有方向上的差异（角度）或各维度上的差异（逐维度比较）。</p>
+<p>而这个”比较”，同时有<strong>两种作用，两者并存</strong>：</p>
+<ul>
+<li><strong>(A) 认识性</strong>：比较用来”说清两个结构差在哪”——角度多远、哪些维度不同，这是纯粹描述／认识的；</li>
+<li><strong>(B) 动态性</strong>：比较之后，结构会根据差异做<strong>概率重新分配</strong>（失效后重新分配权重）——这个比较驱动结构本身的演化／学习。</li>
+</ul>
+<p>所以”结构即智能”的含义是：<strong>结构既通过比较来认识世界（描述差异），又通过比较来改变自己（重新分配、演化）——认识与演化，是同一个结构过程的两个方面。</strong></p>
+<p>而每一个结构，只是在改变它的<strong>角度</strong>和<strong>逐维结构</strong>；这个改变，<strong>不一定是”变坏”</strong>。</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "已复制");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "已复制");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/math4mad\.github\.io\/talk-with-agents\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Math4Mad — notes on working with LLM agents</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/plastic-stool-concept-space-and-world-slices.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math4mad">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+<p>Conventions</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

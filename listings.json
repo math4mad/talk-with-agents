@@ -9,23 +9,77 @@
     ]
   },
   {
-    "listing": "/talking/teaching-mathematics/index.html",
+    "listing": "/talking/learning-theory/index.html",
     "items": [
-      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
-      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
+      "/talking/learning-theory/plastic-stool-concept-space-and-world-slices.html",
+      "/talking/learning-theory/prior-posterior-socks-and-time-slice.html",
+      "/talking/learning-theory/gram-schmidt-dimension-growth.html",
+      "/talking/learning-theory/corpus-of-directed-graphs.html",
+      "/talking/learning-theory/grape-trellis-zpd-corpus.html",
+      "/talking/learning-theory/graph-tearing-experiment.html",
+      "/talking/learning-theory/naming-diffusion-reality-check.html",
+      "/talking/learning-theory/progressive-probing-cssd.html",
+      "/talking/learning-theory/structure-mapping-advanced-metaphor.html",
+      "/talking/learning-theory/taxonomy-boundary-theory-dag.html",
+      "/talking/learning-theory/yamanaka-pgm-hidden-layer.html",
+      "/talking/learning-theory/low-to-high-dimension-learning.html"
     ]
   },
   {
-    "listing": "/talking/mathematics/index.html",
+    "listing": "/talking/gossip/index.html",
     "items": [
+      "/talking/gossip/westworld-night-i.html",
+      "/talking/gossip/westworld-night-ii.html",
+      "/talking/gossip/westworld-night-iii.html",
+      "/talking/gossip/westworld-night-iv.html",
+      "/talking/gossip/westworld-night-v.html",
+      "/talking/gossip/dialogue-into-pages.html",
+      "/talking/gossip/four-copy-cloud-kitchen.html",
+      "/talking/gossip/dongguan-night-i.html",
+      "/talking/gossip/dongguan-night-ii.html",
+      "/talking/gossip/dongguan-night-iii.html",
+      "/talking/gossip/naked-probe-invention.html",
+      "/talking/gossip/how-close-is-close.html"
+    ]
+  },
+  {
+    "listing": "/talking/index.html",
+    "items": [
+      "/talking/learning-theory/plastic-stool-concept-space-and-world-slices.html",
+      "/talking/learning-theory/prior-posterior-socks-and-time-slice.html",
+      "/talking/gossip/westworld-night-i.html",
+      "/talking/gossip/westworld-night-ii.html",
+      "/talking/gossip/westworld-night-iii.html",
+      "/talking/gossip/westworld-night-iv.html",
+      "/talking/gossip/westworld-night-v.html",
+      "/talking/learning-theory/gram-schmidt-dimension-growth.html",
+      "/talking/learning-theory/corpus-of-directed-graphs.html",
+      "/talking/learning-theory/grape-trellis-zpd-corpus.html",
+      "/talking/learning-theory/graph-tearing-experiment.html",
+      "/talking/learning-theory/naming-diffusion-reality-check.html",
+      "/talking/learning-theory/progressive-probing-cssd.html",
+      "/talking/learning-theory/structure-mapping-advanced-metaphor.html",
+      "/talking/learning-theory/taxonomy-boundary-theory-dag.html",
+      "/talking/learning-theory/yamanaka-pgm-hidden-layer.html",
+      "/talking/gossip/dialogue-into-pages.html",
+      "/talking/gossip/four-copy-cloud-kitchen.html",
+      "/talking/gossip/dongguan-night-i.html",
+      "/talking/gossip/dongguan-night-ii.html",
+      "/talking/gossip/dongguan-night-iii.html",
+      "/talking/gossip/naked-probe-invention.html",
       "/talking/mathematics/functional-spaces-to-singular-values.html",
       "/talking/mathematics/jacobi-orthogonal-polynomials.html",
-      "/talking/mathematics/kernels-are-functions-too.html"
+      "/talking/mathematics/kernels-are-functions-too.html",
+      "/talking/learning-theory/low-to-high-dimension-learning.html",
+      "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html",
+      "/talking/gossip/how-close-is-close.html"
     ]
   },
   {
     "listing": "/index.html",
     "items": [
+      "/talking/learning-theory/plastic-stool-concept-space-and-world-slices.html",
       "/talking/learning-theory/prior-posterior-socks-and-time-slice.html",
       "/talking/gossip/westworld-night-i.html",
       "/talking/gossip/westworld-night-ii.html",
@@ -63,69 +117,18 @@
     ]
   },
   {
-    "listing": "/talking/index.html",
+    "listing": "/talking/mathematics/index.html",
     "items": [
-      "/talking/learning-theory/prior-posterior-socks-and-time-slice.html",
-      "/talking/gossip/westworld-night-i.html",
-      "/talking/gossip/westworld-night-ii.html",
-      "/talking/gossip/westworld-night-iii.html",
-      "/talking/gossip/westworld-night-iv.html",
-      "/talking/gossip/westworld-night-v.html",
-      "/talking/learning-theory/gram-schmidt-dimension-growth.html",
-      "/talking/learning-theory/corpus-of-directed-graphs.html",
-      "/talking/learning-theory/grape-trellis-zpd-corpus.html",
-      "/talking/learning-theory/graph-tearing-experiment.html",
-      "/talking/learning-theory/naming-diffusion-reality-check.html",
-      "/talking/learning-theory/progressive-probing-cssd.html",
-      "/talking/learning-theory/structure-mapping-advanced-metaphor.html",
-      "/talking/learning-theory/taxonomy-boundary-theory-dag.html",
-      "/talking/learning-theory/yamanaka-pgm-hidden-layer.html",
-      "/talking/gossip/dialogue-into-pages.html",
-      "/talking/gossip/four-copy-cloud-kitchen.html",
-      "/talking/gossip/dongguan-night-i.html",
-      "/talking/gossip/dongguan-night-ii.html",
-      "/talking/gossip/dongguan-night-iii.html",
-      "/talking/gossip/naked-probe-invention.html",
       "/talking/mathematics/functional-spaces-to-singular-values.html",
       "/talking/mathematics/jacobi-orthogonal-polynomials.html",
-      "/talking/mathematics/kernels-are-functions-too.html",
-      "/talking/learning-theory/low-to-high-dimension-learning.html",
+      "/talking/mathematics/kernels-are-functions-too.html"
+    ]
+  },
+  {
+    "listing": "/talking/teaching-mathematics/index.html",
+    "items": [
       "/talking/teaching-mathematics/abstraction-ladder-in-a-math-class.html",
-      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html",
-      "/talking/gossip/how-close-is-close.html"
-    ]
-  },
-  {
-    "listing": "/talking/gossip/index.html",
-    "items": [
-      "/talking/gossip/westworld-night-i.html",
-      "/talking/gossip/westworld-night-ii.html",
-      "/talking/gossip/westworld-night-iii.html",
-      "/talking/gossip/westworld-night-iv.html",
-      "/talking/gossip/westworld-night-v.html",
-      "/talking/gossip/dialogue-into-pages.html",
-      "/talking/gossip/four-copy-cloud-kitchen.html",
-      "/talking/gossip/dongguan-night-i.html",
-      "/talking/gossip/dongguan-night-ii.html",
-      "/talking/gossip/dongguan-night-iii.html",
-      "/talking/gossip/naked-probe-invention.html",
-      "/talking/gossip/how-close-is-close.html"
-    ]
-  },
-  {
-    "listing": "/talking/learning-theory/index.html",
-    "items": [
-      "/talking/learning-theory/prior-posterior-socks-and-time-slice.html",
-      "/talking/learning-theory/gram-schmidt-dimension-growth.html",
-      "/talking/learning-theory/corpus-of-directed-graphs.html",
-      "/talking/learning-theory/grape-trellis-zpd-corpus.html",
-      "/talking/learning-theory/graph-tearing-experiment.html",
-      "/talking/learning-theory/naming-diffusion-reality-check.html",
-      "/talking/learning-theory/progressive-probing-cssd.html",
-      "/talking/learning-theory/structure-mapping-advanced-metaphor.html",
-      "/talking/learning-theory/taxonomy-boundary-theory-dag.html",
-      "/talking/learning-theory/yamanaka-pgm-hidden-layer.html",
-      "/talking/learning-theory/low-to-high-dimension-learning.html"
+      "/talking/teaching-mathematics/what-an-explicit-definition-buys.html"
     ]
   },
   {

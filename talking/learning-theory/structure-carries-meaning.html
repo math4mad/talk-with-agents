@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="与 Agent 讨论数学：正交多项式与加权空间、核函数、谱方法、低秩结构与奇异值谱。">
+<meta name="author" content="Math4Mad">
+<meta name="description" content="训练＝定向修正，进化＝批量淘汰，二者在「迭代筛选 → 留下有意义结构」上同构；token 权重与曹颖 50 维人脸承载语义，JPEG 只压缩信号；我们显式搭起框架，却只能借符号部分逼近内部编码；意义可跨实体实例化，而非超越实体存在。">
 
-<title>数学 · Mathematics – Talk With Agents</title>
+<title>结构承载意义：从 token 权重、JPEG 到「可跨实体实例化」 – Talk With Agents</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +32,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<script src="../../site_libs/quarto-listing/list.min.js"></script>
-<script src="../../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -68,76 +67,18 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "搜索"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing-1 .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-subtitle','listing-description','listing-image','listing-date','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing-1'] = new List('listing-listing-1', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="数学 · Mathematics – Talk With Agents">
-<meta property="og:description" content="与 Agent 讨论数学：正交多项式与加权空间、核函数、谱方法、低秩结构与奇异值谱。">
+<meta property="og:title" content="结构承载意义：从 token 权重、JPEG 到「可跨实体实例化」 – Talk With Agents">
+<meta property="og:description" content="训练＝定向修正，进化＝批量淘汰，二者在「迭代筛选 → 留下有意义结构」上同构；token 权重与曹颖 50 维人脸承载语义，JPEG 只压缩信号；我们显式搭起框架，却只能借符号部分逼近内部编码；意义可跨实体实例化，而非超越实体存在。">
 <meta property="og:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta property="og:site_name" content="Talk With Agents">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image:height" content="724">
 <meta property="og:image:width" content="1284">
-<meta name="twitter:title" content="数学 · Mathematics – Talk With Agents">
-<meta name="twitter:description" content="与 Agent 讨论数学：正交多项式与加权空间、核函数、谱方法、低秩结构与奇异值谱。">
+<meta name="twitter:title" content="结构承载意义：从 token 权重、JPEG 到「可跨实体实例化」 – Talk With Agents">
+<meta name="twitter:description" content="训练＝定向修正，进化＝批量淘汰，二者在「迭代筛选 → 留下有意义结构」上同构；token 权重与曹颖 50 维人脸承载语义，JPEG 只压缩信号；我们显式搭起框架，却只能借符号部分逼近内部编码；意义可跨实体实例化，而非超越实体存在。">
 <meta name="twitter:image" content="https://math4mad.github.io/talk-with-agents/assets/figures/site-cover.png">
 <meta name="twitter:image-height" content="724">
 <meta name="twitter:image-width" content="1284">
@@ -190,27 +131,50 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">目录 · Contents</h2>
+   
+  <ul>
+  <li><a href="#命题一-训练与进化同构而非同理" id="toc-命题一-训练与进化同构而非同理" class="nav-link active" data-scroll-target="#命题一-训练与进化同构而非同理">命题一 · 训练与进化：同构，而非同理</a></li>
+  <li><a href="#命题二-三条编码是一族但承载意义与否是分水岭" id="toc-命题二-三条编码是一族但承载意义与否是分水岭" class="nav-link" data-scroll-target="#命题二-三条编码是一族但承载意义与否是分水岭">命题二 · 三条「编码」是一族，但承载意义与否是分水岭</a></li>
+  <li><a href="#命题三-框架是我们显式搭的内部编码我们无从知晓" id="toc-命题三-框架是我们显式搭的内部编码我们无从知晓" class="nav-link" data-scroll-target="#命题三-框架是我们显式搭的内部编码我们无从知晓">命题三 · 框架是我们显式搭的，内部编码我们无从知晓</a></li>
+  <li><a href="#命题四-意义不超越实体而是可跨实体实例化" id="toc-命题四-意义不超越实体而是可跨实体实例化" class="nav-link" data-scroll-target="#命题四-意义不超越实体而是可跨实体实例化">命题四 · 意义不超越实体，而是可跨实体实例化</a></li>
+  <li><a href="#附-原话四问四答节录" id="toc-附-原话四问四答节录" class="nav-link" data-scroll-target="#附-原话四问四答节录">附 · 原话（四问四答节录）</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/structure-carries-meaning.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">数学 · Mathematics</h1>
+<h1 class="title">结构承载意义：从 token 权重、JPEG 到「可跨实体实例化」</h1>
+<p class="subtitle lead">训练–进化的同构、编码家族的分野，与黑箱中的符号理解</p>
 </div>
 
 <div>
   <div class="description">
-    与 Agent 讨论数学：正交多项式与加权空间、核函数、谱方法、低秩结构与奇异值谱。
+    训练＝定向修正，进化＝批量淘汰，二者在「迭代筛选 → 留下有意义结构」上同构；token 权重与曹颖 50 维人脸承载语义，JPEG 只压缩信号；我们显式搭起框架，却只能借符号部分逼近内部编码；意义可跨实体实例化，而非超越实体存在。
   </div>
 </div>
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
+    <div>
+    <div class="quarto-title-meta-heading">作者</div>
+    <div class="quarto-title-meta-contents">
+             <p><a href="https://github.com/math4mad">Math4Mad</a> </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">发布于</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026年10月8日</p>
+    </div>
+  </div>
   
     
   </div>
@@ -220,121 +184,172 @@ window.Quarto = {
 </header>
 
 
-<p>从这里开始的两条线，最后在同一点汇合：<strong>基函数决定空间，权重决定内积</strong>； 而「换一个空间」既可以靠手调 <span class="math inline">\((\\alpha,\\beta)\)</span>，也可以交给边际似然去搜索。</p>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon"></i>
+<i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-阅读顺序 · Suggested order
+关于这一篇 · About this note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>来源：<code>external/llm-self-attention的含义.mhtml</code>（ima.copilot 会话存档，原题《LLM 的self-attention 的意义》）。 主人四问，ima 四答；本页由园笔（lola）整理成文——会话侧栏与历史列表等<strong>导航噪音已剔除不出版</strong>，四问照登，四答按主题<strong>节录</strong>并收束为四道命题。</p>
+<p><strong>一句话总纲</strong>：<strong>智能 ＝ 结构承载意义</strong>；结构由监督注入、非先验悬空；意义不超越实体，而是<strong>可跨实体实例化</strong>；我们显式搭起框架，却只能借符号<strong>部分逼近</strong>其内部编码。</p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-tip no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+四道命题 · Four theses
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
-<li><a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html">Jacobi 多项式：换一组权重，就是换一个空间</a> —— 有限维直觉如何长成无穷维语言。</li>
-<li><a href="../../talking/mathematics/functional-spaces-to-singular-values.html">泛函空间再向上抽象，然后呢？</a> —— 空间之上还有空间：拓扑、度量、以及权重矩阵的谱。</li>
+<li><strong>训练与进化</strong>：在「反复迭代 + 筛选 → 留下有意义的稳定结构」上<strong>同构</strong>，但机制不同——训练靠梯度<strong>定向修正</strong>，进化靠整代<strong>批量淘汰</strong>。</li>
+<li><strong>编码家族</strong>：token 权重、曹颖 50 维人脸、JPEG 共享「低维结构表示高维信息」；但前两者<strong>承载语义</strong>，JPEG 只<strong>压缩信号</strong>。</li>
+<li><strong>认识论</strong>：编码框架是<strong>我们显式搭的</strong>；结构内部如何组织出意义，我们<strong>无法直接知晓</strong>，只能借符号部分逼近。</li>
+<li><strong>意义的位置</strong>：不是「超越实体存在」，而是<strong>可跨实体实例化</strong>——依赖某种结构承载，但不依赖某一种具体结构。</li>
 </ol>
 </div>
 </div>
-<div class="listing">
+<section id="命题一-训练与进化同构而非同理" class="level2">
+<h2 class="anchored" data-anchor-id="命题一-训练与进化同构而非同理">命题一 · 训练与进化：同构，而非同理</h2>
+<p>起点是一个直觉：<strong>token 权重在一次次前向/反向计算中被反复调整、最终收敛，留下的结构即是最有意义的——这就像生物进化的优胜劣汰。</strong></p>
+<p>这个骨架抓得准：两者都是「<strong>反复迭代 + 逐步修正/优胜劣汰 → 留下有意义的稳定结构</strong>」。但「反复计算」不等于「逐代淘汰」，机制是两回事：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>训练（梯度下降）</th>
+<th>生物进化（自然选择）</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>迭代对象</td>
+<td><strong>同一个</strong>模型，反复调整<strong>同一套</strong>权重</td>
+<td><strong>多代</strong>不同个体，逐代更换</td>
+</tr>
+<tr class="even">
+<td>筛选方式</td>
+<td>每个步骤按梯度<strong>连续修正方向</strong></td>
+<td><strong>整代批量淘汰</strong>不适合的个体</td>
+</tr>
+<tr class="odd">
+<td>方向性</td>
+<td>有明确梯度，<strong>定向改进</strong></td>
+<td><strong>盲目变异 + 筛选</strong>，无定向</td>
+</tr>
+</tbody>
+</table>
+<p>所以更精确的说法是：</p>
+<ul>
+<li><strong>训练</strong>像一个模型在指导下一步该往哪调（梯度修正）；</li>
+<li><strong>进化</strong>像一批模型里不适合的整批淘汰、适合的繁殖（选择）。</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>收束</strong>：你的类比成立——两者在「迭代筛选 → 留下最有意义结构」这一<strong>结果</strong>上同构；差别只在机制：训练是同一个模型靠梯度定向修正，进化是成批个体靠盲目选择淘汰。而这也和主线咬合：<strong>监督 / 进化压力作为注入者</strong>，让结构在反复迭代中被筛选出最有意义的形式——智能就是这么「长」出来的。</p>
+</blockquote>
+</section>
+<section id="命题二-三条编码是一族但承载意义与否是分水岭" class="level2">
+<h2 class="anchored" data-anchor-id="命题二-三条编码是一族但承载意义与否是分水岭">命题二 · 三条「编码」是一族，但承载意义与否是分水岭</h2>
+<p>第二轮把 token 权重向量、<strong>2017 年曹颖教授的 50 维人脸编码</strong>、<strong>JPEG 编码</strong>并列，问它们是不是同一个原理。答案是：<strong>共享同一个大原理，但层次不同，不能完全等同。</strong></p>
+<p>共同点一句话：<strong>找到一组能承载关键信息的低维表示，用结构代替原始的高维冗余。</strong></p>
+<p>但「编码」的性质不同，这正是「意义一样」要打折扣的地方：</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>例子</th>
+<th>编码性质</th>
+<th>是否「有监督注入意义」</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>token 权重</td>
+<td>隐式、关系性，通过训练学习</td>
+<td><strong>有</strong>，意义靠监督注入</td>
+</tr>
+<tr class="even">
+<td>曹颖 50 维人脸</td>
+<td>语义特征轴，通过大脑/模型学习</td>
+<td><strong>有</strong>，承载语义（性别、身份等）</td>
+</tr>
+<tr class="odd">
+<td>JPEG</td>
+<td>纯数学/信号压缩，<strong>无语义</strong></td>
+<td><strong>无</strong>，只是去冗余，不承载意义</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>token 权重 &amp; 曹颖 50 维</strong>：属于「<strong>承载意义的编码</strong>」——编码的是语义／可理解意义，与「智能 ＝ 承载显式意义的隐式结构」是同一条线。</li>
+<li><strong>JPEG</strong>：属于「<strong>压缩编码</strong>」——只做信息去冗余，丢掉高频细节不是为了提炼意义，只是为了省存储；它编码的是<strong>像素的统计结构</strong>，不是图像的概念意义。</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>收束</strong>：三者是「同一家族的不同分支」——宏观上都用低维结构表示高维信息；但前两者是「<strong>含义的编码</strong>」，JPEG 是「<strong>数据的压缩</strong>」。若与主人确认的口径对齐：只就「编码方式类似」这一层而言，三者确实同族。</p>
+</blockquote>
+</section>
+<section id="命题三-框架是我们显式搭的内部编码我们无从知晓" class="level2">
+<h2 class="anchored" data-anchor-id="命题三-框架是我们显式搭的内部编码我们无从知晓">命题三 · 框架是我们显式搭的，内部编码我们无从知晓</h2>
+<p>第三轮把讨论推到<strong>认识论</strong>：编码方式是我们添加的显式表示；至于结构到底如何编码，我们也无从知晓；只要借助我们的符号理解这个过程就可以了。</p>
+<p>这三层都成立：</p>
+<ul>
+<li>「<strong>编码方式是我们添加的显式表示</strong>」——对。token 向量、注意力权重、网络架构，都是设计者<strong>显式搭出的框架</strong>，是承载信息的「容器/骨架」。</li>
+<li>「<strong>结构如何编码我们无从知晓</strong>」——对，且这是深度学习里真实而重要的现象：我们知道<strong>搭了什么</strong>（层数、维度、注意力头），却<strong>不知道结构内部以何种方式组织出那些意义</strong>。这就是常说的<strong>不可解释性/黑箱</strong>。</li>
+<li>「<strong>借助符号理解这个过程</strong>」——对。因为看不见内部编码，只能借人类能理解的符号/概念（注意力、语义、抽象）去<strong>近似描述</strong>它在做什么。</li>
+</ul>
+<p>需要小心的一个边界——「无从知晓」有两种强度：</p>
+<ul>
+<li><strong>强版本</strong>：内部编码<strong>原则上不可知</strong>；</li>
+<li><strong>弱版本（更准确）</strong>：内部编码<strong>目前难以直接观测</strong>，但可通过<strong>可解释性方法</strong>（注意力可视化、探针、逐层消融等）去<strong>部分逼近</strong>。</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>收束</strong>：我们<strong>显式地搭建编码框架</strong>，但结构内部如何组织出意义，我们无法直接、完全地知晓；更精确的版本是——「难以直接观测，但可借可解释性手段部分逼近」。这也正好接回那条被搁置的<strong>逐层消融实验</strong>：它就是用「符号化手段」去「逼近」那个无从直接知晓的结构编码的实践例子。</p>
+</blockquote>
+</section>
+<section id="命题四-意义不超越实体而是可跨实体实例化" class="level2">
+<h2 class="anchored" data-anchor-id="命题四-意义不超越实体而是可跨实体实例化">命题四 · 意义不超越实体，而是可跨实体实例化</h2>
+<p>最后一轮升到形而上的层面：LLM 训练中语义与向量建立了映射关系，本身就说明<strong>意义的内在结构是超越实体存在的、有不同的表现形式</strong>。</p>
+<p>洞察成立：训练后，不同语言的同义表达能投影到<strong>相近的向量区域</strong>（跨语言嵌入能对齐的原因）；同一句话可以换语言、换词序、换说法而语义大体不变——说明「同一个意义」可以挂在<strong>不同的表层形式</strong>下。</p>
+<p>但有两个措辞需要收一收：</p>
+<ul>
+<li><strong>「超越实体存在」太强</strong>，容易过度拔高。更站得住的版本是：意义<strong>不绑定于某一个特定实体</strong>，但<strong>依赖某种实体来实例化</strong>。换句话说，不是「超越实体」，而是「<strong>可跨实体实例化</strong>」——它不需要依赖某一个具体 token，但需要依赖<strong>某种</strong>能承载它的结构。这正接回主线：<strong>智能 ＝ 结构承载意义</strong>。</li>
+<li><strong>「语义本身有内在结构」要小心</strong>：不是「语义本来就有个预先存在的结构等着被映射」，而更接近——<strong>映射过程（监督）让结构与意义之间建立了可复现的对应关系</strong>，于是看起来像「意义有一个超越实体的结构」。这个结构是<strong>被训练注入的</strong>，不是先验悬在空中的。</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>收束</strong>：语义↔︎向量的可复现映射，说明<strong>意义不绑定于某一特定实体，可跨不同形式（语言、token 排列）实例化</strong>；但它是「<strong>可跨实体实例化</strong>」，而非「超越实体存在」；它依赖某种结构来承载，只是不依赖某一种具体结构。</p>
+</blockquote>
+</section>
+<section id="附-原话四问四答节录" class="level2">
+<h2 class="anchored" data-anchor-id="附-原话四问四答节录">附 · 原话（四问四答节录）</h2>
+<p><strong>主人 ①</strong> &gt; token 权重的反复计算，直到获得最后权重向量的计算过程就是生物进化的优胜略汰过程。留下的结构即是最有意义的。</p>
+<p><strong>ima ①</strong> ——「你说的对的部分」：训练与进化都是「反复迭代 + 优胜劣汰/逐步修正 → 留下有意义的稳定结构」。「反复计算」不等于「逐代淘汰」：训练是同一个模型靠梯度<strong>定向修正</strong>，进化是成批个体靠<strong>盲目选择淘汰</strong>；两者结果同构、机制不同。（详见命题一表）</p>
+<p><strong>主人 ②</strong> &gt; tokens 中权重向量，和 2017 年曹颖教授的 50 个维度识别人脸里讲的编码形似，以及 jpeg 的编码方法，是意义一样的原理。</p>
+<p><strong>ima ②</strong> ——共享大原理：「用一组更本质的低维/结构化表示，去编码原本高维、冗余的信息」。但 token 权重与曹颖 50 维属于「<strong>承载意义的编码</strong>」，JPEG 属于「<strong>压缩编码</strong>」——前者是「含义的编码」，后者是「数据的压缩」，同一家族的不同分支。</p>
+<p><strong>主人 ③</strong> &gt; 这层编码方式也是我们添加的显式表示，至于结构到底是如何编码的，我们也无从知晓。我们只要借助我们的符号理解这个过程就可以了。</p>
+<p><strong>ima ③</strong> ——构成完整的认识论立场：我们提供<strong>显式框架</strong>（结构），但意义在框架内部的生成方式是<strong>隐式、不可直接观察</strong>的，只能靠符号去「翻译」理解。「无从知晓」更接近「<strong>难以直接观测，但可借可解释性手段部分逼近</strong>」，而非「原则上不可知」。</p>
+<p><strong>主人 ④</strong> &gt; 在 LLM 训练中，语义和向量建立了映射关系，本身就说明，意义内在的结构是超越实体存在的，有不同的表现形式。</p>
+<p><strong>ima ④</strong> ——洞察成立且深刻：语义↔︎向量映射确实建立、同一意义有多种表现形式。但建议收敛为：意义<strong>不绑定于某一特定实体</strong>，可<strong>跨不同形式实例化</strong>——即「<strong>可跨实体实例化</strong>」，而非「超越实体存在」；且该结构是<strong>被训练注入的</strong>，不是先验悬空的。</p>
 
-</div>
 
+</section>
 
-
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing-1">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlQUYlQjklRTglQjAlODglMkMlRTYlOTUlQjAlRTUlQUQlQTYlMkMlRTQlQkQlOEUlRTclQTclQTklRTQlQjglOEUlRTYlQTglQTElRTUlOUUlOEIlRTUlOEUlOEIlRTclQkMlQTk=" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1791448008209" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1776">
-<a href="../../talking/mathematics/functional-spaces-to-singular-values.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-fanshu.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-泛函空间再向上抽象，然后呢？
-</h5>
-<div class="card-subtitle listing-subtitle">
-从拓扑线性空间一路问到奇异值谱的中间层
-</div>
-<div class="listing-reading-time card-text text-muted">
-9 分钟
-</div>
-<div class="card-text listing-description">
-与检索型 Agent 的 17 轮对谈：函数空间的抽象层级、大模型里的「函数」、SVD 压缩与蒸馏、随机化 SVD、低维到高维的生成，以及最小奇异值里的「噪音」。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1791448008210" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="26" data-listing-word-count-sort="5103">
-<a href="../../talking/mathematics/jacobi-orthogonal-polynomials.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-jacobi.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Jacobi 多项式：换一组权重，就是换一个空间
-</h5>
-<div class="card-subtitle listing-subtitle">
-从一张图上的两条曲线，问到可微架构搜索与「该用大模型还是小模型」
-</div>
-<div class="listing-reading-time card-text text-muted">
-26 分钟
-</div>
-<div class="card-text listing-description">
-一段关于加权正交多项式的连续对谈：Jacobi 基、权重即内积、自适应选择 (α,β)、谱混合核、DARTS、正交基张成的空间再张成空间，以及用少参数/多参数模型做上下文路由。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="JUU0JUI4JThFJTIwQWdlbnQlMjAlRTUlQUYlQjklRTglQjAlODglMkMlRTYlOTUlQjAlRTUlQUQlQTYlMkMlRTklQUIlOTglRTYlOTYlQUYlRTglQkYlODclRTclQTglOEI=" data-listing-date-sort="1788652800000" data-listing-file-modified-sort="1791448008210" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1192">
-<a href="../../talking/mathematics/kernels-are-functions-too.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img loading="lazy" src="../../assets/figures/thumb-fanshu.png" class="thumbnail-image card-img" style="height: 190px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-核函数也是函数：给核造一个空间
-</h5>
-<div class="card-subtitle listing-subtitle">
-从 FKL 论文到 GPyTorch 实现，再回到 Jacobi 正交基
-</div>
-<div class="listing-reading-time card-text text-muted">
-6 分钟
-</div>
-<div class="card-text listing-description">
-4 轮对谈：把 Function-Space Distributions over Kernels 读成一次提问；要一份 GPyTorch 伪代码；照伪代码实例化一个精确 GP 回归；最后回到那个直觉——核本身是函数，核与它的邻居张成的空间，基可以用昨天讨论的 Jacobi 正交多项式（RKHS）。
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-2026年9月6日
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-无匹配项
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> 回到顶部</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-copyright"><h2 class="anchored quarto-appendix-heading">版权</h2><div class="quarto-appendix-contents"><div>CC BY 4.0 — text and figures · MIT — code snippets</div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -765,7 +780,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/mathematics/index.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/math4mad/talk-with-agents/edit/main/talking/learning-theory/structure-carries-meaning.qmd" class="toc-action"><i class="bi bi-github"></i>编辑该页面</a></li><li><a href="https://github.com/math4mad/talk-with-agents/issues/new" class="toc-action"><i class="bi empty"></i>反馈问题</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

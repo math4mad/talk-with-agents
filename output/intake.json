@@ -110,5 +110,12 @@
     "kind": "talk",
     "page": "talking/architecture/emoji-market.qmd",
     "converted": "2026-10-11T19:19:00"
+  },
+  "talk-20261011-2010-2.md": {
+    "sha256": "f59771df9b506fa4",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/architecture/market-intelligence.qmd",
+    "converted": "2026-10-11T20:12:23"
   }
 }

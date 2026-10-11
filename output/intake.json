@@ -103,5 +103,12 @@
     "kind": "talk",
     "page": "talking/learning-theory/untitled.qmd",
     "converted": "2026-09-26T16:38:31"
+  },
+  "talk-20261011-1919-1.md": {
+    "sha256": "2fdfe7ada77414c2",
+    "format": "note",
+    "kind": "talk",
+    "page": "talking/architecture/emoji-market.qmd",
+    "converted": "2026-10-11T19:19:00"
   }
 }
